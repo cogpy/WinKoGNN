@@ -1,0 +1,40 @@
+{
+  "orchestrator": {
+    "max_agents": 50,
+    "task_queue_size": 1000,
+    "coordination_timeout": 30
+  },
+  "hypervisor": {
+    "total_memory_kb": 1048576,
+    "total_cpu_units": 100,
+    "nt4_integration": true,
+    "default_isolation": "process"
+  },
+  "gnn": {
+    "input_dim": 128,
+    "hidden_dim": 256,
+    "output_dim": 64,
+    "num_layers": 3,
+    "learning_rate": 0.001
+  },
+  "atomspace": {
+    "max_atoms": 1000000,
+    "attention_decay": 0.9,
+    "enable_persistence": false
+  },
+  "reasoning": {
+    "max_inference_steps": 100,
+    "confidence_threshold": 0.7,
+    "enabled_rules": ["deduction", "modus_ponens", "similarity"]
+  },
+  "nt4_bridge": {
+    "enable_kernel_calls": true,
+    "default_privilege_level": 3,
+    "memory_pool_size_kb": 524288
+  },
+  "logging": {
+    "level": "INFO",
+    "format": "%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+    "file": null
+  }
+}
