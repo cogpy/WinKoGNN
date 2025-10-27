@@ -49,13 +49,16 @@ This guide helps you navigate the comprehensive documentation suite for the Open
 
 ## Documentation Statistics
 
-| Document | Size | Lines | Content |
-|----------|------|-------|---------|
-| README.md | 11 KB | 333 | User guide, examples, API reference |
-| ARCHITECTURE.md | 21 KB | 908 | 17 Mermaid diagrams, technical details |
-| FORMAL_SPECIFICATION.md | 33 KB | 818 | 40 Z++ schemas, formal proofs |
-| IMPLEMENTATION_SUMMARY.md | 7 KB | 261 | Implementation statistics |
-| **Total** | **73 KB** | **2,320** | **Complete documentation suite** |
+> **Note**: Statistics are current as of the latest update. Run the validation script to get current values.
+
+| Document | Approximate Size | Content |
+|----------|-----------------|---------|
+| README.md | ~11 KB | User guide, examples, API reference |
+| ARCHITECTURE.md | ~21 KB | 17 Mermaid diagrams, technical details |
+| FORMAL_SPECIFICATION.md | ~33 KB | 40 Z++ schemas, formal proofs |
+| IMPLEMENTATION_SUMMARY.md | ~7 KB | Implementation statistics |
+| DOCUMENTATION_GUIDE.md | ~7 KB | Navigation and reference guide |
+| **Total** | **~80 KB** | **Complete documentation suite** |
 
 ## Diagram Types in ARCHITECTURE.md
 
@@ -174,12 +177,32 @@ Low-level kernel interface. See:
 ## Validation Status
 
 ✅ **All Documentation Validated**
+
+Validation can be performed using Python with regex parsing:
+- Mermaid diagrams: Check for valid diagram type declarations (`graph`, `flowchart`, `sequenceDiagram`, `classDiagram`, `stateDiagram-v2`)
+- Z++ schemas: Verify matching opening (`┌─`) and closing (`└─`) box characters
+- Links: Verify all local markdown links point to existing files
+
+**Validation Results:**
 - ✓ 17 Mermaid diagrams - all syntax valid
 - ✓ 40 Z++ schemas - all properly balanced
 - ✓ All major components documented
 - ✓ Complete coverage of system functionality
 - ✓ Formal pre/post-conditions for all operations
 - ✓ System invariants and properties specified
+
+To validate the documentation yourself:
+```bash
+# Count Mermaid diagrams
+grep -c '```mermaid' ARCHITECTURE.md
+
+# Count Z++ schemas
+grep -c '┌─' FORMAL_SPECIFICATION.md
+
+# Verify schema balance
+echo "Open boxes: $(grep -c '┌─' FORMAL_SPECIFICATION.md)"
+echo "Close boxes: $(grep -c '└─' FORMAL_SPECIFICATION.md)"
+```
 
 ## Documentation Maintenance
 
