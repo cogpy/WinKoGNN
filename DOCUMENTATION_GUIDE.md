@@ -49,7 +49,7 @@ This guide helps you navigate the comprehensive documentation suite for the Open
 
 ## Documentation Statistics
 
-> **Note**: Statistics are current as of the latest update. Run the validation script to get current values.
+> **Note**: Statistics are approximate values as of the latest update.
 
 | Document | Approximate Size | Content |
 |----------|-----------------|---------|
@@ -178,10 +178,12 @@ Low-level kernel interface. See:
 
 ✅ **All Documentation Validated**
 
-Validation can be performed using Python with regex parsing:
-- Mermaid diagrams: Check for valid diagram type declarations (`graph`, `flowchart`, `sequenceDiagram`, `classDiagram`, `stateDiagram-v2`)
-- Z++ schemas: Verify matching opening (`┌─`) and closing (`└─`) box characters
-- Links: Verify all local markdown links point to existing files
+The documentation has been validated using standard command-line tools:
+
+**Validation Methods:**
+- Mermaid diagrams: Checked for valid diagram type declarations (graph, flowchart, sequenceDiagram, classDiagram, stateDiagram-v2)
+- Z++ schemas: Verified matching opening (┌─) and closing (└─) box characters
+- Links: Verified all local markdown links point to existing files
 
 **Validation Results:**
 - ✓ 17 Mermaid diagrams - all syntax valid
@@ -191,7 +193,7 @@ Validation can be performed using Python with regex parsing:
 - ✓ Formal pre/post-conditions for all operations
 - ✓ System invariants and properties specified
 
-To validate the documentation yourself:
+**To validate the documentation yourself:**
 ```bash
 # Count Mermaid diagrams
 grep -c '```mermaid' ARCHITECTURE.md
