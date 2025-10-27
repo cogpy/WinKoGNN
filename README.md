@@ -15,6 +15,10 @@ The OpenCog Workbench provides a comprehensive cognitive architecture for Window
 
 ## Architecture
 
+For detailed architecture information with comprehensive Mermaid diagrams, see [ARCHITECTURE.md](ARCHITECTURE.md).
+
+For formal specification in Z++ notation, see [FORMAL_SPECIFICATION.md](FORMAL_SPECIFICATION.md).
+
 ```
 ┌─────────────────────────────────────────────────────────────┐
 │                  OpenCog Workbench                           │

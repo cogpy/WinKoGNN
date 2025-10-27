@@ -4,9 +4,191 @@
 
 The OpenCog Workbench is a comprehensive cognitive architecture system designed for Windows NT4, integrating autonomous multi-agent orchestration with Agent-Zero hypervisor and Graph Neural Network capabilities.
 
+## System Architecture Diagram
+
+```mermaid
+graph TB
+    subgraph "User Interface Layer"
+        API[OpenCogWorkbench API]
+    end
+    
+    subgraph "Orchestration Layer"
+        ORCH[MultiAgentOrchestrator]
+        SCHED[TaskScheduler]
+    end
+    
+    subgraph "Knowledge & Reasoning Layer"
+        AS[AtomSpaceManager]
+        RE[ReasoningEngine]
+        GNN[GraphNeuralNetwork]
+    end
+    
+    subgraph "Agent Layer"
+        CA[CognitiveAgent]
+        RA[ReasoningAgent]
+        LA[LearningAgent]
+    end
+    
+    subgraph "Virtualization Layer"
+        HV[AgentZeroHypervisor]
+        VM[VirtualMachineContext]
+    end
+    
+    subgraph "System Layer"
+        KB[NT4CognitiveKernel]
+        MEM[MemoryManager]
+        PROC[ProcessManager]
+    end
+    
+    API --> ORCH
+    ORCH --> SCHED
+    ORCH --> AS
+    ORCH --> RE
+    ORCH --> GNN
+    ORCH --> CA
+    ORCH --> RA
+    ORCH --> LA
+    CA --> AS
+    CA --> RE
+    CA --> GNN
+    RA --> AS
+    RA --> RE
+    LA --> GNN
+    ORCH --> HV
+    HV --> VM
+    HV --> KB
+    KB --> MEM
+    KB --> PROC
+    AS --> GNN
+    RE --> AS
+```
+
+## Component Interaction Flow
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant Workbench
+    participant Orchestrator
+    participant Agent
+    participant AtomSpace
+    participant GNN
+    participant Hypervisor
+    
+    User->>Workbench: create_agent()
+    Workbench->>Orchestrator: register_agent()
+    Orchestrator->>Hypervisor: create_vm()
+    Hypervisor-->>Orchestrator: vm_id
+    Orchestrator-->>Workbench: agent_id
+    
+    User->>Workbench: dispatch_task()
+    Workbench->>Orchestrator: dispatch_task()
+    Orchestrator->>Agent: execute_task()
+    Agent->>AtomSpace: query_knowledge()
+    AtomSpace-->>Agent: knowledge_data
+    Agent->>GNN: predict()
+    GNN-->>Agent: predictions
+    Agent-->>Orchestrator: task_result
+    Orchestrator-->>Workbench: result
+    Workbench-->>User: result
+```
+
+## Data Flow Architecture
+
+```mermaid
+flowchart LR
+    subgraph Input
+        UI[User Input]
+        CFG[Configuration]
+    end
+    
+    subgraph Processing
+        AS[AtomSpace<br/>Knowledge Graph]
+        RE[Reasoning Engine<br/>Inference]
+        GNN[Graph Neural Network<br/>Learning]
+    end
+    
+    subgraph Execution
+        ORCH[Orchestrator<br/>Task Distribution]
+        AGENTS[Agents<br/>Cognitive Processing]
+    end
+    
+    subgraph Infrastructure
+        HV[Hypervisor<br/>Resource Management]
+        NT4[NT4 Kernel<br/>System Calls]
+    end
+    
+    subgraph Output
+        RES[Results]
+        STAT[System Status]
+    end
+    
+    UI --> ORCH
+    CFG --> ORCH
+    ORCH --> AS
+    ORCH --> RE
+    ORCH --> GNN
+    ORCH --> AGENTS
+    AS <--> RE
+    AS <--> GNN
+    RE <--> GNN
+    AGENTS <--> AS
+    AGENTS <--> RE
+    AGENTS <--> GNN
+    AGENTS --> HV
+    HV --> NT4
+    AGENTS --> RES
+    ORCH --> STAT
+    RES --> UI
+    STAT --> UI
+```
+
 ## System Components
 
 ### 1. Multi-Agent Orchestrator (`core/orchestrator.py`)
+
+```mermaid
+classDiagram
+    class MultiAgentOrchestrator {
+        -agents: Dict
+        -task_queue: Queue
+        -scheduler: TaskScheduler
+        +register_agent(agent_id, metadata)
+        +remove_agent(agent_id)
+        +dispatch_task(task, agent_id)
+        +orchestrate_tasks(tasks)
+        +get_status()
+    }
+    
+    class AutonomousAgent {
+        -agent_id: str
+        -capabilities: List
+        -state: AgentState
+        +execute_task(task)
+        +get_capabilities()
+        +update_state(state)
+    }
+    
+    class TaskScheduler {
+        -task_queue: PriorityQueue
+        +schedule_task(task, priority)
+        +get_next_task()
+        +match_agent(task)
+    }
+    
+    class AgentMetadata {
+        +agent_id: str
+        +agent_type: str
+        +capabilities: List
+        +memory_kb: int
+        +cpu_quota: float
+        +state: AgentState
+    }
+    
+    MultiAgentOrchestrator --> TaskScheduler
+    MultiAgentOrchestrator --> AutonomousAgent
+    MultiAgentOrchestrator --> AgentMetadata
+```
 
 **Purpose**: Coordinates multiple autonomous agents for distributed cognitive processing
 
@@ -25,6 +207,42 @@ The OpenCog Workbench is a comprehensive cognitive architecture system designed 
 
 ### 2. AtomSpace Manager (`core/atomspace.py`)
 
+```mermaid
+classDiagram
+    class AtomSpaceManager {
+        -atoms: Dict
+        -links: Dict
+        -attention_bank: Dict
+        +add_atom(atom_type, name, truth_value)
+        +create_link(link_type, source, target)
+        +get_atom(atom_id)
+        +query_pattern(pattern)
+        +spread_activation(source_id, decay)
+    }
+    
+    class Atom {
+        +atom_id: str
+        +atom_type: AtomType
+        +name: str
+        +truth_value: float
+        +confidence: float
+        +attention_value: float
+        +activation: float
+    }
+    
+    class AtomType {
+        <<enumeration>>
+        NODE
+        LINK
+        CONCEPT
+        PREDICATE
+        EVALUATION
+    }
+    
+    AtomSpaceManager --> Atom
+    Atom --> AtomType
+```
+
 **Purpose**: Hypergraph-based knowledge representation system
 
 **Key Features**:
@@ -41,6 +259,39 @@ The OpenCog Workbench is a comprehensive cognitive architecture system designed 
 
 ### 3. Reasoning Engine (`core/reasoning.py`)
 
+```mermaid
+classDiagram
+    class ReasoningEngine {
+        -atomspace: AtomSpaceManager
+        -inference_rules: Dict
+        -confidence_threshold: float
+        +infer(query)
+        +forward_chain(start_atoms, max_steps)
+        +backward_chain(goal_atom, max_depth)
+        +enable_rule(rule, enabled)
+    }
+    
+    class InferenceResult {
+        +conclusion: str
+        +confidence: float
+        +rule_used: InferenceRule
+        +premises: List
+        +explanation: str
+    }
+    
+    class InferenceRule {
+        <<enumeration>>
+        DEDUCTION
+        INDUCTION
+        ABDUCTION
+        MODUS_PONENS
+        SIMILARITY
+    }
+    
+    ReasoningEngine --> InferenceResult
+    InferenceResult --> InferenceRule
+```
+
 **Purpose**: Logical inference and pattern-based reasoning
 
 **Key Features**:
@@ -56,6 +307,37 @@ The OpenCog Workbench is a comprehensive cognitive architecture system designed 
 - `InferenceRule`: Rule types
 
 ### 4. Graph Neural Network (`gnn/graph_network.py`)
+
+```mermaid
+classDiagram
+    class GraphNeuralNetwork {
+        -layers: List[GNNLayer]
+        -embeddings: Dict
+        -atomspace: AtomSpaceManager
+        +extract_graph_from_atomspace()
+        +train(graph, labels, epochs)
+        +predict_links(threshold)
+        +compute_similarity(node1, node2)
+        +get_embedding(node_id)
+    }
+    
+    class GraphStructure {
+        +nodes: List
+        +edges: List
+        +node_features: ndarray
+        +adjacency_matrix: ndarray
+    }
+    
+    class GNNLayer {
+        +weights: ndarray
+        +activation: function
+        +forward(input, adjacency)
+        +backward(gradient)
+    }
+    
+    GraphNeuralNetwork --> GraphStructure
+    GraphNeuralNetwork --> GNNLayer
+```
 
 **Purpose**: Deep learning over knowledge graphs
 
@@ -74,6 +356,52 @@ The OpenCog Workbench is a comprehensive cognitive architecture system designed 
 
 ### 5. Agent-Zero Hypervisor (`hypervisor/agent_zero.py`)
 
+```mermaid
+classDiagram
+    class AgentZeroHypervisor {
+        -vms: Dict
+        -total_memory_kb: int
+        -allocated_memory_kb: int
+        -kernel: NT4CognitiveKernel
+        +create_vm(agent_id, memory_kb, cpu_quota)
+        +destroy_vm(vm_id)
+        +start_vm(vm_id)
+        +stop_vm(vm_id)
+        +suspend_vm(vm_id)
+        +resume_vm(vm_id)
+        +get_system_resources()
+    }
+    
+    class VirtualMachineContext {
+        +vm_id: str
+        +agent_id: str
+        +state: VMState
+        +memory_kb: int
+        +cpu_quota: float
+        +priority: int
+        +kernel_context_id: str
+    }
+    
+    class VMState {
+        <<enumeration>>
+        CREATED
+        RUNNING
+        STOPPED
+        SUSPENDED
+        TERMINATED
+    }
+    
+    class HypervisorScheduler {
+        +schedule(vms)
+        +allocate_cpu(vm, quota)
+        +preempt(vm)
+    }
+    
+    AgentZeroHypervisor --> VirtualMachineContext
+    VirtualMachineContext --> VMState
+    AgentZeroHypervisor --> HypervisorScheduler
+```
+
 **Purpose**: Virtual machine management for agent isolation
 
 **Key Features**:
@@ -89,6 +417,44 @@ The OpenCog Workbench is a comprehensive cognitive architecture system designed 
 - `HypervisorScheduler`: VM scheduling
 
 ### 6. Windows NT4 Kernel Bridge (`nt4_bridge/kernel_bridge.py`)
+
+```mermaid
+classDiagram
+    class NT4CognitiveKernel {
+        -contexts: Dict
+        -is_nt4_available: bool
+        +create_kernel_context(context_id)
+        +destroy_kernel_context(context_id)
+        +allocate_memory(context_id, size_bytes)
+        +deallocate_memory(context_id, address)
+        +create_process(context_id)
+        +send_ipc_message(source, target, message)
+        +perform_io(context_id, operation)
+    }
+    
+    class KernelContext {
+        +context_id: str
+        +privilege_level: int
+        +memory_pool: Dict
+        +process_id: int
+        +thread_ids: List
+    }
+    
+    class KernelCallType {
+        <<enumeration>>
+        MEMORY_ALLOC
+        MEMORY_FREE
+        PROCESS_CREATE
+        THREAD_CREATE
+        IPC_SEND
+        IPC_RECEIVE
+        IO_READ
+        IO_WRITE
+    }
+    
+    NT4CognitiveKernel --> KernelContext
+    NT4CognitiveKernel --> KernelCallType
+```
 
 **Purpose**: Interface to Windows NT4 kernel for system-level operations
 
@@ -107,6 +473,41 @@ The OpenCog Workbench is a comprehensive cognitive architecture system designed 
 
 ### 7. Cognitive Agents (`agents/cognitive_agent.py`)
 
+```mermaid
+classDiagram
+    class CognitiveAgent {
+        -agent_id: str
+        -atomspace: AtomSpaceManager
+        -reasoning_engine: ReasoningEngine
+        -gnn: GraphNeuralNetwork
+        -working_memory: Dict
+        -long_term_memory: List
+        +execute_reasoning_task(task)
+        +execute_learning_task(task)
+        +execute_pattern_recognition(task)
+        +make_decision(options)
+    }
+    
+    class ReasoningAgent {
+        +specialize_reasoning(domain)
+        +configure_inference_rules(rules)
+    }
+    
+    class LearningAgent {
+        +configure_learning_params(params)
+        +update_knowledge(data)
+    }
+    
+    class CoordinationAgent {
+        +coordinate_agents(agent_list)
+        +distribute_subtasks(task)
+    }
+    
+    CognitiveAgent <|-- ReasoningAgent
+    CognitiveAgent <|-- LearningAgent
+    CognitiveAgent <|-- CoordinationAgent
+```
+
 **Purpose**: Autonomous agents with cognitive capabilities
 
 **Key Features**:
@@ -124,6 +525,27 @@ The OpenCog Workbench is a comprehensive cognitive architecture system designed 
 
 ### 8. Configuration Manager (`config/config_manager.py`)
 
+```mermaid
+classDiagram
+    class ConfigManager {
+        -config: Dict
+        -config_file: str
+        +load_config(file_path)
+        +save_config(file_path)
+        +get(key, default)
+        +set(key, value)
+        +get_default_config()
+    }
+    
+    class LoggingConfig {
+        +level: str
+        +format: str
+        +handlers: List
+    }
+    
+    ConfigManager --> LoggingConfig
+```
+
 **Purpose**: System configuration management
 
 **Key Features**:
@@ -132,23 +554,167 @@ The OpenCog Workbench is a comprehensive cognitive architecture system designed 
 - Hierarchical configuration
 - Logging setup
 
+## Agent Lifecycle State Machine
+
+```mermaid
+stateDiagram-v2
+    [*] --> CREATED: create_agent()
+    CREATED --> IDLE: register()
+    IDLE --> ACTIVE: dispatch_task()
+    ACTIVE --> IDLE: task_complete()
+    IDLE --> SUSPENDED: suspend()
+    SUSPENDED --> IDLE: resume()
+    ACTIVE --> SUSPENDED: suspend()
+    SUSPENDED --> ACTIVE: resume()
+    IDLE --> TERMINATED: remove_agent()
+    ACTIVE --> TERMINATED: remove_agent()
+    SUSPENDED --> TERMINATED: remove_agent()
+    ACTIVE --> ERROR: exception
+    ERROR --> IDLE: recover()
+    ERROR --> TERMINATED: fatal_error
+    TERMINATED --> [*]
+```
+
+## VM Lifecycle State Machine
+
+```mermaid
+stateDiagram-v2
+    [*] --> CREATED: create_vm()
+    CREATED --> RUNNING: start_vm()
+    RUNNING --> STOPPED: stop_vm()
+    STOPPED --> RUNNING: start_vm()
+    RUNNING --> SUSPENDED: suspend_vm()
+    SUSPENDED --> RUNNING: resume_vm()
+    RUNNING --> TERMINATED: destroy_vm()
+    STOPPED --> TERMINATED: destroy_vm()
+    SUSPENDED --> TERMINATED: destroy_vm()
+    TERMINATED --> [*]
+```
+
+## Task Execution Flow
+
+```mermaid
+flowchart TD
+    START([Task Submitted]) --> MATCH{Match Agent<br/>Capability?}
+    MATCH -->|Yes| QUEUE[Add to Task Queue]
+    MATCH -->|No| REJECT[Reject Task]
+    QUEUE --> SCHED[Schedule Task]
+    SCHED --> DISPATCH[Dispatch to Agent]
+    DISPATCH --> EXEC[Agent Executes Task]
+    EXEC --> QUERY[Query AtomSpace]
+    QUERY --> REASON[Apply Reasoning]
+    REASON --> LEARN{Learning<br/>Required?}
+    LEARN -->|Yes| GNN[Train/Predict GNN]
+    LEARN -->|No| DECIDE[Make Decision]
+    GNN --> DECIDE
+    DECIDE --> UPDATE[Update Knowledge]
+    UPDATE --> RESULT[Generate Result]
+    RESULT --> RETURN([Return to User])
+    REJECT --> RETURN
+```
+
+## Knowledge Graph Structure
+
+```mermaid
+graph LR
+    subgraph "AtomSpace Hypergraph"
+        C1[Concept: AI]
+        C2[Concept: ML]
+        C3[Concept: DL]
+        P1[Predicate: is_a]
+        P2[Predicate: uses]
+        E1[Evaluation: ML is_a AI]
+        E2[Evaluation: DL is_a ML]
+        E3[Evaluation: DL uses GNN]
+        
+        E1 --> P1
+        E1 --> C2
+        E1 --> C1
+        E2 --> P1
+        E2 --> C3
+        E2 --> C2
+        E3 --> P2
+        E3 --> C3
+    end
+    
+    style C1 fill:#e1f5ff
+    style C2 fill:#e1f5ff
+    style C3 fill:#e1f5ff
+    style P1 fill:#ffe1f5
+    style P2 fill:#ffe1f5
+    style E1 fill:#f5ffe1
+    style E2 fill:#f5ffe1
+    style E3 fill:#f5ffe1
+```
+
+## GNN Architecture
+
+```mermaid
+graph LR
+    subgraph "Input Layer"
+        INPUT[Node Features<br/>Adjacency Matrix]
+    end
+    
+    subgraph "Hidden Layers"
+        L1[GNN Layer 1<br/>256 dims]
+        L2[GNN Layer 2<br/>256 dims]
+        L3[GNN Layer 3<br/>256 dims]
+    end
+    
+    subgraph "Output Layer"
+        EMB[Node Embeddings]
+        PRED[Link Predictions]
+    end
+    
+    INPUT --> L1
+    L1 --> L2
+    L2 --> L3
+    L3 --> EMB
+    L3 --> PRED
+```
+
 ## Data Flow
 
-```
-User Request
-    ↓
-OpenCogWorkbench (Main Interface)
-    ↓
-MultiAgentOrchestrator
-    ├→ AtomSpace (Knowledge)
-    ├→ ReasoningEngine (Inference)
-    ├→ GNN (Learning)
-    ├→ AgentZeroHypervisor (Isolation)
-    └→ NT4Kernel (System Calls)
-    ↓
-Cognitive Agents
-    ↓
-Results
+```mermaid
+flowchart TB
+    UI[User Interface]
+    WB[OpenCog Workbench]
+    ORCH[Multi-Agent Orchestrator]
+    AS[AtomSpace Manager]
+    RE[Reasoning Engine]
+    GNN[Graph Neural Network]
+    AGENTS[Cognitive Agents]
+    HV[Agent-Zero Hypervisor]
+    NT4[NT4 Cognitive Kernel]
+    
+    UI -->|Configuration| WB
+    UI -->|Commands| WB
+    WB -->|Initialize| ORCH
+    WB -->|Configure| AS
+    WB -->|Configure| RE
+    WB -->|Configure| GNN
+    WB -->|Configure| HV
+    
+    ORCH -->|Create Agent| AGENTS
+    ORCH -->|Dispatch Task| AGENTS
+    
+    AGENTS -->|Query| AS
+    AGENTS -->|Inference| RE
+    AGENTS -->|Predict| GNN
+    AGENTS -->|Request Resources| HV
+    
+    AS <-->|Knowledge| RE
+    AS <-->|Graph Data| GNN
+    RE <-->|Inference Results| GNN
+    
+    HV -->|System Calls| NT4
+    HV -->|Allocate VM| AGENTS
+    
+    NT4 -->|Memory/Process| OS[Operating System]
+    
+    AGENTS -->|Results| ORCH
+    ORCH -->|Status| WB
+    WB -->|Response| UI
 ```
 
 ## Integration Points
