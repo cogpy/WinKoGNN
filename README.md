@@ -2,6 +2,14 @@
 
 Autonomous Multi-Agent Orchestration Workbench with Agent-Zero Hypervisor and Graph Neural Network Integration
 
+## 📚 Documentation
+
+**Quick Links:**
+- [📖 Documentation Guide](DOCUMENTATION_GUIDE.md) - Navigate all documentation
+- [🏗️ Architecture](ARCHITECTURE.md) - Technical architecture with 17 Mermaid diagrams
+- [📐 Formal Specification](FORMAL_SPECIFICATION.md) - Z++ formal specification with 40 schemas
+- [📊 Implementation Summary](IMPLEMENTATION_SUMMARY.md) - Implementation details and metrics
+
 ## Overview
 
 The OpenCog Workbench provides a comprehensive cognitive architecture for Windows NT4, integrating:
@@ -14,6 +22,10 @@ The OpenCog Workbench provides a comprehensive cognitive architecture for Window
 - **Windows NT4 Kernel Bridge**: Low-level system integration
 
 ## Architecture
+
+For detailed architecture information with comprehensive Mermaid diagrams, see [ARCHITECTURE.md](ARCHITECTURE.md).
+
+For formal specification in Z++ notation, see [FORMAL_SPECIFICATION.md](FORMAL_SPECIFICATION.md).
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
