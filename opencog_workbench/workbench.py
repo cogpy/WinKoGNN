@@ -13,6 +13,9 @@ from .hypervisor.agent_zero import AgentZeroHypervisor
 from .gnn.graph_network import GraphNeuralNetwork
 from .nt4_bridge.kernel_bridge import NT4CognitiveKernel
 from .agents.cognitive_agent import CognitiveAgent
+from .agents.reasoning_agent import ReasoningAgent
+from .agents.learning_agent import LearningAgent
+from .agents.coordination_agent import CoordinationAgent
 from .config.config_manager import ConfigManager
 
 logger = logging.getLogger(__name__)
@@ -102,7 +105,7 @@ class OpenCogWorkbench:
         
         Args:
             agent_id: Unique identifier for the agent
-            agent_type: Type of agent (currently only 'cognitive' supported)
+            agent_type: Type of agent ('cognitive', 'reasoning', 'learning', 'coordination')
             capabilities: List of agent capabilities
             memory_kb: Memory allocation in KB
             cpu_quota: CPU quota percentage
@@ -113,6 +116,12 @@ class OpenCogWorkbench:
         # Create agent instance
         if agent_type == "cognitive":
             agent = CognitiveAgent(agent_id, capabilities)
+        elif agent_type == "reasoning":
+            agent = ReasoningAgent(agent_id, capabilities)
+        elif agent_type == "learning":
+            agent = LearningAgent(agent_id, capabilities=capabilities)
+        elif agent_type == "coordination":
+            agent = CoordinationAgent(agent_id, capabilities)
         else:
             logger.error(f"Unknown agent type: {agent_type}")
             return False
@@ -220,6 +229,32 @@ class OpenCogWorkbench:
             'nt4_kernel': self.nt4_kernel.get_system_statistics()
         }
         
+    def save_atomspace(self, path: str) -> bool:
+        """
+        Persist the current AtomSpace to *path* (JSON format).
+
+        Returns True on success.
+        """
+        return self.atomspace.save(path)
+
+    def load_atomspace(self, path: str, merge: bool = False) -> bool:
+        """
+        Load AtomSpace from a previously saved JSON file.
+
+        If *merge* is False (default) the current contents are replaced.
+        Returns True on success.
+        """
+        return self.atomspace.load(path, merge=merge)
+
+    def get_node_embeddings(self) -> Dict[str, Any]:
+        """
+        Return the current GNN node embeddings as a plain dict.
+
+        Keys are node IDs; values are lists of floats.
+        """
+        raw = self.gnn.embeddings
+        return {node_id: emb.tolist() for node_id, emb in raw.items()}
+
     def shutdown(self):
         """Shutdown the workbench and all components"""
         logger.info("Shutting down OpenCog Workbench...")

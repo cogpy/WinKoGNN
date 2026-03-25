@@ -5,6 +5,7 @@ Integrates with OpenCog workbench and Agent-Zero hypervisor
 """
 
 import logging
+import os
 from typing import Dict, List, Any, Optional
 from dataclasses import dataclass
 from enum import Enum
@@ -307,3 +308,38 @@ class NT4CognitiveKernel:
         """Set process manager"""
         self.process_manager = process_manager
         logger.info("Process manager connected")
+
+    def discover_nt4_apis(self, source_root: Optional[str] = None) -> Dict[str, Any]:
+        """
+        Scan the NT4 kernel source tree and return a catalogue of available
+        kernel APIs grouped by subsystem.
+
+        Parameters
+        ----------
+        source_root:
+            Path to the NT4 kernel source directory.  When *None* the method
+            looks for ``private/ntos`` relative to this file's package root,
+            which is the conventional location in this repository.
+
+        Returns
+        -------
+        dict
+            Serialisable summary produced by
+            :meth:`NT4SourceAnalyzer.to_dict`.  If the source tree is not
+            found an empty dict with a ``"warning"`` key is returned.
+        """
+        from .nt4_source_analyzer import NT4SourceAnalyzer
+
+        if source_root is None:
+            # Resolve <repo_root>/private/ntos
+            pkg_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+            source_root = os.path.join(os.path.dirname(pkg_dir), 'private', 'ntos')
+
+        if not os.path.isdir(source_root):
+            logger.warning("NT4 source tree not found at %s", source_root)
+            return {"warning": f"NT4 source tree not found at {source_root}"}
+
+        analyzer = NT4SourceAnalyzer(source_root)
+        analyzer.scan()
+        logger.info("NT4 API discovery complete: %s", analyzer.summarize())
+        return analyzer.to_dict()

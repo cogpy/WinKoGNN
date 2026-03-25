@@ -1,7 +1,7 @@
 """Learning Agent implementation."""
 
 import logging
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
 
 from .cognitive_agent import CognitiveAgent
 
@@ -18,8 +18,10 @@ class LearningAgent(CognitiveAgent):
     """
 
     def __init__(self, agent_id: str, buffer_size: int = 50,
-                 train_epochs: int = 5):
-        super().__init__(agent_id, capabilities=["learning", "pattern_recognition"])
+                 train_epochs: int = 5,
+                 capabilities: Optional[List[str]] = None):
+        default_caps = ["learning", "pattern_recognition"]
+        super().__init__(agent_id, capabilities=capabilities or default_caps)
         self.buffer_size = buffer_size
         self.train_epochs = train_epochs
         self._observation_buffer: List[Dict[str, Any]] = []
