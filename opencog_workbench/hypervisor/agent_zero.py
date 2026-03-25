@@ -260,11 +260,11 @@ class AgentZeroHypervisor:
         logger.info("Shutting down hypervisor...")
         self.state = HypervisorState.SHUTDOWN
         
-        # Stop all VMs
-        with self.vm_lock:
-            for vm_id in list(self.vm_contexts.keys()):
-                self.stop_vm(vm_id)
-                self.destroy_vm(vm_id)
+        # Stop all VMs - collect IDs first to avoid holding lock while calling stop/destroy
+        vm_ids = list(self.vm_contexts.keys())
+        for vm_id in vm_ids:
+            self.stop_vm(vm_id)
+            self.destroy_vm(vm_id)
                 
         logger.info("Hypervisor shutdown complete")
 

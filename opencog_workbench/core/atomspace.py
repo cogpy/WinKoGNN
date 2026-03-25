@@ -3,7 +3,9 @@ OpenCog AtomSpace Manager
 Manages knowledge representation in hypergraph format
 """
 
+import json
 import logging
+import os
 from typing import Dict, List, Any, Set, Optional
 from dataclasses import dataclass
 from enum import Enum
@@ -176,7 +178,85 @@ class AtomSpaceManager:
             'atoms_by_type': {t.value: len(ids) for t, ids in self.type_index.items()},
             'unique_names': len(self.name_index)
         }
-        
+
+    # ------------------------------------------------------------------
+    # Persistence
+    # ------------------------------------------------------------------
+
+    def save(self, path: str) -> bool:
+        """
+        Persist the AtomSpace to a JSON file at *path*.
+
+        Returns True on success, False on error.
+        """
+        try:
+            data = {
+                "atoms": [
+                    {
+                        "atom_id": atom.atom_id,
+                        "atom_type": atom.atom_type.value,
+                        "name": atom.name,
+                        "truth_value": atom.truth_value,
+                        "confidence": atom.confidence,
+                        "attention_value": atom.attention_value,
+                        "incoming": list(atom.incoming),
+                        "outgoing": list(atom.outgoing),
+                    }
+                    for atom in self.atomspace.values()
+                ]
+            }
+            os.makedirs(os.path.dirname(os.path.abspath(path)), exist_ok=True)
+            with open(path, "w", encoding="utf-8") as fh:
+                json.dump(data, fh, indent=2)
+            logger.info("AtomSpace saved to %s (%d atoms)", path, len(self.atomspace))
+            return True
+        except Exception as exc:
+            logger.error("Failed to save AtomSpace to %s: %s", path, exc)
+            return False
+
+    def load(self, path: str, merge: bool = False) -> bool:
+        """
+        Load AtomSpace from a JSON file previously written by :meth:`save`.
+
+        If *merge* is False (default) the current contents are cleared first.
+        Returns True on success, False on error.
+        """
+        if not os.path.isfile(path):
+            logger.error("AtomSpace file not found: %s", path)
+            return False
+        try:
+            with open(path, "r", encoding="utf-8") as fh:
+                data = json.load(fh)
+
+            if not merge:
+                self.clear()
+
+            for entry in data.get("atoms", []):
+                atom_type = AtomType(entry["atom_type"])
+                atom = Atom(
+                    atom_id=entry["atom_id"],
+                    atom_type=atom_type,
+                    name=entry["name"],
+                    truth_value=entry.get("truth_value", 1.0),
+                    confidence=entry.get("confidence", 1.0),
+                    attention_value=entry.get("attention_value", 0.0),
+                    incoming=set(entry.get("incoming", [])),
+                    outgoing=set(entry.get("outgoing", [])),
+                )
+                self.atomspace[atom.atom_id] = atom
+                self.type_index[atom_type].add(atom.atom_id)
+                if atom.name not in self.name_index:
+                    self.name_index[atom.name] = set()
+                self.name_index[atom.name].add(atom.atom_id)
+
+            logger.info(
+                "AtomSpace loaded from %s (%d atoms)", path, len(data.get("atoms", []))
+            )
+            return True
+        except Exception as exc:
+            logger.error("Failed to load AtomSpace from %s: %s", path, exc)
+            return False
+
     def clear(self):
         """Clear all atoms from the AtomSpace"""
         self.atomspace.clear()
