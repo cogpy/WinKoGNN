@@ -46,7 +46,17 @@ class AutonomousAgent:
         )
         self.task_queue = queue.Queue()
         self.result_queue = queue.Queue()
-        
+
+    @property
+    def agent_id(self) -> str:
+        """Shortcut for self.metadata.agent_id."""
+        return self.metadata.agent_id
+
+    @property
+    def capabilities(self) -> List[str]:
+        """Shortcut for self.metadata.capabilities."""
+        return self.metadata.capabilities
+
     def execute_task(self, task: Dict[str, Any]) -> Dict[str, Any]:
         """Execute a task and return results"""
         raise NotImplementedError("Subclasses must implement execute_task")
