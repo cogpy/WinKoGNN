@@ -96,6 +96,8 @@ typedef struct _SECTION_OBJECT_POINTERS {
 } SECTION_OBJECT_POINTERS, *PSECTION_OBJECT_POINTERS;
 
 /* ── ERESOURCE (executive resource lock) ── */
+#ifndef _ERESOURCE_DEFINED
+#define _ERESOURCE_DEFINED
 typedef struct _ERESOURCE {
     LIST_ENTRY          SystemResourcesList;
     PVOID               OwnerTable;
@@ -110,6 +112,7 @@ typedef struct _ERESOURCE {
     PVOID               Address;
     KSPIN_LOCK          SpinLock;
 } ERESOURCE, *PERESOURCE;
+#endif /* _ERESOURCE_DEFINED */
 
 /* ── FSRTL stubs ── */
 #define FsRtlEnterFileSystem()    ((void)0)

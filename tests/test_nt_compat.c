@@ -79,10 +79,10 @@ int main(void) {
 
     /* Pool allocation */
     {
-        PVOID p = ExAllocatePoolWithTag(NonPagedPool, 256, 'tseT');
+        PVOID p = ExAllocatePoolWithTag(NonPagedPool, 256, 0x74657354);
         assert(p != NULL);
         memset(p, 0xCC, 256);
-        ExFreePoolWithTag(p, 'tseT');
+        ExFreePoolWithTag(p, 0x74657354);
     }
     printf("  [PASS] Pool allocation works\n"); passed++;
 

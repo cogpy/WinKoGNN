@@ -6,6 +6,8 @@
 #ifndef _DDERROR_H_
 #define _DDERROR_H_
 
+#include "ntdef.h"
+
 #ifdef __cplusplus
 extern "C" {
 #endif

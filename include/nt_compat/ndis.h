@@ -5,6 +5,7 @@
 #define _NDIS_H_
 
 #include "ntddk.h"
+#include "windef.h"
 
 #ifdef __cplusplus
 extern "C" {
