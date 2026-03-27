@@ -906,3 +906,82 @@ See LICENSE file.
 ## Contact
 
 For questions or contributions, visit: https://github.com/cogpy/WinKoGNN
+
+---
+
+## Native Code Integration (AGI-OS Layer)
+
+Two external C/C++ repositories have been vendored to provide a high-performance
+native substrate for the cognitive stack.
+
+### Repository tree
+
+```
+WinKoGNN/
+├── aten/                              # o9nn/ATenSpace (.git removed)
+│   └── aten/src/
+│       ├── ATen/
+│       │   ├── atomspace/             # C++17 header-only AtomSpace (*.h, *.cpp)
+│       │   └── *.h / *.cpp            # ATen tensor layer
+│       ├── TH/                        # Low-level Torch-CPU C library (*.c, *.h)
+│       ├── THC/                       # CUDA tensor library (*.cu, *.cuh)
+│       └── THNN/                      # Neural-network primitives (*.cpp, *.h)
+├── cog0/                              # ReZorg/cog0 — PENDING (private repo)
+│   ├── include/                       # Public C/C++ headers (*.h / *.hxx)
+│   └── src/                           # Implementation (*.c / *.cpp / *.cxx)
+└── private/ntos/                      # NT4 kernel sources (existing)
+```
+
+### Integration mapping: ATenSpace → WinKoGNN subsystems
+
+| ATenSpace header                   | WinKoGNN subsystem                                  | Notes |
+|------------------------------------|-----------------------------------------------------|-------|
+| `ATen/atomspace/AtomSpace.h`       | `opencog_workbench/core/atomspace.py`               | C++ backend for Python AtomSpaceManager |
+| `ATen/atomspace/Atom.h`            | `opencog_workbench/core/atomspace.py`               | Node/Link type hierarchy |
+| `ATen/atomspace/TruthValue.h`      | `opencog_workbench/core/atomspace.py`               | PLN truth-value arithmetic |
+| `ATen/atomspace/PatternMatcher.h`  | `opencog_workbench/core/reasoning.py`               | Variable-binding queries |
+| `ATen/atomspace/ForwardChainer.h`  | `opencog_workbench/core/reasoning.py`               | Forward-chaining inference |
+| `ATen/atomspace/BackwardChainer.h` | `opencog_workbench/core/reasoning.py`               | Goal-directed backward chaining |
+| `ATen/atomspace/TensorLogicEngine.h` | `opencog_workbench/gnn/graph_network.py`          | GPU batch logical ops over GNN |
+| `ATen/atomspace/CognitiveEngine.h` | `opencog_workbench/workbench.py`                    | Master algorithm / COGSCM integration |
+| `ATen/atomspace/ECAN.h`            | `opencog_workbench/agents/cognitive_agent.py`       | Economic attention (STI/LTI/VLTI) |
+| `ATen/atomspace/AttentionBank.h`   | `opencog_workbench/agents/coordination_agent.py`    | Attention spreading / focus set |
+| `ATen/atomspace/TimeServer.h`      | `opencog_workbench/agents/reasoning_agent.py`       | Temporal event tracking |
+| `ATen/atomspace/NLU.h`             | new: `opencog_workbench/perception/nlu.py`          | Natural-language understanding |
+| `ATen/atomspace/Vision.h`          | new: `opencog_workbench/perception/vision.py`       | Visual scene understanding |
+| `ATen/atomspace/ATenNN.h`          | `opencog_workbench/gnn/node_embeddings.py`          | Pre-trained BERT/GPT/ViT/YOLO |
+| `ATen/atomspace/Serializer.h`      | `opencog_workbench/config/config_manager.py`        | AtomSpace persistence (save/load) |
+| `aten/src/TH/*.c`                  | `private/ntos/` (memory/process layer)              | CPU tensor ops callable from NT4 kernel |
+
+### Integration mapping: cog0 → WinKoGNN subsystems
+
+> cog0 (ReZorg/cog0) is a **private** repository.  The mapping below will be
+> refined once the source tree is available.  The anticipated C/H and CXX/HXX
+> files are expected to occupy:
+>
+> | cog0 path              | WinKoGNN subsystem                                 |
+> |------------------------|----------------------------------------------------|
+> | `include/*.h / *.hxx`  | `opencog_workbench/core/` — shared cognitive types |
+> | `src/kernel/*.c`       | `private/ntos/` — NT4 kernel extensions            |
+> | `src/agent/*.cpp`      | `opencog_workbench/agents/` — agent primitives     |
+> | `src/gnn/*.cxx`        | `opencog_workbench/gnn/` — GNN forward passes      |
+
+### CMake integration
+
+Enable native builds when LibTorch is available:
+
+```bash
+# ATenSpace (header-only interface target is always available)
+cmake -DBUILD_ATENSPACE=ON -DTorch_DIR=/path/to/libtorch/share/cmake/Torch ..
+
+# cog0 (once source tree is vendored at cog0/)
+cmake -DBUILD_COG0=ON ..
+```
+
+The `atenspace_headers` INTERFACE target is always defined and exposes
+`aten/aten/src` as an include path, so any WinKoGNN target can consume the
+header-only AtomSpace without requiring LibTorch:
+
+```cmake
+target_link_libraries(my_target PRIVATE atenspace_headers)
+```

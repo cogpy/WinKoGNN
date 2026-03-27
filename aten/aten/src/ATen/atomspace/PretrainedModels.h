@@ -1,0 +1,951 @@
+#pragma once
+
+/**
+ * Pre-trained Model Integrations for ATenNN
+ * 
+ * This module provides integration with popular pre-trained models:
+ * - BERT: Bidirectional Encoder Representations from Transformers
+ * - GPT: Generative Pre-trained Transformer
+ * - ViT: Vision Transformer
+ * - YOLO: You Only Look Once (object detection)
+ * 
+ * These integrations enable the cognitive architecture to leverage
+ * state-of-the-art neural models for language understanding, generation,
+ * and visual perception.
+ * 
+ * Phase 8 Enhancement: Support for TorchScript model loading
+ */
+
+#include "ATenNN.h"
+#include "ModelLoader.h"
+#include "Tokenizer.h"
+#include <torch/torch.h>
+#include <torch/script.h>
+
+namespace at {
+namespace atomspace {
+namespace nn {
+
+// ============================================================================
+// BERT Model - Language Understanding
+// ============================================================================
+
+/**
+ * BERT-style transformer model for language understanding.
+ * Provides contextualized embeddings for text inputs.
+ * 
+ * Supports two modes:
+ * - Built-in: Uses randomly initialized weights (for testing/prototyping)
+ * - TorchScript: Loads real pre-trained weights from exported model
+ */
+class BERTModel : public NeuralModule {
+public:
+    /**
+     * Create BERT with randomly initialized weights (built-in mode).
+     */
+    BERTModel(const ModelConfig& config)
+        : config_(config), device_(config.device), use_torchscript_(false), torchscript_path_("") {
+        buildModel();
+    }
+    
+    /**
+     * Create BERT from a TorchScript exported model (production mode).
+     * @param model_path Path to the .pt TorchScript file
+     * @param device Device to load model on
+     */
+    BERTModel(const std::string& model_path, torch::Device device = torch::kCPU)
+        : config_(), device_(device), use_torchscript_(true), torchscript_path_(model_path) {
+        loadTorchScriptModel();
+    }
+    
+    /**
+     * Create BERT from a TorchScript model with an integrated tokenizer.
+     * @param model_path     Path to the .pt TorchScript file
+     * @param tokenizer_dir  Directory containing BERT vocab.txt
+     * @param device         Device to load model on
+     */
+    BERTModel(const std::string& model_path,
+              const std::string& tokenizer_dir,
+              torch::Device device = torch::kCPU)
+        : config_(), device_(device), use_torchscript_(true),
+          torchscript_path_(model_path), tokenizer_dir_(tokenizer_dir) {
+        loadTorchScriptModel();
+        tokenizer_ = TokenizerFactory::loadBertTokenizer(tokenizer_dir_);
+    }
+
+    Tensor forward(const Tensor& input) override {
+        torch::NoGradGuard no_grad;
+        
+        if (use_torchscript_ && torchscript_model_) {
+            // Use TorchScript model
+            auto input_device = input.to(device_);
+            auto attention_mask = torch::ones_like(input_device);
+            
+            std::vector<torch::jit::IValue> inputs;
+            inputs.push_back(input_device);
+            inputs.push_back(attention_mask);
+            
+            auto output = torchscript_model_->forward(inputs);
+            
+            // Handle output format (BaseModelOutputWithPooling)
+            if (output.isTuple()) {
+                return output.toTuple()->elements()[0].toTensor();
+            }
+            return output.toTensor();
+        }
+        
+        // Use built-in model
+        model_->eval();
+        
+        // Input is token IDs [batch, seq_len]
+        auto embeddings = embedding_->forward(input);
+        
+        // Add positional embeddings
+        auto seq_len = input.size(1);
+        auto positions = torch::arange(seq_len, device_).unsqueeze(0).expand_as(input);
+        embeddings = embeddings + position_embedding_->forward(positions);
+        
+        // Apply layer norm
+        embeddings = layer_norm_->forward(embeddings);
+        
+        // Pass through transformer layers
+        auto hidden_states = embeddings;
+        for (auto& layer : transformer_layers_) {
+            hidden_states = layer->forward(hidden_states);
+        }
+        
+        return hidden_states;
+    }
+    
+    std::string getName() const override {
+        if (use_torchscript_) {
+            return "bert-torchscript";
+        }
+        return config_.model_name;
+    }
+    
+    torch::Device getDevice() const override {
+        return device_;
+    }
+    
+    void to(const torch::Device& device) override {
+        device_ = device;
+        if (use_torchscript_ && torchscript_model_) {
+            torchscript_model_->to(device);
+        } else if (model_) {
+            model_->to(device);
+        }
+    }
+    
+    void train() override {
+        if (!use_torchscript_ && model_) {
+            model_->train();
+        }
+    }
+    
+    void eval() override {
+        if (!use_torchscript_ && model_) {
+            model_->eval();
+        }
+    }
+    
+    /**
+     * Check if using TorchScript model.
+     */
+    bool usingTorchScript() const {
+        return use_torchscript_;
+    }
+    
+    /**
+     * Extract embeddings for text integration with AtomSpace.
+     * @param input_ids Token IDs [batch, seq_len]
+     * @param attention_mask Attention mask [batch, seq_len]
+     * @return Embeddings [batch, hidden_size]
+     */
+    Tensor extractEmbeddings(const Tensor& input_ids, 
+                            const Tensor& attention_mask = Tensor()) {
+        auto hidden_states = forward(input_ids);
+        EmbeddingExtractor extractor(EmbeddingExtractor::Strategy::CLS_TOKEN);
+        return extractor.extract(hidden_states, attention_mask);
+    }
+    
+    /**
+     * Encode text using the integrated WordPiece tokenizer and run forward().
+     * Requires the tokenizer to have been loaded (use the tokenizer_dir
+     * constructor overload, or call loadTokenizer() first).
+     * @param text        Input text
+     * @param max_length  Maximum sequence length (default 512)
+     * @return            Hidden states [1, seq_len, hidden_size]
+     * @throws std::runtime_error if no tokenizer is loaded
+     */
+    Tensor encodeText(const std::string& text, int max_length = 512) {
+        if (!tokenizer_) {
+            throw std::runtime_error(
+                "BERTModel: no tokenizer loaded. "
+                "Use the (model_path, tokenizer_dir) constructor or call loadTokenizer().");
+        }
+        auto [input_ids, attention_mask, token_type_ids] =
+            tokenizer_->encodeToBertTensors(text, max_length);
+        return forward(input_ids.to(device_));
+    }
+
+    /**
+     * Load (or reload) the WordPiece tokenizer from a directory.
+     * @param tokenizer_dir  Directory containing vocab.txt
+     */
+    void loadTokenizer(const std::string& tokenizer_dir) {
+        tokenizer_dir_ = tokenizer_dir;
+        tokenizer_ = TokenizerFactory::loadBertTokenizer(tokenizer_dir_);
+    }
+
+    /**
+     * Return true if a tokenizer has been loaded.
+     */
+    bool hasTokenizer() const { return tokenizer_ != nullptr; }
+
+private:
+    ModelConfig config_;
+    torch::Device device_;
+    bool use_torchscript_;
+    std::string torchscript_path_;
+    std::string tokenizer_dir_;
+    
+    // Built-in model components
+    torch::nn::Sequential model_{nullptr};
+    torch::nn::Embedding embedding_{nullptr};
+    torch::nn::Embedding position_embedding_{nullptr};
+    torch::nn::LayerNorm layer_norm_{nullptr};
+    std::vector<torch::nn::Sequential> transformer_layers_;
+    
+    // TorchScript model
+    std::shared_ptr<TorchScriptModel> torchscript_model_;
+
+    // Optional integrated tokenizer
+    std::shared_ptr<WordPieceTokenizer> tokenizer_;
+    
+    void loadTorchScriptModel() {
+        ModelLoader loader;
+        torchscript_model_ = loader.loadTorchScriptModel(torchscript_path_, device_);
+    }
+    
+    void buildModel() {
+        // Token embeddings
+        embedding_ = torch::nn::Embedding(config_.vocab_size, config_.hidden_size);
+        
+        // Position embeddings
+        position_embedding_ = torch::nn::Embedding(config_.max_seq_length, config_.hidden_size);
+        
+        // Layer normalization
+        layer_norm_ = torch::nn::LayerNorm(torch::nn::LayerNormOptions({config_.hidden_size}));
+        
+        // Transformer layers
+        for (int i = 0; i < config_.num_layers; ++i) {
+            auto layer = torch::nn::Sequential();
+            
+            // Multi-head self-attention (simplified)
+            auto attn = torch::nn::Linear(config_.hidden_size, config_.hidden_size);
+            layer->push_back(attn);
+            
+            // Feed-forward network
+            auto ff1 = torch::nn::Linear(config_.hidden_size, config_.hidden_size * 4);
+            auto ff2 = torch::nn::Linear(config_.hidden_size * 4, config_.hidden_size);
+            layer->push_back(ff1);
+            layer->push_back(ff2);
+            
+            transformer_layers_.push_back(layer);
+        }
+        
+        // Wrap in sequential model
+        model_ = torch::nn::Sequential();
+        
+        // Move to device
+        model_->to(device_);
+        embedding_->to(device_);
+        position_embedding_->to(device_);
+        layer_norm_->to(device_);
+        for (auto& layer : transformer_layers_) {
+            layer->to(device_);
+        }
+    }
+};
+
+// ============================================================================
+// GPT Model - Language Generation
+// ============================================================================
+
+/**
+ * GPT-style autoregressive transformer for text generation.
+ * Generates text conditioned on context.
+ * 
+ * Supports two modes:
+ * - Built-in: Uses randomly initialized weights (for testing/prototyping)
+ * - TorchScript: Loads real pre-trained weights from exported model
+ */
+class GPTModel : public NeuralModule {
+public:
+    /**
+     * Create GPT with randomly initialized weights (built-in mode).
+     */
+    GPTModel(const ModelConfig& config)
+        : config_(config), device_(config.device), use_torchscript_(false), torchscript_path_("") {
+        buildModel();
+    }
+    
+    /**
+     * Create GPT from a TorchScript exported model (production mode).
+     * @param model_path Path to the .pt TorchScript file
+     * @param device Device to load model on
+     */
+    GPTModel(const std::string& model_path, torch::Device device = torch::kCPU)
+        : config_(), device_(device), use_torchscript_(true), torchscript_path_(model_path) {
+        loadTorchScriptModel();
+    }
+    
+    /**
+     * Create GPT from a TorchScript model with an integrated BPE tokenizer.
+     * @param model_path     Path to the .pt TorchScript file
+     * @param tokenizer_dir  Directory containing vocab.json and merges.txt
+     * @param device         Device to load model on
+     */
+    GPTModel(const std::string& model_path,
+             const std::string& tokenizer_dir,
+             torch::Device device = torch::kCPU)
+        : config_(), device_(device), use_torchscript_(true),
+          torchscript_path_(model_path), tokenizer_dir_(tokenizer_dir) {
+        loadTorchScriptModel();
+        tokenizer_ = TokenizerFactory::loadGPT2Tokenizer(tokenizer_dir_);
+    }
+    
+    Tensor forward(const Tensor& input) override {
+        torch::NoGradGuard no_grad;
+        
+        if (use_torchscript_ && torchscript_model_) {
+            // Use TorchScript model
+            auto input_device = input.to(device_);
+            
+            std::vector<torch::jit::IValue> inputs;
+            inputs.push_back(input_device);
+            
+            auto output = torchscript_model_->forward(inputs);
+            
+            // Handle output format (CausalLMOutputWithCrossAttentions)
+            if (output.isTuple()) {
+                return output.toTuple()->elements()[0].toTensor();
+            }
+            return output.toTensor();
+        }
+        
+        // Use built-in model
+        model_->eval();
+        
+        // Similar to BERT but with causal masking
+        auto embeddings = embedding_->forward(input);
+        
+        auto seq_len = input.size(1);
+        auto positions = torch::arange(seq_len, device_).unsqueeze(0).expand_as(input);
+        embeddings = embeddings + position_embedding_->forward(positions);
+        
+        auto hidden_states = embeddings;
+        for (auto& layer : transformer_layers_) {
+            hidden_states = layer->forward(hidden_states);
+        }
+        
+        // Project to vocabulary
+        auto logits = output_projection_->forward(hidden_states);
+        return logits;
+    }
+    
+    std::string getName() const override {
+        if (use_torchscript_) {
+            return "gpt-torchscript";
+        }
+        return config_.model_name;
+    }
+    
+    torch::Device getDevice() const override {
+        return device_;
+    }
+    
+    void to(const torch::Device& device) override {
+        device_ = device;
+        if (use_torchscript_ && torchscript_model_) {
+            torchscript_model_->to(device);
+        } else if (model_) {
+            model_->to(device);
+        }
+    }
+    
+    void train() override {
+        if (!use_torchscript_ && model_) {
+            model_->train();
+        }
+    }
+    
+    void eval() override {
+        if (!use_torchscript_ && model_) {
+            model_->eval();
+        }
+    }
+    
+    /**
+     * Check if using TorchScript model.
+     */
+    bool usingTorchScript() const {
+        return use_torchscript_;
+    }
+    
+    /**
+     * Generate text from prompt.
+     * @param input_ids Initial token IDs [batch, seq_len]
+     * @param max_length Maximum generation length
+     * @return Generated token IDs [batch, max_length]
+     */
+    Tensor generate(const Tensor& input_ids, int64_t max_length = 50) {
+        auto generated = input_ids.clone();
+        
+        for (int64_t i = 0; i < max_length; ++i) {
+            auto logits = forward(generated);
+            auto next_token_logits = logits.index({
+                torch::indexing::Slice(), -1, torch::indexing::Slice()
+            });
+            auto next_token = next_token_logits.argmax(-1, /*keepdim=*/true);
+            generated = torch::cat({generated, next_token}, /*dim=*/1);
+        }
+        
+        return generated;
+    }
+    
+    /**
+     * Generate text from a string prompt using the integrated BPE tokenizer.
+     * Encodes the prompt, runs greedy autoregressive generation, then decodes.
+     * @param prompt         Input text
+     * @param max_new_tokens Maximum number of new tokens to generate (default 50)
+     * @return               Generated text (decoded)
+     * @throws std::runtime_error if no tokenizer is loaded
+     */
+    std::string generateText(const std::string& prompt, int max_new_tokens = 50) {
+        if (!tokenizer_) {
+            throw std::runtime_error(
+                "GPTModel: no tokenizer loaded. "
+                "Use the (model_path, tokenizer_dir) constructor or call loadTokenizer().");
+        }
+        auto ids = tokenizer_->encode(prompt);
+        int64_t seq_len = static_cast<int64_t>(ids.size());
+        auto input_ids = torch::zeros({1, seq_len}, torch::kLong);
+        for (int64_t i = 0; i < seq_len; ++i) {
+            input_ids[0][i] = ids[static_cast<std::size_t>(i)];
+        }
+        auto generated = generate(input_ids.to(device_), max_new_tokens);
+        // Decode only the newly generated tokens
+        std::vector<int> gen_ids;
+        int64_t total_len = generated.size(1);
+        for (int64_t i = seq_len; i < total_len; ++i) {
+            gen_ids.push_back(static_cast<int>(generated[0][i].item<int64_t>()));
+        }
+        return tokenizer_->decode(gen_ids);
+    }
+
+    /**
+     * Load (or reload) the BPE tokenizer from a directory.
+     * @param tokenizer_dir  Directory containing vocab.json and merges.txt
+     */
+    void loadTokenizer(const std::string& tokenizer_dir) {
+        tokenizer_dir_ = tokenizer_dir;
+        tokenizer_ = TokenizerFactory::loadGPT2Tokenizer(tokenizer_dir_);
+    }
+
+    /**
+     * Return true if a tokenizer has been loaded.
+     */
+    bool hasTokenizer() const { return tokenizer_ != nullptr; }
+
+private:
+    ModelConfig config_;
+    torch::Device device_;
+    bool use_torchscript_;
+    std::string torchscript_path_;
+    std::string tokenizer_dir_;
+    
+    // Built-in model components
+    torch::nn::Sequential model_{nullptr};
+    torch::nn::Embedding embedding_{nullptr};
+    torch::nn::Embedding position_embedding_{nullptr};
+    std::vector<torch::nn::Sequential> transformer_layers_;
+    torch::nn::Linear output_projection_{nullptr};
+    
+    // TorchScript model
+    std::shared_ptr<TorchScriptModel> torchscript_model_;
+
+    // Optional integrated tokenizer
+    std::shared_ptr<BPETokenizer> tokenizer_;
+    
+    void loadTorchScriptModel() {
+        ModelLoader loader;
+        torchscript_model_ = loader.loadTorchScriptModel(torchscript_path_, device_);
+    }
+    
+    void buildModel() {
+        embedding_ = torch::nn::Embedding(config_.vocab_size, config_.hidden_size);
+        position_embedding_ = torch::nn::Embedding(config_.max_seq_length, config_.hidden_size);
+        
+        for (int i = 0; i < config_.num_layers; ++i) {
+            auto layer = torch::nn::Sequential();
+            auto attn = torch::nn::Linear(config_.hidden_size, config_.hidden_size);
+            auto ff1 = torch::nn::Linear(config_.hidden_size, config_.hidden_size * 4);
+            auto ff2 = torch::nn::Linear(config_.hidden_size * 4, config_.hidden_size);
+            layer->push_back(attn);
+            layer->push_back(ff1);
+            layer->push_back(ff2);
+            transformer_layers_.push_back(layer);
+        }
+        
+        output_projection_ = torch::nn::Linear(config_.hidden_size, config_.vocab_size);
+        
+        model_ = torch::nn::Sequential();
+        model_->to(device_);
+        embedding_->to(device_);
+        position_embedding_->to(device_);
+        output_projection_->to(device_);
+        for (auto& layer : transformer_layers_) {
+            layer->to(device_);
+        }
+    }
+};
+
+// ============================================================================
+// Vision Transformer (ViT) - Visual Understanding
+// ============================================================================
+
+/**
+ * Vision Transformer for image understanding.
+ * Processes images as sequences of patches.
+ * 
+ * Supports two modes:
+ * - Built-in: Uses randomly initialized weights (for testing/prototyping)
+ * - TorchScript: Loads real pre-trained weights from exported model
+ */
+class ViTModel : public NeuralModule {
+public:
+    /**
+     * Create ViT with randomly initialized weights (built-in mode).
+     */
+    ViTModel(const ModelConfig& config)
+        : config_(config), device_(config.device), use_torchscript_(false), torchscript_path_("") {
+        patch_size_ = 16;  // 16x16 patches
+        image_size_ = 224;  // 224x224 images
+        num_patches_ = (image_size_ / patch_size_) * (image_size_ / patch_size_);
+        buildModel();
+    }
+    
+    /**
+     * Create ViT from a TorchScript exported model (production mode).
+     * @param model_path Path to the .pt TorchScript file
+     * @param device Device to load model on
+     */
+    ViTModel(const std::string& model_path, torch::Device device = torch::kCPU)
+        : config_(), device_(device), use_torchscript_(true), torchscript_path_(model_path) {
+        patch_size_ = 16;
+        image_size_ = 224;
+        num_patches_ = (image_size_ / patch_size_) * (image_size_ / patch_size_);
+        loadTorchScriptModel();
+    }
+    
+    Tensor forward(const Tensor& input) override {
+        torch::NoGradGuard no_grad;
+        
+        if (use_torchscript_ && torchscript_model_) {
+            // Use TorchScript model
+            auto input_device = input.to(device_);
+            
+            std::vector<torch::jit::IValue> inputs;
+            inputs.push_back(input_device);
+            
+            auto output = torchscript_model_->forward(inputs);
+            
+            // Handle output format (BaseModelOutputWithPooling)
+            if (output.isTuple()) {
+                return output.toTuple()->elements()[0].toTensor();
+            }
+            return output.toTensor();
+        }
+        
+        // Use built-in model
+        model_->eval();
+        
+        // Input is image [batch, 3, H, W]
+        // Extract patches
+        auto patches = patchify(input);
+        
+        // Project patches to embedding dimension
+        auto patch_embeddings = patch_projection_->forward(patches);
+        
+        // Add CLS token and position embeddings
+        auto batch_size = input.size(0);
+        auto cls_tokens = cls_token_.expand({batch_size, -1, -1});
+        auto embeddings = torch::cat({cls_tokens, patch_embeddings}, /*dim=*/1);
+        embeddings = embeddings + position_embedding_;
+        
+        // Pass through transformer
+        auto hidden_states = embeddings;
+        for (auto& layer : transformer_layers_) {
+            hidden_states = layer->forward(hidden_states);
+        }
+        
+        return hidden_states;
+    }
+    
+    std::string getName() const override {
+        if (use_torchscript_) {
+            return "vit-torchscript";
+        }
+        return config_.model_name;
+    }
+    
+    torch::Device getDevice() const override {
+        return device_;
+    }
+    
+    void to(const torch::Device& device) override {
+        device_ = device;
+        if (use_torchscript_ && torchscript_model_) {
+            torchscript_model_->to(device);
+        } else if (model_) {
+            model_->to(device);
+        }
+    }
+    
+    void train() override {
+        if (!use_torchscript_ && model_) {
+            model_->train();
+        }
+    }
+    
+    void eval() override {
+        if (!use_torchscript_ && model_) {
+            model_->eval();
+        }
+    }
+    
+    /**
+     * Check if using TorchScript model.
+     */
+    bool usingTorchScript() const {
+        return use_torchscript_;
+    }
+    
+    /**
+     * Extract visual embeddings for AtomSpace integration.
+     * @param images Input images [batch, 3, H, W]
+     * @return Embeddings [batch, hidden_size]
+     */
+    Tensor extractEmbeddings(const Tensor& images) {
+        auto hidden_states = forward(images);
+        // Extract CLS token embedding
+        return hidden_states.index({torch::indexing::Slice(), 0, torch::indexing::Slice()});
+    }
+    
+private:
+    ModelConfig config_;
+    torch::Device device_;
+    bool use_torchscript_;
+    std::string torchscript_path_;
+    
+    // Built-in model components
+    torch::nn::Sequential model_{nullptr};
+    torch::nn::Linear patch_projection_{nullptr};
+    Tensor cls_token_;
+    Tensor position_embedding_;
+    std::vector<torch::nn::Sequential> transformer_layers_;
+    
+    int64_t patch_size_;
+    int64_t image_size_;
+    int64_t num_patches_;
+    
+    // TorchScript model
+    std::shared_ptr<TorchScriptModel> torchscript_model_;
+    
+    void loadTorchScriptModel() {
+        ModelLoader loader;
+        torchscript_model_ = loader.loadTorchScriptModel(torchscript_path_, device_);
+    }
+    
+    void buildModel() {
+        int64_t patch_dim = 3 * patch_size_ * patch_size_;
+        
+        // Patch projection
+        patch_projection_ = torch::nn::Linear(patch_dim, config_.hidden_size);
+        
+        // CLS token
+        cls_token_ = torch::randn({1, 1, config_.hidden_size}, device_);
+        
+        // Position embeddings
+        position_embedding_ = torch::randn({1, num_patches_ + 1, config_.hidden_size}, device_);
+        
+        // Transformer layers
+        for (int i = 0; i < config_.num_layers; ++i) {
+            auto layer = torch::nn::Sequential();
+            auto attn = torch::nn::Linear(config_.hidden_size, config_.hidden_size);
+            auto ff1 = torch::nn::Linear(config_.hidden_size, config_.hidden_size * 4);
+            auto ff2 = torch::nn::Linear(config_.hidden_size * 4, config_.hidden_size);
+            layer->push_back(attn);
+            layer->push_back(ff1);
+            layer->push_back(ff2);
+            transformer_layers_.push_back(layer);
+        }
+        
+        model_ = torch::nn::Sequential();
+        model_->to(device_);
+        patch_projection_->to(device_);
+        for (auto& layer : transformer_layers_) {
+            layer->to(device_);
+        }
+    }
+    
+    Tensor patchify(const Tensor& images) {
+        // Convert image to patches
+        // images: [batch, 3, H, W]
+        // output: [batch, num_patches, patch_dim]
+        auto batch_size = images.size(0);
+        auto patches = images.unfold(2, patch_size_, patch_size_)
+                             .unfold(3, patch_size_, patch_size_);
+        patches = patches.contiguous().view({
+            batch_size, 
+            3, 
+            -1, 
+            patch_size_, 
+            patch_size_
+        });
+        patches = patches.permute({0, 2, 1, 3, 4});
+        patches = patches.contiguous().view({
+            batch_size, 
+            num_patches_, 
+            3 * patch_size_ * patch_size_
+        });
+        return patches;
+    }
+};
+
+// ============================================================================
+// YOLO Model - Object Detection
+// ============================================================================
+
+/**
+ * YOLO-style object detection model.
+ * Detects and localizes objects in images.
+ * 
+ * Supports two modes:
+ * - Built-in: Uses randomly initialized weights (for testing/prototyping)
+ * - TorchScript: Loads real pre-trained weights from exported model
+ */
+class YOLOModel : public NeuralModule {
+public:
+    struct Detection {
+        Tensor bbox;      // [x, y, w, h]
+        float confidence;
+        int64_t class_id;
+        std::string class_name;
+    };
+    
+    /**
+     * Create YOLO with randomly initialized weights (built-in mode).
+     */
+    YOLOModel(const ModelConfig& config)
+        : config_(config), device_(config.device), use_torchscript_(false), torchscript_path_("") {
+        buildModel();
+    }
+    
+    /**
+     * Create YOLO from a TorchScript exported model (production mode).
+     * @param model_path Path to the .pt TorchScript file
+     * @param device Device to load model on
+     */
+    YOLOModel(const std::string& model_path, torch::Device device = torch::kCPU)
+        : config_(), device_(device), use_torchscript_(true), torchscript_path_(model_path) {
+        loadTorchScriptModel();
+    }
+    
+    Tensor forward(const Tensor& input) override {
+        torch::NoGradGuard no_grad;
+        
+        if (use_torchscript_ && torchscript_model_) {
+            // Use TorchScript model
+            auto input_device = input.to(device_);
+            
+            std::vector<torch::jit::IValue> inputs;
+            inputs.push_back(input_device);
+            
+            auto output = torchscript_model_->forward(inputs);
+            
+            if (output.isTuple()) {
+                return output.toTuple()->elements()[0].toTensor();
+            }
+            return output.toTensor();
+        }
+        
+        // Use built-in model
+        model_->eval();
+        
+        // Input is image [batch, 3, H, W]
+        auto features = backbone_->forward(input);
+        auto detections = detection_head_->forward(features);
+        
+        return detections;
+    }
+    
+    std::string getName() const override {
+        if (use_torchscript_) {
+            return "yolo-torchscript";
+        }
+        return config_.model_name;
+    }
+    
+    torch::Device getDevice() const override {
+        return device_;
+    }
+    
+    void to(const torch::Device& device) override {
+        device_ = device;
+        if (use_torchscript_ && torchscript_model_) {
+            torchscript_model_->to(device);
+        } else if (model_) {
+            model_->to(device);
+        }
+    }
+    
+    void train() override {
+        if (!use_torchscript_ && model_) {
+            model_->train();
+        }
+    }
+    
+    void eval() override {
+        if (!use_torchscript_ && model_) {
+            model_->eval();
+        }
+    }
+    
+    /**
+     * Check if using TorchScript model.
+     */
+    bool usingTorchScript() const {
+        return use_torchscript_;
+    }
+    
+    /**
+     * Detect objects in image and create AtomSpace representations.
+     * @param image Input image [3, H, W]
+     * @param space AtomSpace to add detections to
+     * @param confidence_threshold Minimum confidence for detections
+     * @return Vector of detected object nodes
+     */
+    std::vector<std::shared_ptr<Atom>> detectObjects(
+        const Tensor& image,
+        AtomSpace& space,
+        float confidence_threshold = 0.5) {
+        
+        auto detections = forward(image.unsqueeze(0));
+        std::vector<std::shared_ptr<Atom>> detected_nodes;
+        
+        // Parse detections (simplified)
+        // In real implementation, would use proper NMS and post-processing
+        auto det_cpu = detections.cpu();
+        
+        // For now, return empty vector
+        // Real implementation would create concept nodes for detected objects
+        // and spatial relation links for their bounding boxes
+        
+        return detected_nodes;
+    }
+    
+private:
+    ModelConfig config_;
+    torch::Device device_;
+    bool use_torchscript_;
+    std::string torchscript_path_;
+    
+    // Built-in model components
+    torch::nn::Sequential model_{nullptr};
+    torch::nn::Sequential backbone_{nullptr};
+    torch::nn::Sequential detection_head_{nullptr};
+    
+    // TorchScript model
+    std::shared_ptr<TorchScriptModel> torchscript_model_;
+    
+    void loadTorchScriptModel() {
+        ModelLoader loader;
+        torchscript_model_ = loader.loadTorchScriptModel(torchscript_path_, device_);
+    }
+    
+    void buildModel() {
+        // Simplified backbone (in practice, use ResNet/Darknet)
+        backbone_ = torch::nn::Sequential(
+            torch::nn::Conv2d(3, 64, 3, 1, 1),
+            torch::nn::ReLU(),
+            torch::nn::MaxPool2d(2),
+            torch::nn::Conv2d(64, 128, 3, 1, 1),
+            torch::nn::ReLU(),
+            torch::nn::MaxPool2d(2),
+            torch::nn::Conv2d(128, 256, 3, 1, 1),
+            torch::nn::ReLU()
+        );
+        
+        // Detection head
+        detection_head_ = torch::nn::Sequential(
+            torch::nn::Conv2d(256, 512, 3, 1, 1),
+            torch::nn::ReLU(),
+            torch::nn::Conv2d(512, 85, 1)  // 85 = 4 bbox + 1 obj + 80 classes
+        );
+        
+        model_ = torch::nn::Sequential();
+        model_->to(device_);
+        backbone_->to(device_);
+        detection_head_->to(device_);
+    }
+};
+
+// ============================================================================
+// Model Factory Functions
+// ============================================================================
+
+/**
+ * Create BERT model from configuration.
+ */
+inline std::shared_ptr<NeuralModule> createBERTModel(const ModelConfig& config) {
+    return std::make_shared<BERTModel>(config);
+}
+
+/**
+ * Create GPT model from configuration.
+ */
+inline std::shared_ptr<NeuralModule> createGPTModel(const ModelConfig& config) {
+    return std::make_shared<GPTModel>(config);
+}
+
+/**
+ * Create ViT model from configuration.
+ */
+inline std::shared_ptr<NeuralModule> createViTModel(const ModelConfig& config) {
+    return std::make_shared<ViTModel>(config);
+}
+
+/**
+ * Create YOLO model from configuration.
+ */
+inline std::shared_ptr<NeuralModule> createYOLOModel(const ModelConfig& config) {
+    return std::make_shared<YOLOModel>(config);
+}
+
+/**
+ * Register all pre-trained models with the model registry.
+ */
+inline void registerPretrainedModels() {
+    auto& registry = ModelRegistry::getInstance();
+    registry.registerModel("bert", createBERTModel);
+    registry.registerModel("gpt", createGPTModel);
+    registry.registerModel("vit", createViTModel);
+    registry.registerModel("yolo", createYOLOModel);
+}
+
+} // namespace nn
+} // namespace atomspace
+} // namespace at
