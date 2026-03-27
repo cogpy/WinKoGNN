@@ -9,12 +9,15 @@ extern "C" {
 #endif
 
 /* ── Exception disposition ── */
+#ifndef _EXCEPTION_DISPOSITION_DEFINED
+#define _EXCEPTION_DISPOSITION_DEFINED
 typedef enum _EXCEPTION_DISPOSITION {
     ExceptionContinueExecution = 0,
     ExceptionContinueSearch = 1,
     ExceptionNestedException = 2,
     ExceptionCollidedUnwind = 3
 } EXCEPTION_DISPOSITION;
+#endif
 
 /* ── SEH filter return values ── */
 #define EXCEPTION_EXECUTE_HANDLER       1

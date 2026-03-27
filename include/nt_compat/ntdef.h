@@ -1092,6 +1092,8 @@ struct _FILE_OBJECT;
 typedef struct _FILE_OBJECT FILE_OBJECT, *PFILE_OBJECT;
 struct _IRP;
 typedef struct _IRP IRP, *PIRP;
+struct _SECTION_OBJECT_POINTERS;
+typedef struct _SECTION_OBJECT_POINTERS SECTION_OBJECT_POINTERS, *PSECTION_OBJECT_POINTERS;
 
 /* BUS_DATA_TYPE — used by video.h and HAL */
 #ifndef _BUS_DATA_TYPE_DEFINED
@@ -1224,6 +1226,17 @@ typedef struct _FAST_MUTEX {
 #define _ERESOURCE_THREAD_DEFINED
 typedef ULONG_PTR ERESOURCE_THREAD;
 typedef ERESOURCE_THREAD *PERESOURCE_THREAD;
+#endif
+
+/* ------------------------------------------------------------------ */
+/* ERESOURCE — forward declaration for executive resource               */
+/* Full definition is in ex.h / ntifs.h; this provides PERESOURCE for  */
+/* headers (like fsrtl.h) that reference it in struct members.          */
+/* ------------------------------------------------------------------ */
+#ifndef _ERESOURCE_DEFINED
+struct _ERESOURCE;  /* forward */
+typedef struct _ERESOURCE ERESOURCE;
+typedef ERESOURCE *PERESOURCE;
 #endif
 
 /* ------------------------------------------------------------------ */
@@ -1424,6 +1437,8 @@ typedef CLONG *PCLONG;
 /* ------------------------------------------------------------------ */
 /* LPSECURITY_ATTRIBUTES — Win32 type that leaks into kernel headers     */
 /* ------------------------------------------------------------------ */
+#ifndef _SECURITY_ATTRIBUTES_DEFINED
+#define _SECURITY_ATTRIBUTES_DEFINED
 #ifndef _LPSECURITY_ATTRIBUTES_DEFINED
 #define _LPSECURITY_ATTRIBUTES_DEFINED
 typedef struct _SECURITY_ATTRIBUTES {
@@ -1431,6 +1446,7 @@ typedef struct _SECURITY_ATTRIBUTES {
     PVOID   lpSecurityDescriptor;
     BOOLEAN bInheritHandle;
 } SECURITY_ATTRIBUTES, *PSECURITY_ATTRIBUTES, *LPSECURITY_ATTRIBUTES;
+#endif
 #endif
 
 /* ------------------------------------------------------------------ */
@@ -1539,18 +1555,7 @@ typedef enum _POOL_TYPE {
 } POOL_TYPE;
 #endif
 
-/* ------------------------------------------------------------------ */
-/* EXCEPTION_DISPOSITION — SEH exception handler return                 */
-/* ------------------------------------------------------------------ */
-#ifndef _EXCEPTION_DISPOSITION_DEFINED
-#define _EXCEPTION_DISPOSITION_DEFINED
-typedef enum _EXCEPTION_DISPOSITION {
-    ExceptionContinueExecution,
-    ExceptionContinueSearch,
-    ExceptionNestedException,
-    ExceptionCollidedUnwind
-} EXCEPTION_DISPOSITION;
-#endif
+/* EXCEPTION_DISPOSITION — already defined earlier in this file (line ~789) */
 
 /* ------------------------------------------------------------------ */
 /* FILETIME — Win32 time structure (leaks into kernel headers)          */

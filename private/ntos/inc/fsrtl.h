@@ -50,16 +50,21 @@ FsRtlInitSystem (
 //  supports Fast I/O for compressed reads and writes).
 //
 
+#ifndef _FAST_IO_POSSIBLE_DEFINED
+#define _FAST_IO_POSSIBLE_DEFINED
 typedef enum _FAST_IO_POSSIBLE {
     FastIoIsNotPossible = 0,
     FastIoIsPossible,
     FastIoIsQuestionable
 } FAST_IO_POSSIBLE;
+#endif
 
 //
 //  Changes to this structure will affect FSRTL_ADVANCED_FCB_HEADER.
 //
 
+#ifndef _FSRTL_COMMON_FCB_HEADER_DEFINED
+#define _FSRTL_COMMON_FCB_HEADER_DEFINED
 typedef struct _FSRTL_COMMON_FCB_HEADER {
 
     CSHORT NodeTypeCode;
@@ -101,6 +106,7 @@ typedef struct _FSRTL_COMMON_FCB_HEADER {
 
 } FSRTL_COMMON_FCB_HEADER;
 typedef FSRTL_COMMON_FCB_HEADER *PFSRTL_COMMON_FCB_HEADER;
+#endif /* _FSRTL_COMMON_FCB_HEADER_DEFINED */
 
 //
 //  This Fcb header is used for files which support caching
@@ -111,6 +117,8 @@ typedef FSRTL_COMMON_FCB_HEADER *PFSRTL_COMMON_FCB_HEADER;
 //  ways for c++ or c.
 //
 
+#ifndef _FSRTL_ADVANCED_FCB_HEADER_DEFINED
+#define _FSRTL_ADVANCED_FCB_HEADER_DEFINED
 #ifdef __cplusplus
 typedef struct _FSRTL_ADVANCED_FCB_HEADER:FSRTL_COMMON_FCB_HEADER {
 #else   // __cplusplus
@@ -163,6 +171,7 @@ typedef struct _FSRTL_ADVANCED_FCB_HEADER {
 
 } FSRTL_ADVANCED_FCB_HEADER;
 typedef FSRTL_ADVANCED_FCB_HEADER *PFSRTL_ADVANCED_FCB_HEADER;
+#endif /* _FSRTL_ADVANCED_FCB_HEADER_DEFINED */
 
 //
 //  Define FsRtl common header flags
