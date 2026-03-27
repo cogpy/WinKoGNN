@@ -1,0 +1,4477 @@
+{
+  "total_includes": 20914,
+  "resolved": 15753,
+  "missing": 5161,
+  "resolution_pct": 75.3,
+  "categories": {
+    "nt4_internal": 2892,
+    "missing": 3827,
+    "nt4_tree": 8931,
+    "nt_compat": 2454,
+    "std_crt": 1468,
+    "relative_unresolved": 1334,
+    "relative_resolved": 8
+  },
+  "missing_classification": {
+    "other": {
+      "count": 2609,
+      "items": [
+        {
+          "path": "winddi.h",
+          "refs": 203,
+          "example_source": "private/ntos/w32/ntgdi/apps/gdistats/gdistats.c"
+        },
+        {
+          "path": "nturtl.h",
+          "refs": 152,
+          "example_source": "private/ntos/cntfs/tests/quota.c"
+        },
+        {
+          "path": "include\\public\\adi_api.h",
+          "refs": 140,
+          "example_source": "private/ntos/dd/qic117/0x11000.c"
+        },
+        {
+          "path": "include\\private\\kdi_pub.h",
+          "refs": 137,
+          "example_source": "private/ntos/dd/qic117/0x11000.c"
+        },
+        {
+          "path": "include\\public\\frb_api.h",
+          "refs": 136,
+          "example_source": "private/ntos/dd/qic117/0x11000.c"
+        },
+        {
+          "path": "include\\private\\cqd_pub.h",
+          "refs": 110,
+          "example_source": "private/ntos/dd/qic117/0x11000.c"
+        },
+        {
+          "path": "q117cd\\include\\cqd_defs.h",
+          "refs": 103,
+          "example_source": "private/ntos/dd/qic117/0x11000.c"
+        },
+        {
+          "path": "q117cd\\include\\cqd_strc.h",
+          "refs": 103,
+          "example_source": "private/ntos/dd/qic117/0x11000.c"
+        },
+        {
+          "path": "q117cd\\include\\cqd_hdr.h",
+          "refs": 103,
+          "example_source": "private/ntos/dd/qic117/0x11000.c"
+        },
+        {
+          "path": "ntddvdeo.h",
+          "refs": 98,
+          "example_source": "private/ntos/video/ati/atimp.c"
+        },
+        {
+          "path": "devioctl.h",
+          "refs": 75,
+          "example_source": "private/ntos/dd/scsiscan/hpscan32/hpscan32.c"
+        },
+        {
+          "path": "nthal.h",
+          "refs": 65,
+          "example_source": "private/ntos/nthals/halast/i386/astdetct.c"
+        },
+        {
+          "path": "NtfsProc.h",
+          "refs": 46,
+          "example_source": "private/ntos/cntfs/allocsup.c"
+        },
+        {
+          "path": "tdistat.h",
+          "refs": 43,
+          "example_source": "private/ntos/nbt/vxd/tdiaddr.c"
+        },
+        {
+          "path": "tdikrnl.h",
+          "refs": 39,
+          "example_source": "private/ntos/tdi/acd/api.c"
+        },
+        {
+          "path": "tdi.h",
+          "refs": 36,
+          "example_source": "private/ntos/tdi/acd/api.c"
+        },
+        {
+          "path": "q117kdi\\include\\kdiwpriv.h",
+          "refs": 35,
+          "example_source": "private/ntos/dd/qic117/0x15a00.c"
+        },
+        {
+          "path": "q117kdi\\include\\kdiwhio.h",
+          "refs": 34,
+          "example_source": "private/ntos/dd/qic117/0x15a00.c"
+        },
+        {
+          "path": "kxmips.h",
+          "refs": 32,
+          "example_source": "private/ntos/kd/mips/kdcpuapi.c"
+        },
+        {
+          "path": "include\\public\\vendor.h",
+          "refs": 25,
+          "example_source": "private/ntos/dd/qic117/0x11006.c"
+        },
+        {
+          "path": "acd.h",
+          "refs": 25,
+          "example_source": "private/ntos/nbt/nbt/name.c"
+        },
+        {
+          "path": "tdiinfo.h",
+          "refs": 23,
+          "example_source": "private/ntos/afd/misc.c"
+        },
+        {
+          "path": "ntdbg.h",
+          "refs": 21,
+          "example_source": "private/ntos/dbgk/udbgk.c"
+        },
+        {
+          "path": "seopaque.h",
+          "refs": 18,
+          "example_source": "private/ntos/dll/seurtl.c"
+        },
+        {
+          "path": "wchar.h",
+          "refs": 17,
+          "example_source": "private/ntos/config/test/perform.c"
+        },
+        {
+          "path": "windowsx.h",
+          "refs": 17,
+          "example_source": "private/ntos/dd/digibrd/setupdll/dgconfig.c"
+        },
+        {
+          "path": "tdivxd.h",
+          "refs": 13,
+          "example_source": "private/ntos/tdi/tcpip/tcp/addr.c"
+        },
+        {
+          "path": "wdbgexts.h",
+          "refs": 12,
+          "example_source": "private/ntos/dlc/kdexts/dlcx.c"
+        },
+        {
+          "path": "dos.h",
+          "refs": 12,
+          "example_source": "private/ntos/video/ati/eevga.c"
+        },
+        {
+          "path": "smbtypes.h",
+          "refs": 11,
+          "example_source": "private/ntos/mup/dnr.c"
+        },
+        {
+          "path": "ntddnetd.h",
+          "refs": 11,
+          "example_source": "private/ntos/ndis/detect/dll/netdtect.c"
+        },
+        {
+          "path": "isnkrnl.h",
+          "refs": 10,
+          "example_source": "private/ntos/bowser/bowipx.c"
+        },
+        {
+          "path": "minitape.h",
+          "refs": 10,
+          "example_source": "private/ntos/dd/scsitape/4mmdat/4mmdat.c"
+        },
+        {
+          "path": "soundcfg.h",
+          "refs": 10,
+          "example_source": "private/ntos/dd/sound/necsnd/mix_objs.c"
+        },
+        {
+          "path": "excpt.h",
+          "refs": 10,
+          "example_source": "private/ntos/ke/alpha/genalpha.c"
+        },
+        {
+          "path": "ntsdexts.h",
+          "refs": 10,
+          "example_source": "private/ntos/w32/ntgdi/uexts/debug.c"
+        },
+        {
+          "path": "ntcsrsrv.h",
+          "refs": 9,
+          "example_source": "private/ntos/ke/alpha/genalpha.c"
+        },
+        {
+          "path": "winddiui.h",
+          "refs": 9,
+          "example_source": "private/ntos/w32/ntgdi/printers/hprasdd/lib/dm.c"
+        },
+        {
+          "path": "ntddmodm.h",
+          "refs": 8,
+          "example_source": "private/ntos/dd/modem/t2open.c"
+        },
+        {
+          "path": "parlog.h",
+          "refs": 8,
+          "example_source": "private/ntos/dd/parallel/initunlo.c"
+        },
+        {
+          "path": "ipinfo.h",
+          "refs": 8,
+          "example_source": "private/ntos/nbt/nt/ntutil.c"
+        },
+        {
+          "path": "wsnwlink.h",
+          "refs": 8,
+          "example_source": "private/ntos/tdi/isn/sockhelp/wshelper.c"
+        },
+        {
+          "path": "drivinit.h",
+          "refs": 8,
+          "example_source": "private/ntos/w32/ntgdi/printers/hprasdd/rasdd/tenable.c"
+        },
+        {
+          "path": "ntdskreg.h",
+          "refs": 7,
+          "example_source": "private/ntos/cntfs/deviosup.c"
+        },
+        {
+          "path": "ntkdexts.h",
+          "refs": 7,
+          "example_source": "private/ntos/config/test/regext.c"
+        },
+        {
+          "path": "tuple.h",
+          "refs": 6,
+          "example_source": "private/ntos/dd/pcmcia/detect.c"
+        },
+        {
+          "path": "sys\\types.h",
+          "refs": 6,
+          "example_source": "private/ntos/fw/alpha/monitor.c"
+        },
+        {
+          "path": "alphaops.h",
+          "refs": 6,
+          "example_source": "private/ntos/ke/alpha/floatem.c"
+        },
+        {
+          "path": "ntcsrmsg.h",
+          "refs": 6,
+          "example_source": "private/ntos/ke/alpha/genalpha.c"
+        },
+        {
+          "path": "ntddnfs.h",
+          "refs": 6,
+          "example_source": "private/ntos/mup/creds.c"
+        },
+        {
+          "path": "smbtrans.h",
+          "refs": 6,
+          "example_source": "private/ntos/mup/dnr.c"
+        },
+        {
+          "path": "ntcsrdll.h",
+          "refs": 6,
+          "example_source": "private/ntos/w32/ntuser/client/csenda.c"
+        },
+        {
+          "path": "netevent.h",
+          "refs": 6,
+          "example_source": "private/ntos/bowser/daytona/precomp.h"
+        },
+        {
+          "path": "FsRtl.h",
+          "refs": 6,
+          "example_source": "private/ntos/cache/cc.h"
+        },
+        {
+          "path": "tcpinfo.h",
+          "refs": 5,
+          "example_source": "private/ntos/afd/misc.c"
+        },
+        {
+          "path": "mcx.h",
+          "refs": 5,
+          "example_source": "private/ntos/dd/modem/t5open.c"
+        },
+        {
+          "path": "smbgtpt.h",
+          "refs": 5,
+          "example_source": "private/ntos/dlc/dlcindc.c"
+        },
+        {
+          "path": "mrgnrtc.h",
+          "refs": 5,
+          "example_source": "private/ntos/fw/alpha/jnfsinit.c"
+        },
+        {
+          "path": "ntlpcapi.h",
+          "refs": 5,
+          "example_source": "private/ntos/ke/alpha/genalpha.c"
+        },
+        {
+          "path": "ntnls.h",
+          "refs": 5,
+          "example_source": "private/ntos/ke/alpha/genalpha.c"
+        },
+        {
+          "path": "llinfo.h",
+          "refs": 5,
+          "example_source": "private/ntos/nbt/vxd/chic.c"
+        },
+        {
+          "path": "mmreg.h",
+          "refs": 5,
+          "example_source": "private/ntos/w32/ntgdi/direct/ddhelp/ddhelp.c"
+        },
+        {
+          "path": "./MBDial/resource.h",
+          "refs": 5,
+          "example_source": "private/ntos/w32/ntgdi/printers/hprasdd/hp5si/ui/commonui.c"
+        },
+        {
+          "path": "winss.h",
+          "refs": 5,
+          "example_source": "private/ntos/w32/ntuser/client/clinit.c"
+        },
+        {
+          "path": "smb.h",
+          "refs": 5,
+          "example_source": "private/ntos/bowser/bowser.h"
+        },
+        {
+          "path": "conapi.h",
+          "refs": 5,
+          "example_source": "private/ntos/w32/ntcon/client/condll.h"
+        },
+        {
+          "path": "compstui.h",
+          "refs": 5,
+          "example_source": "private/ntos/w32/ntgdi/printers/compstui/precomp.h"
+        },
+        {
+          "path": "msg.h",
+          "refs": 4,
+          "example_source": "private/ntos/boot/bldr/osloader.c"
+        },
+        {
+          "path": "smbipx.h",
+          "refs": 4,
+          "example_source": "private/ntos/bowser/bowipx.c"
+        },
+        {
+          "path": "i8042log.h",
+          "refs": 4,
+          "example_source": "private/ntos/dd/i8042prt/i8042cmn.c"
+        },
+        {
+          "path": "ntddjoy.h",
+          "refs": 4,
+          "example_source": "private/ntos/dd/joystick/anajoyst.c"
+        },
+        {
+          "path": "ntddmix.h",
+          "refs": 4,
+          "example_source": "private/ntos/dd/sound/necsnd/mixerlib.c"
+        },
+        {
+          "path": "dlcio.h",
+          "refs": 4,
+          "example_source": "private/ntos/dlc/dlcreg.c"
+        },
+        {
+          "path": "kxalpha.h",
+          "refs": 4,
+          "example_source": "private/ntos/fw/alpha/jxdisp.c"
+        },
+        {
+          "path": "ntxcapi.h",
+          "refs": 4,
+          "example_source": "private/ntos/ke/alpha/genalpha.c"
+        },
+        {
+          "path": "kxppc.h",
+          "refs": 4,
+          "example_source": "private/ntos/ke/ppc/apcuser.c"
+        },
+        {
+          "path": "dfsfsctl.h",
+          "refs": 4,
+          "example_source": "private/ntos/mup/kdext/mupkd.c"
+        },
+        {
+          "path": "dhcpinfo.h",
+          "refs": 4,
+          "example_source": "private/ntos/nbt/vxd/chic.c"
+        },
+        {
+          "path": "SNIregs.h",
+          "refs": 4,
+          "example_source": "private/ntos/nthals/halsni4x/mips/jxreturn.c"
+        },
+        {
+          "path": "sys\\stat.h",
+          "refs": 4,
+          "example_source": "private/ntos/se/uipriv.c"
+        },
+        {
+          "path": "stdexts.h",
+          "refs": 4,
+          "example_source": "private/ntos/w32/ntuser/kdexts/dsocode.c"
+        },
+        {
+          "path": "dde.h",
+          "refs": 4,
+          "example_source": "private/ntos/w32/ntcon/server/precomp.h"
+        },
+        {
+          "path": "rx.h",
+          "refs": 4,
+          "example_source": "private/ntos/w32/ntgdi/displays/mga/precomp.h"
+        },
+        {
+          "path": "ipexport.h",
+          "refs": 3,
+          "example_source": "private/ntos/afd/misc.c"
+        },
+        {
+          "path": "setupbat.h",
+          "refs": 3,
+          "example_source": "private/ntos/boot/setup/oemdisk.c"
+        },
+        {
+          "path": "mmddk.h",
+          "refs": 3,
+          "example_source": "private/ntos/dd/joystick/anajoyst.c"
+        },
+        {
+          "path": "synth.h",
+          "refs": 3,
+          "example_source": "private/ntos/dd/sound/soundlib/synth.c"
+        },
+        {
+          "path": "ntalpha.h",
+          "refs": 3,
+          "example_source": "private/ntos/fw/alpha/jxhwsup.c"
+        },
+        {
+          "path": "align.h",
+          "refs": 3,
+          "example_source": "private/ntos/mup/creds.c"
+        },
+        {
+          "path": "rc4.h",
+          "refs": 3,
+          "example_source": "private/ntos/ndis/ndiswan/ccp.c"
+        },
+        {
+          "path": "security.h",
+          "refs": 3,
+          "example_source": "private/ntos/rdr/security.c"
+        },
+        {
+          "path": "ntstapi.h",
+          "refs": 3,
+          "example_source": "private/ntos/tdi/isn/ipxroute/ipxroute.c"
+        },
+        {
+          "path": "sys/stropts.h",
+          "refs": 3,
+          "example_source": "private/ntos/tdi/isn/ipxroute/ipxroute.c"
+        },
+        {
+          "path": "vidlog.h",
+          "refs": 3,
+          "example_source": "private/ntos/video/ati/atimp.c"
+        },
+        {
+          "path": "gdispool.h",
+          "refs": 3,
+          "example_source": "private/ntos/w32/ntgdi/printers/psprint/psui/prnevent.c"
+        },
+        {
+          "path": "tstr.h",
+          "refs": 3,
+          "example_source": "private/ntos/bowser/daytona/precomp.h"
+        },
+        {
+          "path": "objidl.h",
+          "refs": 3,
+          "example_source": "private/ntos/cntfs/views/viewprop.h"
+        },
+        {
+          "path": "regstr.h",
+          "refs": 3,
+          "example_source": "private/ntos/dd/pnpisa/busp.h"
+        },
+        {
+          "path": "sndblst.h",
+          "refs": 3,
+          "example_source": "private/ntos/dd/sound/creative/sbpnp/sound.h"
+        },
+        {
+          "path": "ntddwave.h",
+          "refs": 3,
+          "example_source": "private/ntos/dd/sound/mipssnd/mips/sound.h"
+        },
+        {
+          "path": "ntddaux.h",
+          "refs": 3,
+          "example_source": "private/ntos/dd/sound/mipssnd/mips/sound.h"
+        },
+        {
+          "path": "std.h",
+          "refs": 3,
+          "example_source": "private/ntos/miniport/always/environ.h"
+        },
+        {
+          "path": "smbmacro.h",
+          "refs": 3,
+          "example_source": "private/ntos/rdr/precomp.h"
+        },
+        {
+          "path": "ddraw.h",
+          "refs": 3,
+          "example_source": "private/ntos/w32/ntgdi/direct/ddapps/roids/roids.h"
+        },
+        {
+          "path": "FSERROR.H",
+          "refs": 3,
+          "example_source": "private/ntos/w32/ntgdi/fondrv/tt/ttfd/tt.h"
+        },
+        {
+          "path": "FSCDEFS.H",
+          "refs": 3,
+          "example_source": "private/ntos/w32/ntgdi/fondrv/tt/ttfd/tt.h"
+        },
+        {
+          "path": "FONTMATH.H",
+          "refs": 3,
+          "example_source": "private/ntos/w32/ntgdi/fondrv/tt/ttfd/tt.h"
+        },
+        {
+          "path": "SFNT.H",
+          "refs": 3,
+          "example_source": "private/ntos/w32/ntgdi/fondrv/tt/ttfd/tt.h"
+        },
+        {
+          "path": "FNT.H",
+          "refs": 3,
+          "example_source": "private/ntos/w32/ntgdi/fondrv/tt/ttfd/tt.h"
+        },
+        {
+          "path": "FNTERR.H",
+          "refs": 3,
+          "example_source": "private/ntos/w32/ntgdi/fondrv/tt/ttfd/tt.h"
+        },
+        {
+          "path": "SFNTACCS.H",
+          "refs": 3,
+          "example_source": "private/ntos/w32/ntgdi/fondrv/tt/ttfd/tt.h"
+        },
+        {
+          "path": "FSGLUE.H",
+          "refs": 3,
+          "example_source": "private/ntos/w32/ntgdi/fondrv/tt/ttfd/tt.h"
+        },
+        {
+          "path": "SCENTRY.H",
+          "refs": 3,
+          "example_source": "private/ntos/w32/ntgdi/fondrv/tt/ttfd/tt.h"
+        },
+        {
+          "path": "SBIT.H",
+          "refs": 3,
+          "example_source": "private/ntos/w32/ntgdi/fondrv/tt/ttfd/tt.h"
+        },
+        {
+          "path": "FSCALER.H",
+          "refs": 3,
+          "example_source": "private/ntos/w32/ntgdi/fondrv/tt/ttfd/tt.h"
+        },
+        {
+          "path": "SCGLOBAL.H",
+          "refs": 3,
+          "example_source": "private/ntos/w32/ntgdi/fondrv/tt/ttfd/tt.h"
+        },
+        {
+          "path": "ime.h",
+          "refs": 3,
+          "example_source": "private/ntos/w32/ntuser/imm/immcli.h"
+        },
+        {
+          "path": "msgs.h",
+          "refs": 2,
+          "example_source": "private/ntos/boot/setup/i386/initx86.c"
+        },
+        {
+          "path": "Index.h",
+          "refs": 2,
+          "example_source": "private/ntos/cntfs/indexsup.c"
+        },
+        {
+          "path": "busmlog.h",
+          "refs": 2,
+          "example_source": "private/ntos/dd/busmouse/i386/busmcmn.c"
+        },
+        {
+          "path": "histctrs.h",
+          "refs": 2,
+          "example_source": "private/ntos/dd/histgram/perflib/perfhist.c"
+        },
+        {
+          "path": "inplog.h",
+          "refs": 2,
+          "example_source": "private/ntos/dd/inport/i386/inpcmn.c"
+        },
+        {
+          "path": "joylog.h",
+          "refs": 2,
+          "example_source": "private/ntos/dd/joystick/swndr3p.c"
+        },
+        {
+          "path": "ntddpcm.h",
+          "refs": 2,
+          "example_source": "private/ntos/dd/pcmcia/cmd/noinput/noinput.c"
+        },
+        {
+          "path": "q117log.h",
+          "refs": 2,
+          "example_source": "private/ntos/dd/qic117/0x15a1d.c"
+        },
+        {
+          "path": "sermlog.h",
+          "refs": 2,
+          "example_source": "private/ntos/dd/sermouse/sermcmn.c"
+        },
+        {
+          "path": "ntddsjoy.h",
+          "refs": 2,
+          "example_source": "private/ntos/dd/sidewndr/swndr3p.c"
+        },
+        {
+          "path": "iofs.h",
+          "refs": 2,
+          "example_source": "private/ntos/dll/ofsmisc.c"
+        },
+        {
+          "path": "Dmc960Nt.h",
+          "refs": 2,
+          "example_source": "private/ntos/miniport/mylex/dac960/dac960nt.c"
+        },
+        {
+          "path": "Dac960Nt.h",
+          "refs": 2,
+          "example_source": "private/ntos/miniport/mylex/dac960/dac960nt.c"
+        },
+        {
+          "path": "crt\\stdlib.h",
+          "refs": 2,
+          "example_source": "private/ntos/netbios/registry.c"
+        },
+        {
+          "path": "fpDcc.h",
+          "refs": 2,
+          "example_source": "private/ntos/nthals/halfire/ppc/fpbt445.c"
+        },
+        {
+          "path": "pxP91.h",
+          "refs": 2,
+          "example_source": "private/ntos/nthals/halppc/ppc/pxdisp.c"
+        },
+        {
+          "path": "MPagent.h",
+          "refs": 2,
+          "example_source": "private/ntos/nthals/halsni4x/mips/mpagent.c"
+        },
+        {
+          "path": "i82C54.h",
+          "refs": 2,
+          "example_source": "private/ntos/nthals/halsni4x/mips/xxclock.c"
+        },
+        {
+          "path": "ntddbrow.h",
+          "refs": 2,
+          "example_source": "private/ntos/rdr/tdi.c"
+        },
+        {
+          "path": "ntsm.h",
+          "refs": 2,
+          "example_source": "private/ntos/rtl/ucli.c"
+        },
+        {
+          "path": "ntrmlsa.h",
+          "refs": 2,
+          "example_source": "private/ntos/se/rmaudit.c"
+        },
+        {
+          "path": "ttoken.c",
+          "refs": 2,
+          "example_source": "private/ntos/se/tse.c"
+        },
+        {
+          "path": "basetyps.h",
+          "refs": 2,
+          "example_source": "private/ntos/tdi/isn/sockhelp/wshelper.c"
+        },
+        {
+          "path": "wsipx.h",
+          "refs": 2,
+          "example_source": "private/ntos/tdi/isn/sockhelp/wshelper.c"
+        },
+        {
+          "path": "p9errlog.h",
+          "refs": 2,
+          "example_source": "private/ntos/video/weitekp9/p9.c"
+        },
+        {
+          "path": "dsound.h",
+          "refs": 2,
+          "example_source": "private/ntos/w32/ntgdi/direct/ddapps/roids/dsutil.c"
+        },
+        {
+          "path": "dci.h",
+          "refs": 2,
+          "example_source": "private/ntos/w32/ntgdi/displays/ati/dci.c"
+        },
+        {
+          "path": "cderr.h",
+          "refs": 2,
+          "example_source": "private/ntos/w32/ntgdi/test/fonttest.nt/fonttest.c"
+        },
+        {
+          "path": "callback.h",
+          "refs": 2,
+          "example_source": "private/ntos/w32/ntuser/client/crecv.c"
+        },
+        {
+          "path": "asdf.h",
+          "refs": 2,
+          "example_source": "private/ntos/w32/ntuser/kernel/acons.c"
+        },
+        {
+          "path": "hostannc.h",
+          "refs": 2,
+          "example_source": "private/ntos/bowser/bowser.h"
+        },
+        {
+          "path": "ftlog.h",
+          "refs": 2,
+          "example_source": "private/ntos/dd/newft/ftdisk.h"
+        },
+        {
+          "path": "ntddmidi.h",
+          "refs": 2,
+          "example_source": "private/ntos/dd/sound/necsnd/soundlib.h"
+        },
+        {
+          "path": "soundsys.h",
+          "refs": 2,
+          "example_source": "private/ntos/dd/sound/soundsys/hardware.h"
+        },
+        {
+          "path": "cs4231.h",
+          "refs": 2,
+          "example_source": "private/ntos/dd/sound/soundsys/hardware.h"
+        },
+        {
+          "path": "ncrc700.h",
+          "refs": 2,
+          "example_source": "private/ntos/fw/mips/iodevice.h"
+        },
+        {
+          "path": "idosaspi.h",
+          "refs": 2,
+          "example_source": "private/ntos/miniport/always/environ.h"
+        },
+        {
+          "path": "sgidef.h",
+          "refs": 2,
+          "example_source": "private/ntos/miniport/wd33c93/s3scsi.h"
+        },
+        {
+          "path": "sockets/netinet/in.h",
+          "refs": 2,
+          "example_source": "private/ntos/nbt/inc/nbtnt.h"
+        },
+        {
+          "path": "r94axxx.h ",
+          "refs": 2,
+          "example_source": "private/ntos/nthals/halr94a/mips/halp.h"
+        },
+        {
+          "path": "SNIdef.h",
+          "refs": 2,
+          "example_source": "private/ntos/nthals/halsni4x/mips/snihalp.h"
+        },
+        {
+          "path": "protocol.h",
+          "refs": 2,
+          "example_source": "private/ntos/rdr/precomp.h"
+        },
+        {
+          "path": "ipxfwd.h",
+          "refs": 2,
+          "example_source": "private/ntos/tdi/isn/flt/precomp.h"
+        },
+        {
+          "path": "gl\\gl.h",
+          "refs": 2,
+          "example_source": "private/ntos/w32/ntgdi/displays/mga/precomp.h"
+        },
+        {
+          "path": "regApi.h",
+          "refs": 2,
+          "example_source": "private/ntos/w32/ntgdi/printers/hprasdd/hp5si/gpc/hp5sipch.h"
+        },
+        {
+          "path": "newres.h",
+          "refs": 2,
+          "example_source": "private/ntos/w32/ntuser/client/precomp.h"
+        },
+        {
+          "path": "cscall.h",
+          "refs": 2,
+          "example_source": "private/ntos/w32/ntuser/client/usercli.h"
+        },
+        {
+          "path": "strid.h",
+          "refs": 2,
+          "example_source": "private/ntos/w32/ntuser/kernel/userk.h"
+        },
+        {
+          "path": "propapi.h",
+          "refs": 2,
+          "example_source": "private/ntos/cntfs/tests/proptest.cxx"
+        },
+        {
+          "path": "stgvar.hxx",
+          "refs": 2,
+          "example_source": "private/ntos/cntfs/tests/proptest.cxx"
+        },
+        {
+          "path": "propstm.hxx",
+          "refs": 2,
+          "example_source": "private/ntos/cntfs/tests/proptest.cxx"
+        },
+        {
+          "path": "align.hxx",
+          "refs": 2,
+          "example_source": "private/ntos/cntfs/tests/proptest.cxx"
+        },
+        {
+          "path": "sstream.hxx",
+          "refs": 2,
+          "example_source": "private/ntos/cntfs/tests/proptest.cxx"
+        },
+        {
+          "path": "BitBlt.h",
+          "refs": 2,
+          "example_source": "private/ntos/w32/ntgdi/direct/blitlib/bt24a24p.cxx"
+        },
+        {
+          "path": "spscsi.h",
+          "refs": 1,
+          "example_source": "private/ntos/boot/lib/scsidisk.c"
+        },
+        {
+          "path": "halx86\\i386\\ncrdetct.c",
+          "refs": 1,
+          "example_source": "private/ntos/boot/setup/i386/detsup.c"
+        },
+        {
+          "path": "halast\\i386\\astdetct.c",
+          "refs": 1,
+          "example_source": "private/ntos/boot/setup/i386/detsup.c"
+        },
+        {
+          "path": "halcbus\\i386\\cbdetect.c",
+          "refs": 1,
+          "example_source": "private/ntos/boot/setup/i386/detsup.c"
+        },
+        {
+          "path": "halmps\\i386\\mpdetect.c",
+          "refs": 1,
+          "example_source": "private/ntos/boot/setup/i386/detsup.c"
+        },
+        {
+          "path": "netlogon.h",
+          "refs": 1,
+          "example_source": "private/ntos/bowser/mailslot.c"
+        },
+        {
+          "path": "ntcxlog.h",
+          "refs": 1,
+          "example_source": "private/ntos/dd/digibrd/ntcx/ntcx.c"
+        },
+        {
+          "path": "ntepclog.h",
+          "refs": 1,
+          "example_source": "private/ntos/dd/digibrd/ntepc/ntepc.c"
+        },
+        {
+          "path": "ntxalllg.h",
+          "refs": 1,
+          "example_source": "private/ntos/dd/digibrd/ntxall/ntxall.c"
+        },
+        {
+          "path": "ntxemlog.h",
+          "refs": 1,
+          "example_source": "private/ntos/dd/digibrd/ntxem/ntxem.c"
+        },
+        {
+          "path": "machine.h",
+          "refs": 1,
+          "example_source": "private/ntos/dd/disk/disk.c"
+        },
+        {
+          "path": "kbdlog.h",
+          "refs": 1,
+          "example_source": "private/ntos/dd/kbdclass/kbdclass.c"
+        },
+        {
+          "path": "moulog.h",
+          "refs": 1,
+          "example_source": "private/ntos/dd/mouclass/mouclass.c"
+        },
+        {
+          "path": "elfcommn.h",
+          "refs": 1,
+          "example_source": "private/ntos/dd/nlsmsg/ioerror.c"
+        },
+        {
+          "path": "ftcmd.h",
+          "refs": 1,
+          "example_source": "private/ntos/dd/ntft/cmd/ftmonit/ftmonit.c"
+        },
+        {
+          "path": "pcmciamc.h",
+          "refs": 1,
+          "example_source": "private/ntos/dd/pcmcia/pcmcia.c"
+        },
+        {
+          "path": "vddsvc.h",
+          "refs": 1,
+          "example_source": "private/ntos/dd/scsiscan/hpscan32/hpscan32.c"
+        },
+        {
+          "path": "TapeLib.h",
+          "refs": 1,
+          "example_source": "private/ntos/dd/scsitape/test/tapelib.c"
+        },
+        {
+          "path": "simbad.h",
+          "refs": 1,
+          "example_source": "private/ntos/dd/simbad/simbad.c"
+        },
+        {
+          "path": "ntnapdef.h",
+          "refs": 1,
+          "example_source": "private/ntos/dll/ntnap.c"
+        },
+        {
+          "path": "ntddnull.h",
+          "refs": 1,
+          "example_source": "private/ntos/fsrtl/unc.c"
+        },
+        {
+          "path": "fwupstr.h",
+          "refs": 1,
+          "example_source": "private/ntos/fw/alpha/jnupdate.c"
+        },
+        {
+          "path": "mrgndma.h",
+          "refs": 1,
+          "example_source": "private/ntos/fw/alpha/jxhwsup.c"
+        },
+        {
+          "path": "boot.h",
+          "refs": 1,
+          "example_source": "private/ntos/fw/mips/scsiport.c"
+        },
+        {
+          "path": "ntmips.h",
+          "refs": 1,
+          "example_source": "private/ntos/ke/mips/genmips.c"
+        },
+        {
+          "path": "ntppc.h",
+          "refs": 1,
+          "example_source": "private/ntos/ke/ppc/genppc.c"
+        },
+        {
+          "path": "setjmpex.h",
+          "refs": 1,
+          "example_source": "private/ntos/ke/tests/xcphnd/xcpt4.c"
+        },
+        {
+          "path": "Mitsumi.h",
+          "refs": 1,
+          "example_source": "private/ntos/miniport/mitsumi/mitsumi.c"
+        },
+        {
+          "path": "D960api.h",
+          "refs": 1,
+          "example_source": "private/ntos/miniport/mylex/dac960/dac960nt.c"
+        },
+        {
+          "path": "shell.h",
+          "refs": 1,
+          "example_source": "private/ntos/nbt/vxd/ncb.c"
+        },
+        {
+          "path": "netvxd.h",
+          "refs": 1,
+          "example_source": "private/ntos/nbt/vxd/ncb.c"
+        },
+        {
+          "path": "vnbt.h",
+          "refs": 1,
+          "example_source": "private/ntos/nbt/vxd/ncb.c"
+        },
+        {
+          "path": "fmplus.c",
+          "refs": 1,
+          "example_source": "private/ntos/ndis/madge/driver/madge.c"
+        },
+        {
+          "path": "Nb.h",
+          "refs": 1,
+          "example_source": "private/ntos/netbios/registry.c"
+        },
+        {
+          "path": "alphadma.h",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/hal0jens/alpha/axibsup.c"
+        },
+        {
+          "path": "alphadef.h",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/hal0jens/alpha/axibsup.c"
+        },
+        {
+          "path": "halx86\\i386\\ixbusdat.c",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halcbus/i386/ixbusdat.c"
+        },
+        {
+          "path": "halx86\\i386\\ixdat.c",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halcbus/i386/ixdat.c"
+        },
+        {
+          "path": "halx86\\i386\\ixenvirv.c",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halcbus/i386/ixenvirv.c"
+        },
+        {
+          "path": "halx86\\i386\\ixfirm.c",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halcbus/i386/ixfirm.c"
+        },
+        {
+          "path": "halx86\\i386\\ixhwsup.c",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halcbus/i386/ixhwsup.c"
+        },
+        {
+          "path": "halx86\\i386\\ixinfo.c",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halcbus/i386/ixinfo.c"
+        },
+        {
+          "path": "halx86\\i386\\ixisabus.c",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halcbus/i386/ixisabus.c"
+        },
+        {
+          "path": "halx86\\i386\\ixisasup.c",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halcbus/i386/ixisasup.c"
+        },
+        {
+          "path": "halx86\\i386\\ixkdcom.c",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halcbus/i386/ixkdcom.c"
+        },
+        {
+          "path": "halmca\\i386\\ixmcabus.c",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halcbus/i386/ixmcabus.c"
+        },
+        {
+          "path": "halmca\\i386\\ixmcasup.c",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halcbus/i386/ixmcasup.c"
+        },
+        {
+          "path": "halx86\\i386\\ixpcibrd.c",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halcbus/i386/ixpcibrd.c"
+        },
+        {
+          "path": "halx86\\i386\\ixpcibus.c",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halcbus/i386/ixpcibus.c"
+        },
+        {
+          "path": "halx86\\i386\\ixpciint.c",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halcbus/i386/ixpciint.c"
+        },
+        {
+          "path": "halx86\\i386\\ixphwsup.c",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halcbus/i386/ixphwsup.c"
+        },
+        {
+          "path": "halx86\\i386\\ixreboot.c",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halcbus/i386/ixreboot.c"
+        },
+        {
+          "path": "halx86\\i386\\ixthunk.c",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halcbus/i386/ixthunk.c"
+        },
+        {
+          "path": "halx86\\i386\\ixusage.c",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halcbus/i386/ixusage.c"
+        },
+        {
+          "path": "halx86\\i386\\xxbiosc.c",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halcbus/i386/xxbiosc.c"
+        },
+        {
+          "path": "halx86\\i386\\xxdisp.c",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halcbus/i386/xxdisp.c"
+        },
+        {
+          "path": "halx86\\i386\\xxflshbf.c",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halcbus/i386/xxflshbf.c"
+        },
+        {
+          "path": "halx86\\i386\\xxkdsup.c",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halcbus/i386/xxkdsup.c"
+        },
+        {
+          "path": "halx86\\i386\\xxmemory.c",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halcbus/i386/xxmemory.c"
+        },
+        {
+          "path": "halx86\\i386\\xxstubs.c",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halcbus/i386/xxstubs.c"
+        },
+        {
+          "path": "halx86\\i386\\xxtime.c",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halcbus/i386/xxtime.c"
+        },
+        {
+          "path": "fpBt445.h",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halfire/ppc/fpbt445.c"
+        },
+        {
+          "path": "sgirex.h",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halsgi/mips/sxdisp.c"
+        },
+        {
+          "path": "kerbcon.h",
+          "refs": 1,
+          "example_source": "private/ntos/rdr/connect.c"
+        },
+        {
+          "path": "error.h",
+          "refs": 1,
+          "example_source": "private/ntos/rtl/error.c"
+        },
+        {
+          "path": "wtypes.h",
+          "refs": 1,
+          "example_source": "private/ntos/rtl/generr.c"
+        },
+        {
+          "path": "issperr.h",
+          "refs": 1,
+          "example_source": "private/ntos/rtl/generr.c"
+        },
+        {
+          "path": "netcons.h",
+          "refs": 1,
+          "example_source": "private/ntos/se/dumpuser.c"
+        },
+        {
+          "path": "neterr.h",
+          "refs": 1,
+          "example_source": "private/ntos/se/dumpuser.c"
+        },
+        {
+          "path": "netlib.h",
+          "refs": 1,
+          "example_source": "private/ntos/se/dumpuser.c"
+        },
+        {
+          "path": "uascache.h",
+          "refs": 1,
+          "example_source": "private/ntos/se/dumpuser.c"
+        },
+        {
+          "path": "permit.h",
+          "refs": 1,
+          "example_source": "private/ntos/se/dumpuser.c"
+        },
+        {
+          "path": "ssitools.h",
+          "refs": 1,
+          "example_source": "private/ntos/se/dumpuser.c"
+        },
+        {
+          "path": "msaudite.h",
+          "refs": 1,
+          "example_source": "private/ntos/se/sepaudit.c"
+        },
+        {
+          "path": "tools.h",
+          "refs": 1,
+          "example_source": "private/ntos/se/uipriv.c"
+        },
+        {
+          "path": "ctseqos.c",
+          "refs": 1,
+          "example_source": "private/ntos/se/utseqos.c"
+        },
+        {
+          "path": "smbtrace.h",
+          "refs": 1,
+          "example_source": "private/ntos/smbtrsup/smbtrsup.c"
+        },
+        {
+          "path": "ipxrtmsg.h",
+          "refs": 1,
+          "example_source": "private/ntos/tdi/isn/ipxroute/ipxroute.c"
+        },
+        {
+          "path": "arpinfo.h",
+          "refs": 1,
+          "example_source": "private/ntos/tdi/tcpip/ip/arp.c"
+        },
+        {
+          "path": "icmpif.h",
+          "refs": 1,
+          "example_source": "private/ntos/tdi/tcpip/ip/icmp.c"
+        },
+        {
+          "path": "crt\\excpt.h",
+          "refs": 1,
+          "example_source": "private/ntos/vdm/i386/genvdmtb.c"
+        },
+        {
+          "path": "crt\\stdarg.h",
+          "refs": 1,
+          "example_source": "private/ntos/vdm/i386/genvdmtb.c"
+        },
+        {
+          "path": "nti386.h",
+          "refs": 1,
+          "example_source": "private/ntos/vdm/i386/genvdmtb.c"
+        },
+        {
+          "path": "8514alog.h",
+          "refs": 1,
+          "example_source": "private/ntos/video/8514a/8514a.c"
+        },
+        {
+          "path": "qvlog.h",
+          "refs": 1,
+          "example_source": "private/ntos/video/compaq.qv/qvision.c"
+        },
+        {
+          "path": "mgainfo.h",
+          "refs": 1,
+          "example_source": "private/ntos/video/mga/mtxinit.c"
+        },
+        {
+          "path": "vgadac.h",
+          "refs": 1,
+          "example_source": "private/ntos/video/mga/mtxvideo.c"
+        },
+        {
+          "path": "ENC_REG.h",
+          "refs": 1,
+          "example_source": "private/ntos/video/mga/mtxvpro.c"
+        },
+        {
+          "path": "vdm.h",
+          "refs": 1,
+          "example_source": "private/ntos/video/port/i386/porti386.c"
+        },
+        {
+          "path": "s3logerr.h",
+          "refs": 1,
+          "example_source": "private/ntos/video/s3/s3.c"
+        },
+        {
+          "path": "builtins",
+          "refs": 1,
+          "example_source": "private/ntos/video/tga/tga_comm.c"
+        },
+        {
+          "path": "ints",
+          "refs": 1,
+          "example_source": "private/ntos/video/tga/tga_comm.c"
+        },
+        {
+          "path": "stdarg",
+          "refs": 1,
+          "example_source": "private/ntos/video/tga/tga_comm.c"
+        },
+        {
+          "path": "stddef",
+          "refs": 1,
+          "example_source": "private/ntos/video/tga/tga_comm.c"
+        },
+        {
+          "path": "tga_data.c",
+          "refs": 1,
+          "example_source": "private/ntos/video/tga/tga_comm.c"
+        },
+        {
+          "path": "tga_vms.h",
+          "refs": 1,
+          "example_source": "private/ntos/video/tga/tga_comm.c"
+        },
+        {
+          "path": "xgaloger.h",
+          "refs": 1,
+          "example_source": "private/ntos/video/xga/xga.c"
+        },
+        {
+          "path": "cpl.h",
+          "refs": 1,
+          "example_source": "private/ntos/w32/ntcon/client/dllinit.c"
+        },
+        {
+          "path": "c:\\nt\\private\\ntos\\w32\\ntuser\\inc\\ntuser.h",
+          "refs": 1,
+          "example_source": "private/ntos/w32/ntgdi/apps/gdistats/gdistats.c"
+        },
+        {
+          "path": "ddraw16.h",
+          "refs": 1,
+          "example_source": "private/ntos/w32/ntgdi/direct/ddraw/cliprgn.c"
+        },
+        {
+          "path": "initguid.h",
+          "refs": 1,
+          "example_source": "private/ntos/w32/ntgdi/direct/ddraw/dllmain.c"
+        },
+        {
+          "path": "MapString.h",
+          "refs": 1,
+          "example_source": "private/ntos/w32/ntgdi/fondrv/tt/scaler/sfntaccs.c"
+        },
+        {
+          "path": "dlgs.h",
+          "refs": 1,
+          "example_source": "private/ntos/w32/ntgdi/halftone/htui/htuimain.c"
+        },
+        {
+          "path": "mapping.h",
+          "refs": 1,
+          "example_source": "private/ntos/w32/ntgdi/printers/psprint/pscript/afm/afm.c"
+        },
+        {
+          "path": "afm.h",
+          "refs": 1,
+          "example_source": "private/ntos/w32/ntgdi/printers/psprint/pscript/afm/afm.c"
+        },
+        {
+          "path": "nddeagnt.h",
+          "refs": 1,
+          "example_source": "private/ntos/w32/ntuser/client/connect.c"
+        },
+        {
+          "path": "csuser.h",
+          "refs": 1,
+          "example_source": "private/ntos/w32/ntuser/client/perf.c"
+        },
+        {
+          "path": "stdexts.c",
+          "refs": 1,
+          "example_source": "private/ntos/w32/ntuser/kdexts/userexts.c"
+        },
+        {
+          "path": "dbt.h",
+          "refs": 1,
+          "example_source": "private/ntos/w32/ntuser/server/server.c"
+        },
+        {
+          "path": "afd.h",
+          "refs": 1,
+          "example_source": "private/ntos/afd/afdp.h"
+        },
+        {
+          "path": "Bowser.h",
+          "refs": 1,
+          "example_source": "private/ntos/bowser/daytona/precomp.h"
+        },
+        {
+          "path": "Cd.h",
+          "refs": 1,
+          "example_source": "private/ntos/cdfs/cdprocs.h"
+        },
+        {
+          "path": "CdStruc.h",
+          "refs": 1,
+          "example_source": "private/ntos/cdfs/cdprocs.h"
+        },
+        {
+          "path": "Ntfs.h",
+          "refs": 1,
+          "example_source": "private/ntos/cntfs/ntfsproc.h"
+        },
+        {
+          "path": "NtfsStru.h",
+          "refs": 1,
+          "example_source": "private/ntos/cntfs/ntfsproc.h"
+        },
+        {
+          "path": "NtfsLog.h",
+          "refs": 1,
+          "example_source": "private/ntos/cntfs/ntfsproc.h"
+        },
+        {
+          "path": "propset.h",
+          "refs": 1,
+          "example_source": "private/ntos/cntfs/views/viewprop.h"
+        },
+        {
+          "path": "digilog.h",
+          "refs": 1,
+          "example_source": "private/ntos/dd/digibrd/fep5/header.h"
+        },
+        {
+          "path": "mdmlog.h",
+          "refs": 1,
+          "example_source": "private/ntos/dd/modem/precomp.h"
+        },
+        {
+          "path": "message.h",
+          "refs": 1,
+          "example_source": "private/ntos/dd/pnpisa/busp.h"
+        },
+        {
+          "path": "serlog.h",
+          "refs": 1,
+          "example_source": "private/ntos/dd/serial/precomp.h"
+        },
+        {
+          "path": "cs423x.h",
+          "refs": 1,
+          "example_source": "private/ntos/dd/sound/cs423x/common.h"
+        },
+        {
+          "path": "mvaudio.h",
+          "refs": 1,
+          "example_source": "private/ntos/dd/sound/mvaudio/sound.h"
+        },
+        {
+          "path": "ntdddlc.h",
+          "refs": 1,
+          "example_source": "private/ntos/dlc/dlc.h"
+        },
+        {
+          "path": "Fat.h",
+          "refs": 1,
+          "example_source": "private/ntos/fastfat/fatprocs.h"
+        },
+        {
+          "path": "Lfn.h",
+          "refs": 1,
+          "example_source": "private/ntos/fastfat/fatprocs.h"
+        },
+        {
+          "path": "Cvf.h",
+          "refs": 1,
+          "example_source": "private/ntos/fastfat/fatprocs.h"
+        },
+        {
+          "path": "FatStruc.h",
+          "refs": 1,
+          "example_source": "private/ntos/fastfat/fatprocs.h"
+        },
+        {
+          "path": "\\nt\\private\\ntos\\fw\\alpha\\jensen\\alpha\\machdef.h",
+          "refs": 1,
+          "example_source": "private/ntos/fw/alpha/jnsnprom.h"
+        },
+        {
+          "path": "\\nt\\private\\ntos\\fw\\alpha\\morgan\\alpha\\machdef.h",
+          "refs": 1,
+          "example_source": "private/ntos/fw/alpha/jnsnprom.h"
+        },
+        {
+          "path": "LfsDisk.h",
+          "refs": 1,
+          "example_source": "private/ntos/lfs/lfsprocs.h"
+        },
+        {
+          "path": "LfsStruc.h",
+          "refs": 1,
+          "example_source": "private/ntos/lfs/lfsprocs.h"
+        },
+        {
+          "path": "al4000hs.h",
+          "refs": 1,
+          "example_source": "private/ntos/miniport/always/adapters.h"
+        },
+        {
+          "path": "al4000is.h",
+          "refs": 1,
+          "example_source": "private/ntos/miniport/always/adapters.h"
+        },
+        {
+          "path": "ncrevals.h",
+          "refs": 1,
+          "example_source": "private/ntos/miniport/always/adapters.h"
+        },
+        {
+          "path": "al7000s.h",
+          "refs": 1,
+          "example_source": "private/ntos/miniport/always/adapters.h"
+        },
+        {
+          "path": "eval7x0s.h",
+          "refs": 1,
+          "example_source": "private/ntos/miniport/always/adapters.h"
+        },
+        {
+          "path": "msdrvenv.h",
+          "refs": 1,
+          "example_source": "private/ntos/miniport/always/environ.h"
+        },
+        {
+          "path": "msdosenv.h",
+          "refs": 1,
+          "example_source": "private/ntos/miniport/always/environ.h"
+        },
+        {
+          "path": "scounix.h",
+          "refs": 1,
+          "example_source": "private/ntos/miniport/always/environ.h"
+        },
+        {
+          "path": "nw386.h",
+          "refs": 1,
+          "example_source": "private/ntos/miniport/always/environ.h"
+        },
+        {
+          "path": "inline.h",
+          "refs": 1,
+          "example_source": "private/ntos/miniport/always/environ.h"
+        },
+        {
+          "path": "aspimacs.h",
+          "refs": 1,
+          "example_source": "private/ntos/miniport/always/environ.h"
+        },
+        {
+          "path": "inwaspi.h",
+          "refs": 1,
+          "example_source": "private/ntos/miniport/always/environ.h"
+        },
+        {
+          "path": "rtkenv.h",
+          "refs": 1,
+          "example_source": "private/ntos/miniport/always/environ.h"
+        },
+        {
+          "path": "rtk.h",
+          "refs": 1,
+          "example_source": "private/ntos/miniport/always/environ.h"
+        },
+        {
+          "path": "rtklib.h",
+          "refs": 1,
+          "example_source": "private/ntos/miniport/always/environ.h"
+        },
+        {
+          "path": "pim.h",
+          "refs": 1,
+          "example_source": "private/ntos/miniport/always/environ.h"
+        },
+        {
+          "path": "haaspi.h",
+          "refs": 1,
+          "example_source": "private/ntos/miniport/always/environ.h"
+        },
+        {
+          "path": "smartha.h",
+          "refs": 1,
+          "example_source": "private/ntos/miniport/always/environ.h"
+        },
+        {
+          "path": "gluon.h",
+          "refs": 1,
+          "example_source": "private/ntos/mup/dfsgluon.h"
+        },
+        {
+          "path": "vmm.h",
+          "refs": 1,
+          "example_source": "private/ntos/nbt/inc/vxdprocs.h"
+        },
+        {
+          "path": "wanpub.h",
+          "refs": 1,
+          "example_source": "private/ntos/ndis/ndiswan/wan.h"
+        },
+        {
+          "path": "Ntos.h",
+          "refs": 1,
+          "example_source": "private/ntos/npfs/npprocs.h"
+        },
+        {
+          "path": "String.h",
+          "refs": 1,
+          "example_source": "private/ntos/npfs/npprocs.h"
+        },
+        {
+          "path": "NodeType.h",
+          "refs": 1,
+          "example_source": "private/ntos/npfs/npprocs.h"
+        },
+        {
+          "path": "NpStruc.h",
+          "refs": 1,
+          "example_source": "private/ntos/npfs/npprocs.h"
+        },
+        {
+          "path": "halx86\\i386\\ixisa.h",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halcbus/i386/ixisa.h"
+        },
+        {
+          "path": "halx86\\i386\\ixkdcom.h",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halcbus/i386/ixkdcom.h"
+        },
+        {
+          "path": "halmca\\i386\\ixmca.h",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halcbus/i386/ixmca.h"
+        },
+        {
+          "path": "DESKdef.h",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halsni4x/mips/snidef.h"
+        },
+        {
+          "path": "MINIdef.h",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halsni4x/mips/snidef.h"
+        },
+        {
+          "path": "RawStruc.h",
+          "refs": 1,
+          "example_source": "private/ntos/raw/rawprocs.h"
+        },
+        {
+          "path": "ntddrdr.h",
+          "refs": 1,
+          "example_source": "private/ntos/rdr/rdr.h"
+        },
+        {
+          "path": "i386\\ntrtl386.h",
+          "refs": 1,
+          "example_source": "private/ntos/rtl/ntrtlp.h"
+        },
+        {
+          "path": "ppc\\ntrtlppc.h",
+          "refs": 1,
+          "example_source": "private/ntos/rtl/ntrtlp.h"
+        },
+        {
+          "path": "xactsrv2.h",
+          "refs": 1,
+          "example_source": "private/ntos/srv/precomp.h"
+        },
+        {
+          "path": "alertmsg.h",
+          "refs": 1,
+          "example_source": "private/ntos/srv/precomp.h"
+        },
+        {
+          "path": "msgtext.h",
+          "refs": 1,
+          "example_source": "private/ntos/srv/precomp.h"
+        },
+        {
+          "path": "srvfsctl.h",
+          "refs": 1,
+          "example_source": "private/ntos/srv/precomp.h"
+        },
+        {
+          "path": "peg.h",
+          "refs": 1,
+          "example_source": "private/ntos/tdi/irda/inc/oscfg.h"
+        },
+        {
+          "path": "ipxtfflt.h",
+          "refs": 1,
+          "example_source": "private/ntos/tdi/isn/flt/precomp.h"
+        },
+        {
+          "path": "hipxmib.h",
+          "refs": 1,
+          "example_source": "private/ntos/tdi/isn/ipx/ipxtypes.h"
+        },
+        {
+          "path": "mgakrnl.h",
+          "refs": 1,
+          "example_source": "private/ntos/video/mga_mil/bind.h"
+        },
+        {
+          "path": "osf_defs.h",
+          "refs": 1,
+          "example_source": "private/ntos/video/tga/tga_comm.h"
+        },
+        {
+          "path": "sys/workstation.h",
+          "refs": 1,
+          "example_source": "private/ntos/video/tga/tga_comm.h"
+        },
+        {
+          "path": "sys/inputdevice.h",
+          "refs": 1,
+          "example_source": "private/ntos/video/tga/tga_comm.h"
+        },
+        {
+          "path": "sys/wsdevice.h",
+          "refs": 1,
+          "example_source": "private/ntos/video/tga/tga_comm.h"
+        },
+        {
+          "path": "io/common/devdriver.h",
+          "refs": 1,
+          "example_source": "private/ntos/video/tga/tga_comm.h"
+        },
+        {
+          "path": "port1632.h",
+          "refs": 1,
+          "example_source": "private/ntos/w32/ntcon/server/precomp.h"
+        },
+        {
+          "path": "winnt.h",
+          "refs": 1,
+          "example_source": "private/ntos/w32/ntgdi/direct/blitlib/ntblt.h"
+        },
+        {
+          "path": "ntkmode.h",
+          "refs": 1,
+          "example_source": "private/ntos/w32/ntgdi/direct/blitlib/ntblt.h"
+        },
+        {
+          "path": "pbt.h",
+          "refs": 1,
+          "example_source": "private/ntos/w32/ntgdi/direct/ddraw/ddrawpr.h"
+        },
+        {
+          "path": "mmosa.h",
+          "refs": 1,
+          "example_source": "private/ntos/w32/ntgdi/direct/ddraw/mmdd.h"
+        },
+        {
+          "path": "mmhal.h",
+          "refs": 1,
+          "example_source": "private/ntos/w32/ntgdi/direct/ddraw/mmdd.h"
+        },
+        {
+          "path": "drivers.h",
+          "refs": 1,
+          "example_source": "private/ntos/w32/ntgdi/direct/ddraw/mmdd.h"
+        },
+        {
+          "path": "mcdrv.h",
+          "refs": 1,
+          "example_source": "private/ntos/w32/ntgdi/displays/mga/precomp.h"
+        },
+        {
+          "path": "ppc\\ladj.h",
+          "refs": 1,
+          "example_source": "private/ntos/w32/ntgdi/displays/psidisp/driver.h"
+        },
+        {
+          "path": "-ed as the first statement in\n\t\t\t",
+          "refs": 1,
+          "example_source": "private/ntos/w32/ntgdi/fondrv/tt/scaler/fsconfig.h"
+        },
+        {
+          "path": "SFNTOFF.H",
+          "refs": 1,
+          "example_source": "private/ntos/w32/ntgdi/fondrv/tt/ttfd/tt.h"
+        },
+        {
+          "path": ".\\hlp\\helpid.h",
+          "refs": 1,
+          "example_source": "private/ntos/w32/ntgdi/printers/hprasdd/hp5si/ui/hp5sipch.h"
+        },
+        {
+          "path": "afxwin.h",
+          "refs": 1,
+          "example_source": "private/ntos/w32/ntgdi/test/ft/precomp.h"
+        },
+        {
+          "path": "stack.hxx",
+          "refs": 1,
+          "example_source": "private/ntos/w32/ntgdi/test/ft/precomp.h"
+        },
+        {
+          "path": "winnls32.h",
+          "refs": 1,
+          "example_source": "private/ntos/w32/ntuser/inc/immstruc.h"
+        },
+        {
+          "path": "propvar.h",
+          "refs": 1,
+          "example_source": "private/ntos/cntfs/tests/proptest.cxx"
+        },
+        {
+          "path": "memser.hxx",
+          "refs": 1,
+          "example_source": "private/ntos/dll/pch.cxx"
+        },
+        {
+          "path": "memdeser.hxx",
+          "refs": 1,
+          "example_source": "private/ntos/dll/pch.cxx"
+        },
+        {
+          "path": "propmac.hxx",
+          "refs": 1,
+          "example_source": "private/ntos/dll/pch.cxx"
+        },
+        {
+          "path": "gldrv.h",
+          "refs": 1,
+          "example_source": "private/ntos/w32/ntgdi/gre/print.cxx"
+        }
+      ]
+    },
+    "relative_path": {
+      "count": 1328,
+      "items": [
+        {
+          "path": "..\\modinit.c",
+          "refs": 52,
+          "example_source": "private/ntos/w32/ntgdi/printers/rasprint/mini/brhj770/code.c"
+        },
+        {
+          "path": "..\\drivesup.c",
+          "refs": 45,
+          "example_source": "private/ntos/nthals/hal0jens/drivesup.c"
+        },
+        {
+          "path": "..\\halalpha\\adjust.c",
+          "refs": 17,
+          "example_source": "private/ntos/nthals/halalcor/alpha/adjust.c"
+        },
+        {
+          "path": "..\\halalpha\\allstart.c",
+          "refs": 17,
+          "example_source": "private/ntos/nthals/halalcor/alpha/allstart.c"
+        },
+        {
+          "path": "..\\halalpha\\bios.c",
+          "refs": 17,
+          "example_source": "private/ntos/nthals/halalcor/alpha/bios.c"
+        },
+        {
+          "path": "..\\halalpha\\cache.c",
+          "refs": 17,
+          "example_source": "private/ntos/nthals/halalcor/alpha/cache.c"
+        },
+        {
+          "path": "..\\halalpha\\fwreturn.c",
+          "refs": 17,
+          "example_source": "private/ntos/nthals/halalcor/alpha/fwreturn.c"
+        },
+        {
+          "path": "..\\halalpha\\haldebug.c",
+          "refs": 17,
+          "example_source": "private/ntos/nthals/halalcor/alpha/haldebug.c"
+        },
+        {
+          "path": "..\\halalpha\\info.c",
+          "refs": 17,
+          "example_source": "private/ntos/nthals/halalcor/alpha/info.c"
+        },
+        {
+          "path": "..\\halalpha\\memory.c",
+          "refs": 17,
+          "example_source": "private/ntos/nthals/halalcor/alpha/memory.c"
+        },
+        {
+          "path": "..\\halalpha\\pcserial.c",
+          "refs": 17,
+          "example_source": "private/ntos/nthals/halalcor/alpha/pcserial.c"
+        },
+        {
+          "path": "..\\halalpha\\pcspeakr.c",
+          "refs": 17,
+          "example_source": "private/ntos/nthals/halalcor/alpha/pcspeakr.c"
+        },
+        {
+          "path": "..\\halalpha\\vga.c",
+          "refs": 17,
+          "example_source": "private/ntos/nthals/halalcor/alpha/vga.c"
+        },
+        {
+          "path": "..\\halalpha\\ebsgdma.c",
+          "refs": 16,
+          "example_source": "private/ntos/nthals/halalcor/alpha/ebsgdma.c"
+        },
+        {
+          "path": "..\\halalpha\\eisasup.c",
+          "refs": 16,
+          "example_source": "private/ntos/nthals/halalcor/alpha/eisasup.c"
+        },
+        {
+          "path": "..\\halalpha\\pcisup.c",
+          "refs": 16,
+          "example_source": "private/ntos/nthals/halalcor/alpha/pcisup.c"
+        },
+        {
+          "path": "..\\halalpha\\pcrtc.c",
+          "refs": 16,
+          "example_source": "private/ntos/nthals/halalcor/alpha/pcrtc.c"
+        },
+        {
+          "path": "..\\halalpha\\environ.c",
+          "refs": 14,
+          "example_source": "private/ntos/nthals/halalcor/alpha/environ.c"
+        },
+        {
+          "path": "..\\halalpha\\perfcntr.c",
+          "refs": 14,
+          "example_source": "private/ntos/nthals/halalcor/alpha/perfcntr.c"
+        },
+        {
+          "path": "..\\halalpha\\ev4prof.c",
+          "refs": 11,
+          "example_source": "private/ntos/nthals/hal0jens/alpha/ev4prof.c"
+        },
+        {
+          "path": "..\\halalpha\\inithal.c",
+          "refs": 11,
+          "example_source": "private/ntos/nthals/halalp/alpha/inithal.c"
+        },
+        {
+          "path": "..\\halalpha\\apecs.c",
+          "refs": 10,
+          "example_source": "private/ntos/nthals/halalcor/alpha/apecs.c"
+        },
+        {
+          "path": "..\\halalpha\\apecserr.c",
+          "refs": 10,
+          "example_source": "private/ntos/nthals/halalcor/alpha/apecserr.c"
+        },
+        {
+          "path": "..\\halalpha\\ev4cache.c",
+          "refs": 10,
+          "example_source": "private/ntos/nthals/halalp/alpha/ev4cache.c"
+        },
+        {
+          "path": "..\\halalpha\\ev4int.c",
+          "refs": 10,
+          "example_source": "private/ntos/nthals/halalp/alpha/ev4int.c"
+        },
+        {
+          "path": "..\\halalpha\\ioproc.c",
+          "refs": 10,
+          "example_source": "private/ntos/nthals/halalp/alpha/ioproc.c"
+        },
+        {
+          "path": "..\\halalpha\\iousage.c",
+          "refs": 10,
+          "example_source": "private/ntos/nthals/halalp/alpha/iousage.c"
+        },
+        {
+          "path": "..\\halalpha\\cmos8k.c",
+          "refs": 9,
+          "example_source": "private/ntos/nthals/halalcor/alpha/cmos8k.c"
+        },
+        {
+          "path": "..\\lib\\ftapi.h",
+          "refs": 8,
+          "example_source": "private/ntos/dd/ftapi/disolve/disolve.c"
+        },
+        {
+          "path": "..\\halx86\\i386\\ixbusdat.c",
+          "refs": 8,
+          "example_source": "private/ntos/nthals/hal486c/i386/ixbusdat.c"
+        },
+        {
+          "path": "..\\halx86\\i386\\ixdat.c",
+          "refs": 8,
+          "example_source": "private/ntos/nthals/hal486c/i386/ixdat.c"
+        },
+        {
+          "path": "..\\halx86\\i386\\ixenvirv.c",
+          "refs": 8,
+          "example_source": "private/ntos/nthals/hal486c/i386/ixenvirv.c"
+        },
+        {
+          "path": "..\\halx86\\i386\\ixhwsup.c",
+          "refs": 8,
+          "example_source": "private/ntos/nthals/hal486c/i386/ixhwsup.c"
+        },
+        {
+          "path": "..\\halx86\\i386\\ixinfo.c",
+          "refs": 8,
+          "example_source": "private/ntos/nthals/hal486c/i386/ixinfo.c"
+        },
+        {
+          "path": "..\\halx86\\i386\\ixisabus.c",
+          "refs": 8,
+          "example_source": "private/ntos/nthals/hal486c/i386/ixisabus.c"
+        },
+        {
+          "path": "..\\halx86\\i386\\ixisasup.c",
+          "refs": 8,
+          "example_source": "private/ntos/nthals/hal486c/i386/ixisasup.c"
+        },
+        {
+          "path": "..\\halx86\\i386\\ixkdcom.c",
+          "refs": 8,
+          "example_source": "private/ntos/nthals/hal486c/i386/ixkdcom.c"
+        },
+        {
+          "path": "..\\halx86\\i386\\ixphwsup.c",
+          "refs": 8,
+          "example_source": "private/ntos/nthals/hal486c/i386/ixphwsup.c"
+        },
+        {
+          "path": "..\\halx86\\i386\\ixthunk.c",
+          "refs": 8,
+          "example_source": "private/ntos/nthals/hal486c/i386/ixthunk.c"
+        },
+        {
+          "path": "..\\halx86\\i386\\ixusage.c",
+          "refs": 8,
+          "example_source": "private/ntos/nthals/hal486c/i386/ixusage.c"
+        },
+        {
+          "path": "..\\halx86\\i386\\xxbiosc.c",
+          "refs": 8,
+          "example_source": "private/ntos/nthals/hal486c/i386/xxbiosc.c"
+        },
+        {
+          "path": "..\\halx86\\i386\\xxdisp.c",
+          "refs": 8,
+          "example_source": "private/ntos/nthals/hal486c/i386/xxdisp.c"
+        },
+        {
+          "path": "..\\halx86\\i386\\xxkdsup.c",
+          "refs": 8,
+          "example_source": "private/ntos/nthals/hal486c/i386/xxkdsup.c"
+        },
+        {
+          "path": "..\\halx86\\i386\\xxmemory.c",
+          "refs": 8,
+          "example_source": "private/ntos/nthals/hal486c/i386/xxmemory.c"
+        },
+        {
+          "path": "..\\halx86\\i386\\xxstubs.c",
+          "refs": 8,
+          "example_source": "private/ntos/nthals/hal486c/i386/xxstubs.c"
+        },
+        {
+          "path": "..\\halx86\\i386\\xxtime.c",
+          "refs": 8,
+          "example_source": "private/ntos/nthals/hal486c/i386/xxtime.c"
+        },
+        {
+          "path": "..\\bushnd.c",
+          "refs": 8,
+          "example_source": "private/ntos/nthals/halcbus/bushnd.c"
+        },
+        {
+          "path": "..\\halx86\\i386\\halp.h",
+          "refs": 8,
+          "example_source": "private/ntos/nthals/hal486c/i386/halp.h"
+        },
+        {
+          "path": "..\\..\\source\\cardutil.c",
+          "refs": 7,
+          "example_source": "private/ntos/miniport/trantor/winnt/t128/cardutil.c"
+        },
+        {
+          "path": "..\\..\\source\\n5380.c",
+          "refs": 7,
+          "example_source": "private/ntos/miniport/trantor/winnt/t128/n5380.c"
+        },
+        {
+          "path": "..\\..\\source\\scsifnc.c",
+          "refs": 7,
+          "example_source": "private/ntos/miniport/trantor/winnt/t128/scsifnc.c"
+        },
+        {
+          "path": "..\\..\\source\\trantor.c",
+          "refs": 7,
+          "example_source": "private/ntos/miniport/trantor/winnt/t128/trantor.c"
+        },
+        {
+          "path": "..\\halx86\\i386\\ixfirm.c",
+          "refs": 7,
+          "example_source": "private/ntos/nthals/hal486c/i386/ixfirm.c"
+        },
+        {
+          "path": "..\\halx86\\i386\\ixreboot.c",
+          "refs": 7,
+          "example_source": "private/ntos/nthals/hal486c/i386/ixreboot.c"
+        },
+        {
+          "path": "..\\halx86\\i386\\xxflshbf.c",
+          "refs": 7,
+          "example_source": "private/ntos/nthals/hal486c/i386/xxflshbf.c"
+        },
+        {
+          "path": "..\\halalpha\\ev5cache.c",
+          "refs": 7,
+          "example_source": "private/ntos/nthals/halalcor/alpha/ev5cache.c"
+        },
+        {
+          "path": "..\\halalpha\\ev5int.c",
+          "refs": 7,
+          "example_source": "private/ntos/nthals/halalcor/alpha/ev5int.c"
+        },
+        {
+          "path": "..\\halalpha\\ev5mchk.c",
+          "refs": 7,
+          "example_source": "private/ntos/nthals/halalcor/alpha/ev5mchk.c"
+        },
+        {
+          "path": "..\\halalpha\\ev5prof.c",
+          "refs": 7,
+          "example_source": "private/ntos/nthals/halalcor/alpha/ev5prof.c"
+        },
+        {
+          "path": "..\\halalpha\\ev4mchk.c",
+          "refs": 7,
+          "example_source": "private/ntos/nthals/halalp/alpha/ev4mchk.c"
+        },
+        {
+          "path": "..\\halalpha\\pcisio.c",
+          "refs": 7,
+          "example_source": "private/ntos/nthals/halalp/alpha/pcisio.c"
+        },
+        {
+          "path": "..\\halalpha\\nvenv.c",
+          "refs": 7,
+          "example_source": "private/ntos/nthals/haleb164/alpha/nvenv.c"
+        },
+        {
+          "path": "..\\halalpha\\nvram.c",
+          "refs": 7,
+          "example_source": "private/ntos/nthals/haleb164/alpha/nvram.c"
+        },
+        {
+          "path": "..\\halx86\\i386\\ixisa.h",
+          "refs": 7,
+          "example_source": "private/ntos/nthals/hal486c/i386/ixisa.h"
+        },
+        {
+          "path": "..\\halx86\\i386\\ixkdcom.h",
+          "refs": 7,
+          "example_source": "private/ntos/nthals/hal486c/i386/ixkdcom.h"
+        },
+        {
+          "path": "..\\..\\source\\portio.c",
+          "refs": 6,
+          "example_source": "private/ntos/miniport/trantor/winnt/t13b/portio.c"
+        },
+        {
+          "path": "..\\halx86\\i386\\halnls.h",
+          "refs": 6,
+          "example_source": "private/ntos/nthals/hal486c/i386/halnls.h"
+        },
+        {
+          "path": "..\\halx86\\i386\\pcip.h",
+          "refs": 6,
+          "example_source": "private/ntos/nthals/hal486c/i386/pcip.h"
+        },
+        {
+          "path": "..\\halx86\\i386\\ixnmi.c",
+          "refs": 5,
+          "example_source": "private/ntos/nthals/hal486c/i386/ixnmi.c"
+        },
+        {
+          "path": "..\\halx86\\i386\\ixpcibus.c",
+          "refs": 5,
+          "example_source": "private/ntos/nthals/hal486c/i386/ixpcibus.c"
+        },
+        {
+          "path": "..\\halx86\\i386\\ixpciint.c",
+          "refs": 5,
+          "example_source": "private/ntos/nthals/hal486c/i386/ixpciint.c"
+        },
+        {
+          "path": "..\\halx86\\i386\\xxhal.c",
+          "refs": 5,
+          "example_source": "private/ntos/nthals/hal486c/i386/xxhal.c"
+        },
+        {
+          "path": "..\\halalpha\\cia.c",
+          "refs": 5,
+          "example_source": "private/ntos/nthals/halalcor/alpha/cia.c"
+        },
+        {
+          "path": "..\\halalpha\\ciaaddr.c",
+          "refs": 5,
+          "example_source": "private/ntos/nthals/halalcor/alpha/ciaaddr.c"
+        },
+        {
+          "path": "../halalpha/28f008sa.c",
+          "refs": 5,
+          "example_source": "private/ntos/nthals/halalp/alpha/28f008sa.c"
+        },
+        {
+          "path": "../halalpha/29f040.c",
+          "refs": 5,
+          "example_source": "private/ntos/nthals/halalp/alpha/29f040.c"
+        },
+        {
+          "path": "..\\halfxs\\mips\\j4prof.c",
+          "refs": 5,
+          "example_source": "private/ntos/nthals/halduomp/mips/j4prof.c"
+        },
+        {
+          "path": "..\\halfxs\\mips\\jxmapio.c",
+          "refs": 5,
+          "example_source": "private/ntos/nthals/halduomp/mips/jxmapio.c"
+        },
+        {
+          "path": "..\\halfxs\\mips\\jxmaptb.c",
+          "refs": 5,
+          "example_source": "private/ntos/nthals/halduomp/mips/jxmaptb.c"
+        },
+        {
+          "path": "..\\halfxs\\mips\\jxport.c",
+          "refs": 5,
+          "example_source": "private/ntos/nthals/halduomp/mips/jxport.c"
+        },
+        {
+          "path": "..\\halfxs\\mips\\xxclock.c",
+          "refs": 5,
+          "example_source": "private/ntos/nthals/halduomp/mips/xxclock.c"
+        },
+        {
+          "path": "..\\halfxs\\mips\\xxinitnt.c",
+          "refs": 5,
+          "example_source": "private/ntos/nthals/halduomp/mips/xxinitnt.c"
+        },
+        {
+          "path": "..\\inc\\hali.h",
+          "refs": 5,
+          "example_source": "private/ntos/nthals/haleagle/ppc/halp.h"
+        },
+        {
+          "path": "..\\genxx.inc",
+          "refs": 4,
+          "example_source": "private/ntos/ke/alpha/genalpha.c"
+        },
+        {
+          "path": "..\\halx86\\i386\\ixpcibrd.c",
+          "refs": 4,
+          "example_source": "private/ntos/nthals/hal486c/i386/ixpcibrd.c"
+        },
+        {
+          "path": "..\\halx86\\i386\\ixsysbus.c",
+          "refs": 4,
+          "example_source": "private/ntos/nthals/hal486c/i386/ixsysbus.c"
+        },
+        {
+          "path": "..\\halalpha\\ciaerr.c",
+          "refs": 4,
+          "example_source": "private/ntos/nthals/halalcor/alpha/ciaerr.c"
+        },
+        {
+          "path": "..\\halalpha\\ciamapio.c",
+          "refs": 4,
+          "example_source": "private/ntos/nthals/halalcor/alpha/ciamapio.c"
+        },
+        {
+          "path": "..\\halalpha\\pciesc.c",
+          "refs": 4,
+          "example_source": "private/ntos/nthals/halalcor/alpha/pciesc.c"
+        },
+        {
+          "path": "..\\rangesup.c",
+          "refs": 4,
+          "example_source": "private/ntos/nthals/halcbus/rangesup.c"
+        },
+        {
+          "path": "..\\halalpha\\ev4parit.c",
+          "refs": 4,
+          "example_source": "private/ntos/nthals/haleb66/alpha/ev4parit.c"
+        },
+        {
+          "path": "..\\fw\\mips\\fwp.h",
+          "refs": 3,
+          "example_source": "private/ntos/boot/lib/scsiboot.c"
+        },
+        {
+          "path": "..\\i8042prt\\devdesc.c",
+          "refs": 3,
+          "example_source": "private/ntos/dd/busmouse/devdesc.c"
+        },
+        {
+          "path": "..\\..\\source\\parallel.c",
+          "refs": 3,
+          "example_source": "private/ntos/miniport/trantor/winnt/t338/parallel.c"
+        },
+        {
+          "path": "..\\..\\pnpbios\\i386\\pbios.h",
+          "refs": 3,
+          "example_source": "private/ntos/nthals/extender/pnpisa/i386/convert.c"
+        },
+        {
+          "path": "..\\..\\halppc\\ppc\\fwnvr.c",
+          "refs": 3,
+          "example_source": "private/ntos/nthals/halcaro/ppc/fwnvr.c"
+        },
+        {
+          "path": "..\\..\\halppc\\ppc\\pxbeep.c",
+          "refs": 3,
+          "example_source": "private/ntos/nthals/halcaro/ppc/pxbeep.c"
+        },
+        {
+          "path": "..\\..\\halppc\\ppc\\pxcalstl.c",
+          "refs": 3,
+          "example_source": "private/ntos/nthals/halcaro/ppc/pxcalstl.c"
+        },
+        {
+          "path": "..\\..\\halppc\\ppc\\pxclock.c",
+          "refs": 3,
+          "example_source": "private/ntos/nthals/halcaro/ppc/pxclock.c"
+        },
+        {
+          "path": "..\\..\\halppc\\ppc\\pxdat.c",
+          "refs": 3,
+          "example_source": "private/ntos/nthals/halcaro/ppc/pxdat.c"
+        },
+        {
+          "path": "..\\..\\halppc\\ppc\\pxdisp.c",
+          "refs": 3,
+          "example_source": "private/ntos/nthals/halcaro/ppc/pxdisp.c"
+        },
+        {
+          "path": "..\\..\\halppc\\ppc\\pxenviro.c",
+          "refs": 3,
+          "example_source": "private/ntos/nthals/halcaro/ppc/pxenviro.c"
+        },
+        {
+          "path": "..\\..\\halppc\\ppc\\pxflshio.c",
+          "refs": 3,
+          "example_source": "private/ntos/nthals/halcaro/ppc/pxflshio.c"
+        },
+        {
+          "path": "..\\..\\halppc\\ppc\\pxhwsup.c",
+          "refs": 3,
+          "example_source": "private/ntos/nthals/halcaro/ppc/pxhwsup.c"
+        },
+        {
+          "path": "..\\..\\halppc\\ppc\\pxinfo.c",
+          "refs": 3,
+          "example_source": "private/ntos/nthals/halcaro/ppc/pxinfo.c"
+        },
+        {
+          "path": "..\\..\\halppc\\ppc\\pxisabus.c",
+          "refs": 3,
+          "example_source": "private/ntos/nthals/halcaro/ppc/pxisabus.c"
+        },
+        {
+          "path": "..\\..\\halppc\\ppc\\pxmapio.c",
+          "refs": 3,
+          "example_source": "private/ntos/nthals/halcaro/ppc/pxmapio.c"
+        },
+        {
+          "path": "..\\..\\halppc\\ppc\\pxnatsup.c",
+          "refs": 3,
+          "example_source": "private/ntos/nthals/halcaro/ppc/pxnatsup.c"
+        },
+        {
+          "path": "..\\..\\halppc\\ppc\\pxpcibrd.c",
+          "refs": 3,
+          "example_source": "private/ntos/nthals/halcaro/ppc/pxpcibrd.c"
+        },
+        {
+          "path": "..\\..\\halppc\\ppc\\pxport.c",
+          "refs": 3,
+          "example_source": "private/ntos/nthals/halcaro/ppc/pxport.c"
+        },
+        {
+          "path": "..\\..\\halppc\\ppc\\pxproc.c",
+          "refs": 3,
+          "example_source": "private/ntos/nthals/halcaro/ppc/pxproc.c"
+        },
+        {
+          "path": "..\\..\\halppc\\ppc\\pxprof.c",
+          "refs": 3,
+          "example_source": "private/ntos/nthals/halcaro/ppc/pxprof.c"
+        },
+        {
+          "path": "..\\..\\halppc\\ppc\\pxreturn.c",
+          "refs": 3,
+          "example_source": "private/ntos/nthals/halcaro/ppc/pxreturn.c"
+        },
+        {
+          "path": "..\\..\\halppc\\ppc\\pxs3.c",
+          "refs": 3,
+          "example_source": "private/ntos/nthals/halcaro/ppc/pxs3.c"
+        },
+        {
+          "path": "..\\..\\halppc\\ppc\\pxtime.c",
+          "refs": 3,
+          "example_source": "private/ntos/nthals/halcaro/ppc/pxtime.c"
+        },
+        {
+          "path": "..\\..\\halppc\\ppc\\pxusage.c",
+          "refs": 3,
+          "example_source": "private/ntos/nthals/halcaro/ppc/pxusage.c"
+        },
+        {
+          "path": "..\\..\\halppc\\ppc\\pxwd.c",
+          "refs": 3,
+          "example_source": "private/ntos/nthals/halcaro/ppc/pxwd.c"
+        },
+        {
+          "path": "..\\..\\halppc\\ppc\\x86bios.c",
+          "refs": 3,
+          "example_source": "private/ntos/nthals/halcaro/ppc/x86bios.c"
+        },
+        {
+          "path": "..\\halfxs\\mips\\allstart.c",
+          "refs": 3,
+          "example_source": "private/ntos/nthals/halduomp/mips/allstart.c"
+        },
+        {
+          "path": "..\\halfxs\\mips\\j4flshio.c",
+          "refs": 3,
+          "example_source": "private/ntos/nthals/halduomp/mips/j4flshio.c"
+        },
+        {
+          "path": "..\\halfxs\\mips\\jxbeep.c",
+          "refs": 3,
+          "example_source": "private/ntos/nthals/halduomp/mips/jxbeep.c"
+        },
+        {
+          "path": "..\\halfxs\\mips\\jxenvirv.c",
+          "refs": 3,
+          "example_source": "private/ntos/nthals/halduomp/mips/jxenvirv.c"
+        },
+        {
+          "path": "..\\halfxs\\mips\\jxhwsup.c",
+          "refs": 3,
+          "example_source": "private/ntos/nthals/halduomp/mips/jxhwsup.c"
+        },
+        {
+          "path": "..\\halfxs\\mips\\jxreturn.c",
+          "refs": 3,
+          "example_source": "private/ntos/nthals/halduomp/mips/jxreturn.c"
+        },
+        {
+          "path": "..\\halfxs\\mips\\jxsysint.c",
+          "refs": 3,
+          "example_source": "private/ntos/nthals/halduomp/mips/jxsysint.c"
+        },
+        {
+          "path": "..\\halfxs\\mips\\jxtime.c",
+          "refs": 3,
+          "example_source": "private/ntos/nthals/halduomp/mips/jxtime.c"
+        },
+        {
+          "path": "..\\halfxs\\mips\\jxusage.c",
+          "refs": 3,
+          "example_source": "private/ntos/nthals/halduomp/mips/jxusage.c"
+        },
+        {
+          "path": "..\\halfxs\\mips\\x86bios.c",
+          "refs": 3,
+          "example_source": "private/ntos/nthals/halduomp/mips/x86bios.c"
+        },
+        {
+          "path": "..\\halfxs\\mips\\xxcalstl.c",
+          "refs": 3,
+          "example_source": "private/ntos/nthals/halduomp/mips/xxcalstl.c"
+        },
+        {
+          "path": "..\\halfxs\\mips\\xxinithl.c",
+          "refs": 3,
+          "example_source": "private/ntos/nthals/halduomp/mips/xxinithl.c"
+        },
+        {
+          "path": "..\\halalpha\\lca4.c",
+          "refs": 3,
+          "example_source": "private/ntos/nthals/haleb66/alpha/lca4.c"
+        },
+        {
+          "path": "..\\halalpha\\lca4err.c",
+          "refs": 3,
+          "example_source": "private/ntos/nthals/haleb66/alpha/lca4err.c"
+        },
+        {
+          "path": "..\\halalpha\\eeprom8k.c",
+          "refs": 3,
+          "example_source": "private/ntos/nthals/halgamma/alpha/eeprom8k.c"
+        },
+        {
+          "path": "..\\halalpha\\perf8254.c",
+          "refs": 3,
+          "example_source": "private/ntos/nthals/halgamma/alpha/perf8254.c"
+        },
+        {
+          "path": "..\\..\\lib\\devmode.c",
+          "refs": 3,
+          "example_source": "private/ntos/w32/ntgdi/printers/cheetah/lib/prnlib.c"
+        },
+        {
+          "path": "..\\..\\lib\\halftone.c",
+          "refs": 3,
+          "example_source": "private/ntos/w32/ntgdi/printers/cheetah/lib/prnlib.c"
+        },
+        {
+          "path": "..\\halfxs\\mips\\halp.h",
+          "refs": 3,
+          "example_source": "private/ntos/nthals/halduomp/mips/halp.h"
+        },
+        {
+          "path": "..\\halfxs\\mips\\jxhalp.h",
+          "refs": 3,
+          "example_source": "private/ntos/nthals/halduomp/mips/jxhalp.h"
+        },
+        {
+          "path": "..\\inc\\mapfile.h",
+          "refs": 3,
+          "example_source": "private/ntos/w32/ntgdi/client/precomp.h"
+        },
+        {
+          "path": "..\\fw\\alpha\\fwp.h",
+          "refs": 2,
+          "example_source": "private/ntos/boot/lib/scsidisk.c"
+        },
+        {
+          "path": "..\\..\\..\\..\\inc\\ntddvdm.h",
+          "refs": 2,
+          "example_source": "private/ntos/dd/parvdm/test/test.c"
+        },
+        {
+          "path": "..\\..\\source\\port.c",
+          "refs": 2,
+          "example_source": "private/ntos/miniport/trantor/winnt/t128/port.c"
+        },
+        {
+          "path": "..\\..\\source\\n53c400.c",
+          "refs": 2,
+          "example_source": "private/ntos/miniport/trantor/winnt/t13b/n53c400.c"
+        },
+        {
+          "path": "..\\..\\source\\t338.c",
+          "refs": 2,
+          "example_source": "private/ntos/miniport/trantor/winnt/t338/p3c.c"
+        },
+        {
+          "path": "../halalpha/flashdrv.c",
+          "refs": 2,
+          "example_source": "private/ntos/nthals/halalp/alpha/flashdrv.c"
+        },
+        {
+          "path": "..\\..\\halppc\\ppc\\pxbbl.c",
+          "refs": 2,
+          "example_source": "private/ntos/nthals/halcaro/ppc/pxbbl.c"
+        },
+        {
+          "path": "..\\..\\halppc\\ppc\\pxbl.c",
+          "refs": 2,
+          "example_source": "private/ntos/nthals/halcaro/ppc/pxbl.c"
+        },
+        {
+          "path": "..\\..\\halppc\\ppc\\pxbusdat.c",
+          "refs": 2,
+          "example_source": "private/ntos/nthals/halcaro/ppc/pxbusdat.c"
+        },
+        {
+          "path": "..\\..\\halppc\\ppc\\pxinithl.c",
+          "refs": 2,
+          "example_source": "private/ntos/nthals/halcaro/ppc/pxinithl.c"
+        },
+        {
+          "path": "..\\..\\halppc\\ppc\\pxirql.c",
+          "refs": 2,
+          "example_source": "private/ntos/nthals/halcaro/ppc/pxirql.c"
+        },
+        {
+          "path": "..\\..\\halppc\\ppc\\pxp91.c",
+          "refs": 2,
+          "example_source": "private/ntos/nthals/halcaro/ppc/pxp91.c"
+        },
+        {
+          "path": "..\\..\\halppc\\ppc\\pxpciint.c",
+          "refs": 2,
+          "example_source": "private/ntos/nthals/halcaro/ppc/pxpciint.c"
+        },
+        {
+          "path": "..\\halfxs\\mips\\jxdisp.c",
+          "refs": 2,
+          "example_source": "private/ntos/nthals/halduomp/mips/jxdisp.c"
+        },
+        {
+          "path": "..\\halfxs\\mips\\jxebsup.c",
+          "refs": 2,
+          "example_source": "private/ntos/nthals/halduomp/mips/jxebsup.c"
+        },
+        {
+          "path": "../halalpha/flash8k.c",
+          "refs": 2,
+          "example_source": "private/ntos/nthals/haleb164/alpha/flash8k.c"
+        },
+        {
+          "path": "..\\..\\halalpha\\cmos8k.c",
+          "refs": 2,
+          "example_source": "private/ntos/nthals/haleb64p/alpha/cmos8k.c"
+        },
+        {
+          "path": "..\\..\\halalpha\\flash8k.c",
+          "refs": 2,
+          "example_source": "private/ntos/nthals/haleb64p/alpha/flash8k.c"
+        },
+        {
+          "path": "..\\halalpha\\t2.c",
+          "refs": 2,
+          "example_source": "private/ntos/nthals/halgamma/alpha/t2.c"
+        },
+        {
+          "path": "..\\halalcor\\alpha\\inithal.c",
+          "refs": 2,
+          "example_source": "private/ntos/nthals/halpinna/alpha/inithal.c"
+        },
+        {
+          "path": "..\\..\\halppc\\ppc\\pxsysbus.c",
+          "refs": 2,
+          "example_source": "private/ntos/nthals/halvict/ppc/pxsysbus.c"
+        },
+        {
+          "path": "..\\..\\inc\\vdm.h",
+          "refs": 2,
+          "example_source": "private/ntos/vdm/i386/genvdmtb.c"
+        },
+        {
+          "path": "..\\..\\..\\..\\windows\\shell\\shelldll\\shlink.h",
+          "refs": 2,
+          "example_source": "private/ntos/w32/ntcon/server/link.c"
+        },
+        {
+          "path": "..\\..\\lib\\libproto.h",
+          "refs": 2,
+          "example_source": "private/ntos/w32/ntgdi/printers/cheetah/xlui/docprop.c"
+        },
+        {
+          "path": "..\\..\\lib\\um\\dqpfunc.c",
+          "refs": 2,
+          "example_source": "private/ntos/w32/ntgdi/printers/msplot/plotui/qryprint.c"
+        },
+        {
+          "path": "..\\userexts.c",
+          "refs": 2,
+          "example_source": "private/ntos/w32/ntuser/kdexts/kd/userexts.c"
+        },
+        {
+          "path": "..\\chartran.c",
+          "refs": 2,
+          "example_source": "private/ntos/w32/ntuser/rtl/client/chartran.c"
+        },
+        {
+          "path": "..\\debug.c",
+          "refs": 2,
+          "example_source": "private/ntos/w32/ntuser/rtl/client/debug.c"
+        },
+        {
+          "path": "..\\draw.c",
+          "refs": 2,
+          "example_source": "private/ntos/w32/ntuser/rtl/client/draw.c"
+        },
+        {
+          "path": "..\\drawtext.c",
+          "refs": 2,
+          "example_source": "private/ntos/w32/ntuser/rtl/client/drawtext.c"
+        },
+        {
+          "path": "..\\getset.c",
+          "refs": 2,
+          "example_source": "private/ntos/w32/ntuser/rtl/client/getset.c"
+        },
+        {
+          "path": "..\\help.c",
+          "refs": 2,
+          "example_source": "private/ntos/w32/ntuser/rtl/client/help.c"
+        },
+        {
+          "path": "..\\input.c",
+          "refs": 2,
+          "example_source": "private/ntos/w32/ntuser/rtl/client/input.c"
+        },
+        {
+          "path": "..\\menu.c",
+          "refs": 2,
+          "example_source": "private/ntos/w32/ntuser/rtl/client/menu.c"
+        },
+        {
+          "path": "..\\random.c",
+          "refs": 2,
+          "example_source": "private/ntos/w32/ntuser/rtl/client/random.c"
+        },
+        {
+          "path": "..\\rect.c",
+          "refs": 2,
+          "example_source": "private/ntos/w32/ntuser/rtl/client/rect.c"
+        },
+        {
+          "path": "..\\text.c",
+          "refs": 2,
+          "example_source": "private/ntos/w32/ntuser/rtl/client/text.c"
+        },
+        {
+          "path": "..\\winmgr.c",
+          "refs": 2,
+          "example_source": "private/ntos/w32/ntuser/rtl/client/winmgr.c"
+        },
+        {
+          "path": "..\\winprop.c",
+          "refs": 2,
+          "example_source": "private/ntos/w32/ntuser/rtl/client/winprop.c"
+        },
+        {
+          "path": "..\\wow.c",
+          "refs": 2,
+          "example_source": "private/ntos/w32/ntuser/rtl/client/wow.c"
+        },
+        {
+          "path": "..\\wsprintf.c",
+          "refs": 2,
+          "example_source": "private/ntos/w32/ntuser/rtl/client/wsprintf.c"
+        },
+        {
+          "path": "..\\math\\mips\\efloat.hxx",
+          "refs": 2,
+          "example_source": "private/ntos/w32/ntgdi/client/csxobj.hxx"
+        },
+        {
+          "path": "..\\math\\alpha\\efloat.hxx",
+          "refs": 2,
+          "example_source": "private/ntos/w32/ntgdi/client/csxobj.hxx"
+        },
+        {
+          "path": "..\\math\\ppc\\efloat.hxx",
+          "refs": 2,
+          "example_source": "private/ntos/w32/ntgdi/client/csxobj.hxx"
+        },
+        {
+          "path": "..\\math\\i386\\efloat.hxx",
+          "refs": 2,
+          "example_source": "private/ntos/w32/ntgdi/client/csxobj.hxx"
+        },
+        {
+          "path": "..\\..\\lib\\i386\\bootfont.h",
+          "refs": 1,
+          "example_source": "private/ntos/boot/bootfont/jpn/genfont.c"
+        },
+        {
+          "path": "..\\fw\\ppc\\fwp.h",
+          "refs": 1,
+          "example_source": "private/ntos/boot/lib/scsiboot.c"
+        },
+        {
+          "path": "..\\..\\fw\\alpha\\fwcallbk.h",
+          "refs": 1,
+          "example_source": "private/ntos/config/alpha/init.c"
+        },
+        {
+          "path": "..\\mips\\atd_conf.c",
+          "refs": 1,
+          "example_source": "private/ntos/dd/harddisk/alpha/atd_conf.c"
+        },
+        {
+          "path": "..\\parport2\\parallel.h",
+          "refs": 1,
+          "example_source": "private/ntos/dd/par1284/par1284.c"
+        },
+        {
+          "path": "..\\include\\public\\adi_api.h",
+          "refs": 1,
+          "example_source": "private/ntos/dd/qic117/cmd/tdump.c"
+        },
+        {
+          "path": "..\\include\\public\\frb_api.h",
+          "refs": 1,
+          "example_source": "private/ntos/dd/qic117/cmd/tdump.c"
+        },
+        {
+          "path": "..\\include\\public\\vendor.h",
+          "refs": 1,
+          "example_source": "private/ntos/dd/qic117/cmd/tdump.c"
+        },
+        {
+          "path": "..\\frb.h",
+          "refs": 1,
+          "example_source": "private/ntos/dd/qic117/cmd/tdump.c"
+        },
+        {
+          "path": "..\\soundsys\\config.c",
+          "refs": 1,
+          "example_source": "private/ntos/dd/sound/cs4231/config.c"
+        },
+        {
+          "path": "..\\soundsys\\controls.c",
+          "refs": 1,
+          "example_source": "private/ntos/dd/sound/cs4231/controls.c"
+        },
+        {
+          "path": "..\\soundsys\\devcaps.c",
+          "refs": 1,
+          "example_source": "private/ntos/dd/sound/cs4231/devcaps.c"
+        },
+        {
+          "path": "..\\soundsys\\hardware.c",
+          "refs": 1,
+          "example_source": "private/ntos/dd/sound/cs4231/hardware.c"
+        },
+        {
+          "path": "..\\soundsys\\init.c",
+          "refs": 1,
+          "example_source": "private/ntos/dd/sound/cs4231/init.c"
+        },
+        {
+          "path": "..\\soundsys\\isr.c",
+          "refs": 1,
+          "example_source": "private/ntos/dd/sound/cs4231/isr.c"
+        },
+        {
+          "path": "..\\soundsys\\mix_objs.c",
+          "refs": 1,
+          "example_source": "private/ntos/dd/sound/cs4231/mix_objs.c"
+        },
+        {
+          "path": "..\\soundsys\\mixer.c",
+          "refs": 1,
+          "example_source": "private/ntos/dd/sound/cs4231/mixer.c"
+        },
+        {
+          "path": "..\\mm\\mi.h",
+          "refs": 1,
+          "example_source": "private/ntos/ex/poolhack.c"
+        },
+        {
+          "path": "..\\..\\..\\inc\\alpha.h",
+          "refs": 1,
+          "example_source": "private/ntos/ex/sysinfo.c"
+        },
+        {
+          "path": "..\\miniport\\aha174x\\aha174x.h",
+          "refs": 1,
+          "example_source": "private/ntos/fw/alpha/jxdisp.c"
+        },
+        {
+          "path": "..\\..\\source\\cardt128.c",
+          "refs": 1,
+          "example_source": "private/ntos/miniport/trantor/winnt/t128/card.c"
+        },
+        {
+          "path": "..\\..\\source\\portmem.c",
+          "refs": 1,
+          "example_source": "private/ntos/miniport/trantor/winnt/t128/portmem.c"
+        },
+        {
+          "path": "..\\..\\source\\t128.c",
+          "refs": 1,
+          "example_source": "private/ntos/miniport/trantor/winnt/t128/t128.c"
+        },
+        {
+          "path": "..\\..\\source\\cardt13b.c",
+          "refs": 1,
+          "example_source": "private/ntos/miniport/trantor/winnt/t13b/card.c"
+        },
+        {
+          "path": "..\\..\\source\\cardt160.c",
+          "refs": 1,
+          "example_source": "private/ntos/miniport/trantor/winnt/t160/card.c"
+        },
+        {
+          "path": "..\\..\\source\\pc9010.c",
+          "refs": 1,
+          "example_source": "private/ntos/miniport/trantor/winnt/t160/pc9010.c"
+        },
+        {
+          "path": "..\\..\\source\\cardt338.c",
+          "refs": 1,
+          "example_source": "private/ntos/miniport/trantor/winnt/t338/card.c"
+        },
+        {
+          "path": "..\\..\\source\\cardt348.c",
+          "refs": 1,
+          "example_source": "private/ntos/miniport/trantor/winnt/t348/card.c"
+        },
+        {
+          "path": "..\\..\\source\\p3c.c",
+          "refs": 1,
+          "example_source": "private/ntos/miniport/trantor/winnt/t348/p3c.c"
+        },
+        {
+          "path": "..\\..\\source\\cardt358.c",
+          "refs": 1,
+          "example_source": "private/ntos/miniport/trantor/winnt/t358/card.c"
+        },
+        {
+          "path": "..\\..\\source\\ep3c.c",
+          "refs": 1,
+          "example_source": "private/ntos/miniport/trantor/winnt/t358/ep3c.c"
+        },
+        {
+          "path": "..\\..\\source\\sl386.c",
+          "refs": 1,
+          "example_source": "private/ntos/miniport/trantor/winnt/t358/sl386.c"
+        },
+        {
+          "path": "..\\..\\source\\cardtmv1.c",
+          "refs": 1,
+          "example_source": "private/ntos/miniport/trantor/winnt/tmv1/card.c"
+        },
+        {
+          "path": "..\\..\\source\\findpas.c",
+          "refs": 1,
+          "example_source": "private/ntos/miniport/trantor/winnt/tmv1/findpas.c"
+        },
+        {
+          "path": "..\\..\\source\\mv101.c",
+          "refs": 1,
+          "example_source": "private/ntos/miniport/trantor/winnt/tmv1/mv101.c"
+        },
+        {
+          "path": "..\\dc21x4\\alloc.c",
+          "refs": 1,
+          "example_source": "private/ntos/ndis/dc21x4.bc/alloc.c"
+        },
+        {
+          "path": "..\\dc21x4\\copy.c",
+          "refs": 1,
+          "example_source": "private/ntos/ndis/dc21x4.bc/copy.c"
+        },
+        {
+          "path": "..\\dc21x4\\dc21x4.c",
+          "refs": 1,
+          "example_source": "private/ntos/ndis/dc21x4.bc/dc21x4.c"
+        },
+        {
+          "path": "..\\dc21x4\\filter.c",
+          "refs": 1,
+          "example_source": "private/ntos/ndis/dc21x4.bc/filter.c"
+        },
+        {
+          "path": "..\\dc21x4\\init.c",
+          "refs": 1,
+          "example_source": "private/ntos/ndis/dc21x4.bc/init.c"
+        },
+        {
+          "path": "..\\dc21x4\\interrup.c",
+          "refs": 1,
+          "example_source": "private/ntos/ndis/dc21x4.bc/interrup.c"
+        },
+        {
+          "path": "..\\dc21x4\\mactophy.c",
+          "refs": 1,
+          "example_source": "private/ntos/ndis/dc21x4.bc/mactophy.c"
+        },
+        {
+          "path": "..\\dc21x4\\media.c",
+          "refs": 1,
+          "example_source": "private/ntos/ndis/dc21x4.bc/media.c"
+        },
+        {
+          "path": "..\\dc21x4\\miigen.c",
+          "refs": 1,
+          "example_source": "private/ntos/ndis/dc21x4.bc/miigen.c"
+        },
+        {
+          "path": "..\\dc21x4\\miiphy.c",
+          "refs": 1,
+          "example_source": "private/ntos/ndis/dc21x4.bc/miiphy.c"
+        },
+        {
+          "path": "..\\dc21x4\\monitor.c",
+          "refs": 1,
+          "example_source": "private/ntos/ndis/dc21x4.bc/monitor.c"
+        },
+        {
+          "path": "..\\dc21x4\\register.c",
+          "refs": 1,
+          "example_source": "private/ntos/ndis/dc21x4.bc/register.c"
+        },
+        {
+          "path": "..\\dc21x4\\request.c",
+          "refs": 1,
+          "example_source": "private/ntos/ndis/dc21x4.bc/request.c"
+        },
+        {
+          "path": "..\\dc21x4\\reset.c",
+          "refs": 1,
+          "example_source": "private/ntos/ndis/dc21x4.bc/reset.c"
+        },
+        {
+          "path": "..\\dc21x4\\send.c",
+          "refs": 1,
+          "example_source": "private/ntos/ndis/dc21x4.bc/send.c"
+        },
+        {
+          "path": "..\\dc21x4\\srom.c",
+          "refs": 1,
+          "example_source": "private/ntos/ndis/dc21x4.bc/srom.c"
+        },
+        {
+          "path": "..\\dc21x4\\transfer.c",
+          "refs": 1,
+          "example_source": "private/ntos/ndis/dc21x4.bc/transfer.c"
+        },
+        {
+          "path": "..\\..\\..\\inc\\ndis.h",
+          "refs": 1,
+          "example_source": "private/ntos/ndis/detect/driver/netdtect.c"
+        },
+        {
+          "path": "..\\elnkmc\\elnk.c",
+          "refs": 1,
+          "example_source": "private/ntos/ndis/elnk16/elnk16.c"
+        },
+        {
+          "path": "..\\elnkmc\\send.c",
+          "refs": 1,
+          "example_source": "private/ntos/ndis/elnk16/elnk16.c"
+        },
+        {
+          "path": "..\\elnkmc\\reset.c",
+          "refs": 1,
+          "example_source": "private/ntos/ndis/elnk16/elnk16.c"
+        },
+        {
+          "path": "..\\elnkmc\\transfer.c",
+          "refs": 1,
+          "example_source": "private/ntos/ndis/elnk16/elnk16.c"
+        },
+        {
+          "path": "..\\elnkmc\\interrup.c",
+          "refs": 1,
+          "example_source": "private/ntos/ndis/elnk16/elnk16.c"
+        },
+        {
+          "path": "..\\elnkmc\\request.c",
+          "refs": 1,
+          "example_source": "private/ntos/ndis/elnk16/elnk16.c"
+        },
+        {
+          "path": "..\\elnkmc\\loopback.c",
+          "refs": 1,
+          "example_source": "private/ntos/ndis/elnk16/elnk16.c"
+        },
+        {
+          "path": "..\\elnkmc\\packet.c",
+          "refs": 1,
+          "example_source": "private/ntos/ndis/elnk16/elnk16.c"
+        },
+        {
+          "path": "..\\elnkmc\\command.c",
+          "refs": 1,
+          "example_source": "private/ntos/ndis/elnk16/elnk16.c"
+        },
+        {
+          "path": "..\\ne2000\\card.c",
+          "refs": 1,
+          "example_source": "private/ntos/ndis/ne1000/ne1000.c"
+        },
+        {
+          "path": "..\\ne2000\\interrup.c",
+          "refs": 1,
+          "example_source": "private/ntos/ndis/ne1000/ne1000.c"
+        },
+        {
+          "path": "..\\ne2000\\ne2000.c",
+          "refs": 1,
+          "example_source": "private/ntos/ndis/ne1000/ne1000.c"
+        },
+        {
+          "path": "..\\netflex\\init.c",
+          "refs": 1,
+          "example_source": "private/ntos/ndis/netflex.bc/init.c"
+        },
+        {
+          "path": "..\\netflex\\initd.c",
+          "refs": 1,
+          "example_source": "private/ntos/ndis/netflex.bc/initd.c"
+        },
+        {
+          "path": "..\\netflex\\int.c",
+          "refs": 1,
+          "example_source": "private/ntos/ndis/netflex.bc/int.c"
+        },
+        {
+          "path": "..\\netflex\\receive.c",
+          "refs": 1,
+          "example_source": "private/ntos/ndis/netflex.bc/receive.c"
+        },
+        {
+          "path": "..\\netflex\\request.c",
+          "refs": 1,
+          "example_source": "private/ntos/ndis/netflex.bc/request.c"
+        },
+        {
+          "path": "..\\netflex\\reset.c",
+          "refs": 1,
+          "example_source": "private/ntos/ndis/netflex.bc/reset.c"
+        },
+        {
+          "path": "..\\netflex\\support.c",
+          "refs": 1,
+          "example_source": "private/ntos/ndis/netflex.bc/support.c"
+        },
+        {
+          "path": "..\\netflex\\transmit.c",
+          "refs": 1,
+          "example_source": "private/ntos/ndis/netflex.bc/transmit.c"
+        },
+        {
+          "path": "..\\haleb64p\\alpha\\addrsup.c",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halalp/alpha/addrsup.c"
+        },
+        {
+          "path": "..\\haleb64p\\alpha\\busdata.c",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halalp/alpha/busdata.c"
+        },
+        {
+          "path": "..\\haleb64p\\alpha\\cmos8k.c",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halalp/alpha/cmos8k.c"
+        },
+        {
+          "path": "..\\haleb64p\\alpha\\ebenv.c",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halalp/alpha/ebenv.c"
+        },
+        {
+          "path": "..\\haleb64p\\alpha\\ebinitnt.c",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halalp/alpha/ebinitnt.c"
+        },
+        {
+          "path": "..\\haleb64p\\alpha\\ebmapio.c",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halalp/alpha/ebmapio.c"
+        },
+        {
+          "path": "..\\haleb64p\\alpha\\ebsysint.c",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halalp/alpha/ebsysint.c"
+        },
+        {
+          "path": "..\\haleb64p\\alpha\\flash8k.c",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halalp/alpha/flash8k.c"
+        },
+        {
+          "path": "..\\haleb64p\\alpha\\pcibus.c",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halalp/alpha/pcibus.c"
+        },
+        {
+          "path": "..\\..\\halppc\\ppc\\pxidle.c",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halcaro/ppc/pxidle.c"
+        },
+        {
+          "path": "..\\..\\halppc\\ppc\\pxpcibus.c",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halcaro/ppc/pxpcibus.c"
+        },
+        {
+          "path": "..\\haltyne\\mips\\x86lator.c",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/haldti/mips/x86lator.c"
+        },
+        {
+          "path": "..\\halsable\\alpha\\addrsup.c",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halgamma/alpha/addrsup.c"
+        },
+        {
+          "path": "..\\halsable\\alpha\\busdata.c",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halgamma/alpha/busdata.c"
+        },
+        {
+          "path": "..\\halsable\\alpha\\sbmapio.c",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halgamma/alpha/gmmapio.c"
+        },
+        {
+          "path": "..\\halsable\\alpha\\icic.c",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halgamma/alpha/icic.c"
+        },
+        {
+          "path": "..\\halsable\\alpha\\lyintsup.c",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halgamma/alpha/lyintsup.c"
+        },
+        {
+          "path": "..\\halsable\\alpha\\pcibus.c",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halgamma/alpha/pcibus.c"
+        },
+        {
+          "path": "..\\halsable\\alpha\\siintsup.c",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halgamma/alpha/siintsup.c"
+        },
+        {
+          "path": "..\\halsable\\alpha\\xiintsup.c",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halgamma/alpha/xiintsup.c"
+        },
+        {
+          "path": "..\\halalpha\\am29f400.c",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/hallx3/alpha/am29f400.c"
+        },
+        {
+          "path": "..\\halx86\\i386\\ixaddr.c",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halmps/i386/ixaddr.c"
+        },
+        {
+          "path": "..\\..\\halx86\\i386\\ixbusdat.c",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halmps/i386/ixbusdat.c"
+        },
+        {
+          "path": "..\\..\\halx86\\i386\\ixdat.c",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halmps/i386/ixdat.c"
+        },
+        {
+          "path": "..\\..\\halx86\\i386\\ixenvirv.c",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halmps/i386/ixenvirv.c"
+        },
+        {
+          "path": "..\\..\\halx86\\i386\\ixfirm.c",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halmps/i386/ixfirm.c"
+        },
+        {
+          "path": "..\\..\\halx86\\i386\\ixhwsup.c",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halmps/i386/ixhwsup.c"
+        },
+        {
+          "path": "..\\..\\halx86\\i386\\ixinfo.c",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halmps/i386/ixinfo.c"
+        },
+        {
+          "path": "..\\..\\halx86\\i386\\ixisabus.c",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halmps/i386/ixisabus.c"
+        },
+        {
+          "path": "..\\..\\halx86\\i386\\ixisasup.c",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halmps/i386/ixisasup.c"
+        },
+        {
+          "path": "..\\..\\halx86\\i386\\ixkdcom.c",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halmps/i386/ixkdcom.c"
+        },
+        {
+          "path": "..\\..\\halx86\\i386\\ixmca.c",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halmps/i386/ixmca.c"
+        },
+        {
+          "path": "..\\..\\halmca\\i386\\ixmcabus.c",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halmps/i386/ixmcabus.c"
+        },
+        {
+          "path": "..\\..\\halmca\\i386\\ixmcasup.c",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halmps/i386/ixmcasup.c"
+        },
+        {
+          "path": "..\\..\\halx86\\i386\\ixnmi.c",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halmps/i386/ixnmi.c"
+        },
+        {
+          "path": "..\\..\\halx86\\i386\\ixpcibrd.c",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halmps/i386/ixpcibrd.c"
+        },
+        {
+          "path": "..\\..\\halx86\\i386\\ixpcibus.c",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halmps/i386/ixpcibus.c"
+        },
+        {
+          "path": "..\\..\\halx86\\i386\\ixpciint.c",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halmps/i386/ixpciint.c"
+        },
+        {
+          "path": "..\\..\\halx86\\i386\\ixphwsup.c",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halmps/i386/ixphwsup.c"
+        },
+        {
+          "path": "..\\..\\halx86\\i386\\ixreboot.c",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halmps/i386/ixreboot.c"
+        },
+        {
+          "path": "..\\..\\halx86\\i386\\ixthunk.c",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halmps/i386/ixthunk.c"
+        },
+        {
+          "path": "..\\..\\halx86\\i386\\ixusage.c",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halmps/i386/ixusage.c"
+        },
+        {
+          "path": "..\\..\\halx86\\i386\\xxbiosc.c",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halmps/i386/xxbiosc.c"
+        },
+        {
+          "path": "..\\..\\halx86\\i386\\xxdisp.c",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halmps/i386/xxdisp.c"
+        },
+        {
+          "path": "..\\..\\halx86\\i386\\xxflshbf.c",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halmps/i386/xxflshbf.c"
+        },
+        {
+          "path": "..\\..\\halx86\\i386\\xxkdsup.c",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halmps/i386/xxkdsup.c"
+        },
+        {
+          "path": "..\\..\\halx86\\i386\\xxmemory.c",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halmps/i386/xxmemory.c"
+        },
+        {
+          "path": "..\\..\\halx86\\i386\\xxstubs.c",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halmps/i386/xxstubs.c"
+        },
+        {
+          "path": "..\\..\\halx86\\i386\\xxtime.c",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halmps/i386/xxtime.c"
+        },
+        {
+          "path": "..\\halmca\\i386\\ixmcabus.c",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halncr/i386/ixmcabus.c"
+        },
+        {
+          "path": "..\\halmca\\i386\\ixmcasup.c",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halncr/i386/ixmcasup.c"
+        },
+        {
+          "path": "..\\halx86\\i386\\ncrdetct.c",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halncr/i386/ncrdetct.c"
+        },
+        {
+          "path": "..\\..\\haleagle\\ppc\\ctrlops.c",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halps/ppc/ctrlops.c"
+        },
+        {
+          "path": "..\\..\\haleagle\\ppc\\fwnvr.c",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halps/ppc/fwnvr.c"
+        },
+        {
+          "path": "..\\..\\haleagle\\ppc\\mk48time.c",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halps/ppc/mk48time.c"
+        },
+        {
+          "path": "..\\..\\haleagle\\ppc\\pcibios.c",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halps/ppc/pcibios.c"
+        },
+        {
+          "path": "..\\..\\haleagle\\ppc\\pxbeep.c",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halps/ppc/pxbeep.c"
+        },
+        {
+          "path": "..\\..\\haleagle\\ppc\\pxbusdat.c",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halps/ppc/pxbusdat.c"
+        },
+        {
+          "path": "..\\..\\haleagle\\ppc\\pxcalstl.c",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halps/ppc/pxcalstl.c"
+        },
+        {
+          "path": "..\\..\\haleagle\\ppc\\pxclock.c",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halps/ppc/pxclock.c"
+        },
+        {
+          "path": "..\\..\\haleagle\\ppc\\pxdat.c",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halps/ppc/pxdat.c"
+        },
+        {
+          "path": "..\\..\\haleagle\\ppc\\pxdisp.c",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halps/ppc/pxdisp.c"
+        },
+        {
+          "path": "..\\..\\haleagle\\ppc\\pxds1385.c",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halps/ppc/pxds1385.c"
+        },
+        {
+          "path": "..\\..\\haleagle\\ppc\\pxenviro.c",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halps/ppc/pxenviro.c"
+        },
+        {
+          "path": "..\\..\\haleagle\\ppc\\pxflshio.c",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halps/ppc/pxflshio.c"
+        },
+        {
+          "path": "..\\..\\haleagle\\ppc\\pxhwsup.c",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halps/ppc/pxhwsup.c"
+        },
+        {
+          "path": "..\\..\\haleagle\\ppc\\pxidle.c",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halps/ppc/pxidle.c"
+        },
+        {
+          "path": "..\\..\\haleagle\\ppc\\pxinfo.c",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halps/ppc/pxinfo.c"
+        },
+        {
+          "path": "..\\..\\haleagle\\ppc\\pxirql.c",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halps/ppc/pxirql.c"
+        },
+        {
+          "path": "..\\..\\haleagle\\ppc\\pxisabus.c",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halps/ppc/pxisabus.c"
+        },
+        {
+          "path": "..\\..\\haleagle\\ppc\\pxmapio.c",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halps/ppc/pxmapio.c"
+        },
+        {
+          "path": "..\\..\\haleagle\\ppc\\pxpcibrd.c",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halps/ppc/pxpcibrd.c"
+        },
+        {
+          "path": "..\\..\\haleagle\\ppc\\pxpciint.c",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halps/ppc/pxpciint.c"
+        },
+        {
+          "path": "..\\..\\haleagle\\ppc\\pxpcisup.c",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halps/ppc/pxpcisup.c"
+        },
+        {
+          "path": "..\\..\\haleagle\\ppc\\pxport.c",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halps/ppc/pxport.c"
+        },
+        {
+          "path": "..\\..\\haleagle\\ppc\\pxproc.c",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halps/ppc/pxproc.c"
+        },
+        {
+          "path": "..\\..\\haleagle\\ppc\\pxprof.c",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halps/ppc/pxprof.c"
+        },
+        {
+          "path": "..\\..\\haleagle\\ppc\\pxreturn.c",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halps/ppc/pxreturn.c"
+        },
+        {
+          "path": "..\\..\\haleagle\\ppc\\pxsiosup.c",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halps/ppc/pxsiosup.c"
+        },
+        {
+          "path": "..\\..\\haleagle\\ppc\\pxsysbus.c",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halps/ppc/pxsysbus.c"
+        },
+        {
+          "path": "..\\..\\haleagle\\ppc\\pxsysint.c",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halps/ppc/pxsysint.c"
+        },
+        {
+          "path": "..\\..\\haleagle\\ppc\\pxsystyp.c",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halps/ppc/pxsystyp.c"
+        },
+        {
+          "path": "..\\..\\haleagle\\ppc\\pxtime.c",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halps/ppc/pxtime.c"
+        },
+        {
+          "path": "..\\..\\haleagle\\ppc\\pxusage.c",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halps/ppc/pxusage.c"
+        },
+        {
+          "path": "..\\..\\haleagle\\ppc\\sysbios.c",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halps/ppc/sysbios.c"
+        },
+        {
+          "path": "..\\..\\haleagle\\ppc\\x86bios.c",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halps/ppc/x86bios.c"
+        },
+        {
+          "path": "..\\..\\halfxs\\mips\\x86bios.c",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halr98mp/mips/x86bios.c"
+        },
+        {
+          "path": "..\\halalpha\\eisaprof.c",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halraw/alpha/eisaprof.c"
+        },
+        {
+          "path": "..\\halx86\\i386\\ixmca.c",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halsp/i386/ixmca.c"
+        },
+        {
+          "path": "..\\halalcor\\alpha\\ebsgdma.c",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/haltimbr/alpha/ebsgdma.c"
+        },
+        {
+          "path": "..\\halalcor\\alpha\\eisasup.c",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/haltimbr/alpha/eisasup.c"
+        },
+        {
+          "path": "..\\halalcor\\alpha\\pcibus.c",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/haltimbr/alpha/pcibus.c"
+        },
+        {
+          "path": "..\\halalcor\\alpha\\pcisup.c",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/haltimbr/alpha/pcisup.c"
+        },
+        {
+          "path": "..\\..\\halppc\\ppc\\pxfirsup.c",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halvict/ppc/pxfirsup.c"
+        },
+        {
+          "path": "..\\..\\halppc\\ppc\\pxvm.c",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halvict/ppc/pxvm.c"
+        },
+        {
+          "path": "..\\..\\halppc\\ppc\\pxintrpt.c",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halwood/ppc/pxintrpt.c"
+        },
+        {
+          "path": "..\\..\\halppc\\ppc\\pxsiosup.c",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halwood/ppc/pxsiosup.c"
+        },
+        {
+          "path": "..\\..\\halppc\\ppc\\pxsysint.c",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halwood/ppc/pxsysint.c"
+        },
+        {
+          "path": "..\\heap.c",
+          "refs": 1,
+          "example_source": "private/ntos/rtl/user/theap.c"
+        },
+        {
+          "path": "..\\heapdll.c",
+          "refs": 1,
+          "example_source": "private/ntos/rtl/user/theap.c"
+        },
+        {
+          "path": "..\\heapdbg.c",
+          "refs": 1,
+          "example_source": "private/ntos/rtl/user/theap.c"
+        },
+        {
+          "path": "..\\trace.c",
+          "refs": 1,
+          "example_source": "private/ntos/rtl/user/theap.c"
+        },
+        {
+          "path": "..\\rip\\driver.h",
+          "refs": 1,
+          "example_source": "private/ntos/tdi/isn/ipxroute/ipxroute.c"
+        },
+        {
+          "path": "..\\driver.h",
+          "refs": 1,
+          "example_source": "private/ntos/tdi/isn/rip/rttest/rttest.c"
+        },
+        {
+          "path": "..\\..\\..\\nthals\\x86new\\xm86.h",
+          "refs": 1,
+          "example_source": "private/ntos/video/port/i386/porti386.c"
+        },
+        {
+          "path": "..\\..\\..\\nthals\\x86new\\x86new.h",
+          "refs": 1,
+          "example_source": "private/ntos/video/port/i386/porti386.c"
+        },
+        {
+          "path": "..\\..\\inc\\conapi.h",
+          "refs": 1,
+          "example_source": "private/ntos/w32/ntcon/client/tpalette.c"
+        },
+        {
+          "path": "..\\misc\\memalloc.c",
+          "refs": 1,
+          "example_source": "private/ntos/w32/ntgdi/direct/ddhelp/incmemal.c"
+        },
+        {
+          "path": "..\\\\ht\\\\htapi.h",
+          "refs": 1,
+          "example_source": "private/ntos/w32/ntgdi/halftone/htui/htuimain.c"
+        },
+        {
+          "path": "..\\client\\usercli.h",
+          "refs": 1,
+          "example_source": "private/ntos/w32/ntuser/client/clienta.c"
+        },
+        {
+          "path": "..\\alpha.c",
+          "refs": 1,
+          "example_source": "private/ntos/w32/ntuser/kdexts/kd/alpha.c"
+        },
+        {
+          "path": "..\\i386.c",
+          "refs": 1,
+          "example_source": "private/ntos/w32/ntuser/kdexts/kd/i386.c"
+        },
+        {
+          "path": "..\\kdexts.c",
+          "refs": 1,
+          "example_source": "private/ntos/w32/ntuser/kdexts/kd/kdexts.c"
+        },
+        {
+          "path": "..\\mips.c",
+          "refs": 1,
+          "example_source": "private/ntos/w32/ntuser/kdexts/kd/mips.c"
+        },
+        {
+          "path": "..\\ppc.c",
+          "refs": 1,
+          "example_source": "private/ntos/w32/ntuser/kdexts/kd/ppc.c"
+        },
+        {
+          "path": "..\\rdr\\disccode.h",
+          "refs": 1,
+          "example_source": "private/ntos/bowser/bowser.h"
+        },
+        {
+          "path": "..\\mips\\atd_plat.h",
+          "refs": 1,
+          "example_source": "private/ntos/dd/harddisk/alpha/atd_plat.h"
+        },
+        {
+          "path": "..\\..\\csr\\inc\\csr.h",
+          "refs": 1,
+          "example_source": "private/ntos/dll/csrdll.h"
+        },
+        {
+          "path": "..\\mips\\kbdmouse.h",
+          "refs": 1,
+          "example_source": "private/ntos/fw/duobase/mips/fwp.h"
+        },
+        {
+          "path": "..\\pnp\\pnpi.h",
+          "refs": 1,
+          "example_source": "private/ntos/io/pnpiop.h"
+        },
+        {
+          "path": "..\\..\\inc\\miniport.h",
+          "refs": 1,
+          "example_source": "private/ntos/miniport/always/environ.h"
+        },
+        {
+          "path": "..\\..\\inc\\scsi.h",
+          "refs": 1,
+          "example_source": "private/ntos/miniport/always/intsrb.h"
+        },
+        {
+          "path": "..\\mm\\i386\\mi386.h",
+          "refs": 1,
+          "example_source": "private/ntos/mm/mi.h"
+        },
+        {
+          "path": "..\\mm\\mips\\mir4000.h",
+          "refs": 1,
+          "example_source": "private/ntos/mm/mi.h"
+        },
+        {
+          "path": "..\\mm\\alpha\\mialpha.h",
+          "refs": 1,
+          "example_source": "private/ntos/mm/mi.h"
+        },
+        {
+          "path": "..\\mm\\ppc\\mippc.h",
+          "refs": 1,
+          "example_source": "private/ntos/mm/mi.h"
+        },
+        {
+          "path": "..\\haleb64p\\alpha\\eb64pdef.h",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halalp/alpha/eb64pdef.h"
+        },
+        {
+          "path": "..\\haleb64p\\alpha\\machdep.h",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halalp/alpha/machdep.h"
+        },
+        {
+          "path": "..\\haltyne\\mips\\x86bios.h",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/haldti/mips/x86bios.h"
+        },
+        {
+          "path": "..\\halsable\\alpha\\sablertc.h",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halgamma/alpha/gammartc.h"
+        },
+        {
+          "path": "..\\..\\halx86\\i386\\halnls.h",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halmps/i386/halnls.h"
+        },
+        {
+          "path": "..\\..\\halx86\\i386\\halp.h",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halmps/i386/halp.h"
+        },
+        {
+          "path": "..\\..\\halx86\\i386\\ixisa.h",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halmps/i386/ixisa.h"
+        },
+        {
+          "path": "..\\..\\halx86\\i386\\ixkdcom.h",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halmps/i386/ixkdcom.h"
+        },
+        {
+          "path": "..\\..\\halmca\\i386\\ixmca.h",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halmps/i386/ixmca.h"
+        },
+        {
+          "path": "..\\..\\halx86\\i386\\pcip.h",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halmps/i386/pcip.h"
+        },
+        {
+          "path": "..\\halmca\\i386\\ixmca.h",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halncr/i386/ixmca.h"
+        },
+        {
+          "path": "..\\io\\iop.h",
+          "refs": 1,
+          "example_source": "private/ntos/pnp/precomp.h"
+        },
+        {
+          "path": "..\\bowser\\bowpub.h",
+          "refs": 1,
+          "example_source": "private/ntos/rdr/precomp.h"
+        },
+        {
+          "path": "..\\ddraw16\\modex.h",
+          "refs": 1,
+          "example_source": "private/ntos/w32/ntgdi/direct/ddraw/ddrawpr.h"
+        },
+        {
+          "path": "..\\..\\inc\\thktypes.h",
+          "refs": 1,
+          "example_source": "private/ntos/w32/ntgdi/direct/ddraw/types.h"
+        },
+        {
+          "path": "..\\client\\mf16.h",
+          "refs": 1,
+          "example_source": "private/ntos/w32/ntgdi/mf3216/precomp.h"
+        },
+        {
+          "path": "..\\client\\metadef.h",
+          "refs": 1,
+          "example_source": "private/ntos/w32/ntgdi/mf3216/precomp.h"
+        },
+        {
+          "path": "..\\..\\gre\\jenumfnt.h",
+          "refs": 1,
+          "example_source": "private/ntos/w32/ntgdi/test/ft/precomp.h"
+        },
+        {
+          "path": "..\\kernel\\precomp.h",
+          "refs": 1,
+          "example_source": "private/ntos/w32/ntuser/rtl/userrtl.h"
+        },
+        {
+          "path": "..\\ddraw\\ddrawp.h",
+          "refs": 1,
+          "example_source": "private/ntos/w32/ntgdi/direct/blitlib/bitblt.cxx"
+        },
+        {
+          "path": "..\\..\\gre\\alpha\\genalpha.cxx",
+          "refs": 1,
+          "example_source": "private/ntos/w32/ntgdi/math/alpha/genalpha.cxx"
+        },
+        {
+          "path": "..\\..\\gre\\i386\\geni386.cxx",
+          "refs": 1,
+          "example_source": "private/ntos/w32/ntgdi/math/i386/geni386.cxx"
+        },
+        {
+          "path": "..\\..\\gre\\mips\\genmips.cxx",
+          "refs": 1,
+          "example_source": "private/ntos/w32/ntgdi/math/mips/genmips.cxx"
+        },
+        {
+          "path": "..\\..\\gre\\ppc\\genppc.cxx",
+          "refs": 1,
+          "example_source": "private/ntos/w32/ntgdi/math/ppc/genppc.cxx"
+        }
+      ]
+    },
+    "win_sdk_usermode": {
+      "count": 687,
+      "items": [
+        {
+          "path": "windows.h",
+          "refs": 381,
+          "example_source": "private/ntos/boot/bootfont/jpn/genfont.c"
+        },
+        {
+          "path": "winspool.h",
+          "refs": 46,
+          "example_source": "private/ntos/w32/ntgdi/printers/hprasdd/lib/dm.c"
+        },
+        {
+          "path": "wingdi.h",
+          "refs": 44,
+          "example_source": "private/ntos/fw/mips/jxbmp.c"
+        },
+        {
+          "path": "winerror.h",
+          "refs": 39,
+          "example_source": "private/ntos/ndis/madge/detect/mdgat.c"
+        },
+        {
+          "path": "malloc.h",
+          "refs": 28,
+          "example_source": "private/ntos/dd/digibrd/setupdll/hierdraw.c"
+        },
+        {
+          "path": "conio.h",
+          "refs": 24,
+          "example_source": "private/ntos/dd/ntft/cmd/ftadmin/ftadmin.c"
+        },
+        {
+          "path": "commdlg.h",
+          "refs": 18,
+          "example_source": "private/ntos/dd/histgram/cmd/perfhist/perfhist.c"
+        },
+        {
+          "path": "mmsystem.h",
+          "refs": 14,
+          "example_source": "private/ntos/dd/joystick/anajoyst.c"
+        },
+        {
+          "path": "winioctl.h",
+          "refs": 13,
+          "example_source": "private/ntos/dd/histgram/cmd/cdbench/cdbench.c"
+        },
+        {
+          "path": "nb30.h",
+          "refs": 10,
+          "example_source": "private/ntos/tdi/isn/nb/query.c"
+        },
+        {
+          "path": "imagehlp.h",
+          "refs": 8,
+          "example_source": "private/ntos/afd/afdkd/kdexts.c"
+        },
+        {
+          "path": "winbase.h",
+          "refs": 8,
+          "example_source": "private/ntos/rtl/generr.c"
+        },
+        {
+          "path": "tchar.h",
+          "refs": 6,
+          "example_source": "private/ntos/w32/ntgdi/apps/gdistats/gdistats.c"
+        },
+        {
+          "path": "ddeml.h",
+          "refs": 6,
+          "example_source": "private/ntos/w32/ntuser/client/usercli.h"
+        },
+        {
+          "path": "winsock.h",
+          "refs": 5,
+          "example_source": "private/ntos/tdi/isn/sockhelp/wshelper.c"
+        },
+        {
+          "path": "winuser.h",
+          "refs": 5,
+          "example_source": "private/ntos/w32/ntgdi/printers/rasprint/mini/txtonly/code.c"
+        },
+        {
+          "path": "lmcons.h",
+          "refs": 4,
+          "example_source": "private/ntos/bowser/bowser.h"
+        },
+        {
+          "path": "winreg.h",
+          "refs": 3,
+          "example_source": "private/ntos/config/test/perform.c"
+        },
+        {
+          "path": "winperf.h",
+          "refs": 3,
+          "example_source": "private/ntos/dd/histgram/perflib/datahist.c"
+        },
+        {
+          "path": "winnls.h",
+          "refs": 3,
+          "example_source": "private/ntos/w32/ntgdi/fondrv/tt/ttfd/vertical.c"
+        },
+        {
+          "path": "imm.h",
+          "refs": 3,
+          "example_source": "private/ntos/w32/ntuser/imm/immcli.h"
+        },
+        {
+          "path": "objbase.h",
+          "refs": 2,
+          "example_source": "private/ntos/w32/ntgdi/direct/ddraw/dllmain.c"
+        },
+        {
+          "path": "commctrl.h",
+          "refs": 2,
+          "example_source": "private/ntos/w32/ntgdi/printers/lib/devmode.c"
+        },
+        {
+          "path": "direct.h",
+          "refs": 2,
+          "example_source": "private/ntos/w32/ntgdi/test/fonttest.nt/fonttest.c"
+        },
+        {
+          "path": "Windows.H",
+          "refs": 1,
+          "example_source": "private/ntos/dd/parallel/printapp.c"
+        },
+        {
+          "path": "ole2.h",
+          "refs": 1,
+          "example_source": "private/ntos/dll/ofsmisc.c"
+        },
+        {
+          "path": "nspapi.h",
+          "refs": 1,
+          "example_source": "private/ntos/tdi/isn/sockhelp/wshelper.c"
+        },
+        {
+          "path": "lmserver.h",
+          "refs": 1,
+          "example_source": "private/ntos/bowser/bowser.h"
+        },
+        {
+          "path": "winnetwk.h",
+          "refs": 1,
+          "example_source": "private/ntos/mup/dfsprocs.h"
+        },
+        {
+          "path": "lmerr.h",
+          "refs": 1,
+          "example_source": "private/ntos/rdr/precomp.h"
+        },
+        {
+          "path": "lmuse.h",
+          "refs": 1,
+          "example_source": "private/ntos/rdr/precomp.h"
+        },
+        {
+          "path": "lm.h",
+          "refs": 1,
+          "example_source": "private/ntos/srv/precomp.h"
+        },
+        {
+          "path": "shellapi.h",
+          "refs": 1,
+          "example_source": "private/ntos/w32/ntgdi/printers/compstui/precomp.h"
+        },
+        {
+          "path": "wincon.h",
+          "refs": 1,
+          "example_source": "private/ntos/w32/ntuser/kernel/userk.h"
+        }
+      ]
+    },
+    "nt_ddk_missing": {
+      "count": 277,
+      "items": [
+        {
+          "path": "zwapi.h",
+          "refs": 67,
+          "example_source": "private/ntos/ex/exinit.c"
+        },
+        {
+          "path": "ntddtape.h",
+          "refs": 32,
+          "example_source": "private/ntos/dd/qic117/appvoltd.c"
+        },
+        {
+          "path": "ntddser.h",
+          "refs": 18,
+          "example_source": "private/ntos/dd/digibrd/ntcx/ntcx.c"
+        },
+        {
+          "path": "ntddscsi.h",
+          "refs": 17,
+          "example_source": "private/ntos/dd/class/class.c"
+        },
+        {
+          "path": "ntimage.h",
+          "refs": 15,
+          "example_source": "private/ntos/boot/lib/peldr.c"
+        },
+        {
+          "path": "ntiologc.h",
+          "refs": 14,
+          "example_source": "private/ntos/dd/genflpy/init.c"
+        },
+        {
+          "path": "ntddndis.h",
+          "refs": 11,
+          "example_source": "private/ntos/ndis/ndistapi/ndistapi.c"
+        },
+        {
+          "path": "ntddft.h",
+          "refs": 9,
+          "example_source": "private/ntos/cntfs/deviosup.c"
+        },
+        {
+          "path": "ntioapi.h",
+          "refs": 8,
+          "example_source": "private/ntos/dd/floppy/i386/test.c"
+        },
+        {
+          "path": "ntlsa.h",
+          "refs": 8,
+          "example_source": "private/ntos/dll/seurtl.c"
+        },
+        {
+          "path": "ntconfig.h",
+          "refs": 7,
+          "example_source": "private/ntos/boot/lib/i386/ixbusdat.c"
+        },
+        {
+          "path": "ntexapi.h",
+          "refs": 7,
+          "example_source": "private/ntos/dd/histgram/cmd/cdbench/cdbench.c"
+        },
+        {
+          "path": "ntddmou.h",
+          "refs": 7,
+          "example_source": "private/ntos/w32/ntuser/kernel/ntinput.c"
+        },
+        {
+          "path": "ntddbeep.h",
+          "refs": 6,
+          "example_source": "private/ntos/dd/beep/beep.c"
+        },
+        {
+          "path": "ntddkbd.h",
+          "refs": 6,
+          "example_source": "private/ntos/dd/i8042prt/i8042prt.h"
+        },
+        {
+          "path": "ntseapi.h",
+          "refs": 5,
+          "example_source": "private/ntos/ke/alpha/genalpha.c"
+        },
+        {
+          "path": "ntiolog.h",
+          "refs": 4,
+          "example_source": "private/ntos/dd/nlsmsg/ioerror.c"
+        },
+        {
+          "path": "ntddpar.h",
+          "refs": 4,
+          "example_source": "private/ntos/dd/parallel/pardrvr.c"
+        },
+        {
+          "path": "ntkeapi.h",
+          "refs": 4,
+          "example_source": "private/ntos/ke/alpha/genalpha.c"
+        },
+        {
+          "path": "ntobapi.h",
+          "refs": 4,
+          "example_source": "private/ntos/ke/alpha/genalpha.c"
+        },
+        {
+          "path": "ntmmapi.h",
+          "refs": 4,
+          "example_source": "private/ntos/ke/alpha/genalpha.c"
+        },
+        {
+          "path": "ntldr.h",
+          "refs": 4,
+          "example_source": "private/ntos/ke/alpha/genalpha.c"
+        },
+        {
+          "path": "ntpsapi.h",
+          "refs": 4,
+          "example_source": "private/ntos/ke/alpha/genalpha.c"
+        },
+        {
+          "path": "ntddcdrm.h",
+          "refs": 3,
+          "example_source": "private/ntos/cdfs/cdprocs.h"
+        },
+        {
+          "path": "ntiodump.h",
+          "refs": 2,
+          "example_source": "private/ntos/io/iop.h"
+        },
+        {
+          "path": "ntmsv1_0.h",
+          "refs": 2,
+          "example_source": "private/ntos/srv/precomp.h"
+        },
+        {
+          "path": "ntddvdm.h",
+          "refs": 1,
+          "example_source": "private/ntos/dd/parvdm/parvdm.c"
+        },
+        {
+          "path": "ntsam.h",
+          "refs": 1,
+          "example_source": "private/ntos/se/ttokend.c"
+        },
+        {
+          "path": "ntsamp.h",
+          "refs": 1,
+          "example_source": "private/ntos/se/ttokend.c"
+        },
+        {
+          "path": "NtIoLogc.h",
+          "refs": 1,
+          "example_source": "private/ntos/cntfs/ntfsproc.h"
+        },
+        {
+          "path": "NtDdFt.h",
+          "refs": 1,
+          "example_source": "private/ntos/fsrtl/fsrtlp.h"
+        }
+      ]
+    },
+    "internal_private": {
+      "count": 256,
+      "items": [
+        {
+          "path": "ntverp.h",
+          "refs": 41,
+          "example_source": "private/ntos/afd/afdkd/kdexts.c"
+        },
+        {
+          "path": "FatProcs.h",
+          "refs": 33,
+          "example_source": "private/ntos/fastfat/acchksup.c"
+        },
+        {
+          "path": "NpProcs.h",
+          "refs": 28,
+          "example_source": "private/ntos/npfs/aliassup.c"
+        },
+        {
+          "path": "CdProcs.h",
+          "refs": 26,
+          "example_source": "private/ntos/cdfs/allocsup.c"
+        },
+        {
+          "path": "wingdip.h",
+          "refs": 24,
+          "example_source": "private/ntos/w32/ntgdi/apps/gdistats/gdistats.c"
+        },
+        {
+          "path": "FsRtlP.h",
+          "refs": 12,
+          "example_source": "private/ntos/fsrtl/dbcsname.c"
+        },
+        {
+          "path": "RawProcs.h",
+          "refs": 10,
+          "example_source": "private/ntos/raw/cleanup.c"
+        },
+        {
+          "path": "winuserp.h",
+          "refs": 7,
+          "example_source": "private/ntos/w32/ntcon/server/precomp.h"
+        },
+        {
+          "path": "ddrawp.h",
+          "refs": 6,
+          "example_source": "private/ntos/w32/ntgdi/client/precomp.h"
+        },
+        {
+          "path": "ntddtcp.h",
+          "refs": 5,
+          "example_source": "private/ntos/afd/misc.c"
+        },
+        {
+          "path": "ntddip.h",
+          "refs": 5,
+          "example_source": "private/ntos/tdi/tcpip/ip/ntip.c"
+        },
+        {
+          "path": "wowuserp.h",
+          "refs": 5,
+          "example_source": "private/ntos/w32/ntuser/client/usercli.h"
+        },
+        {
+          "path": "sertlp.h",
+          "refs": 4,
+          "example_source": "private/ntos/dll/seurtl.c"
+        },
+        {
+          "path": "wsahelp.h",
+          "refs": 4,
+          "example_source": "private/ntos/tdi/isn/sockhelp/wshelper.c"
+        },
+        {
+          "path": "ntddmup.h",
+          "refs": 3,
+          "example_source": "private/ntos/fsrtl/unc.c"
+        },
+        {
+          "path": "smbtrsup.h",
+          "refs": 3,
+          "example_source": "private/ntos/smbtrsup/smbtrsup.c"
+        },
+        {
+          "path": "INTERP.H",
+          "refs": 3,
+          "example_source": "private/ntos/w32/ntgdi/fondrv/tt/ttfd/tt.h"
+        },
+        {
+          "path": "ddemlp.h",
+          "refs": 3,
+          "example_source": "private/ntos/w32/ntuser/client/usercli.h"
+        },
+        {
+          "path": "immp.h",
+          "refs": 3,
+          "example_source": "private/ntos/w32/ntuser/imm/immcli.h"
+        },
+        {
+          "path": "imep.h",
+          "refs": 3,
+          "example_source": "private/ntos/w32/ntuser/imm/immcli.h"
+        },
+        {
+          "path": "wowgdip.h",
+          "refs": 2,
+          "example_source": "private/ntos/w32/ntgdi/client/ldc.c"
+        },
+        {
+          "path": "ntfsprop.h",
+          "refs": 2,
+          "example_source": "private/ntos/cntfs/views/viewprop.h"
+        },
+        {
+          "path": "SNIhalp.h",
+          "refs": 2,
+          "example_source": "private/ntos/nthals/halsni4x/mips/halp.h"
+        },
+        {
+          "path": "winbasep.h",
+          "refs": 2,
+          "example_source": "private/ntos/w32/ntcon/client/precomp.h"
+        },
+        {
+          "path": "winconp.h",
+          "refs": 2,
+          "example_source": "private/ntos/w32/ntcon/client/precomp.h"
+        },
+        {
+          "path": "stgprop.h",
+          "refs": 2,
+          "example_source": "private/ntos/cntfs/tests/proptest.cxx"
+        },
+        {
+          "path": "mrgnserp.h",
+          "refs": 1,
+          "example_source": "private/ntos/fw/alpha/jxserial.c"
+        },
+        {
+          "path": "ntrpcp.h",
+          "refs": 1,
+          "example_source": "private/ntos/se/ttokend.c"
+        },
+        {
+          "path": "nspapip.h",
+          "refs": 1,
+          "example_source": "private/ntos/tdi/isn/sockhelp/wshelper.c"
+        },
+        {
+          "path": "ntmp.h",
+          "refs": 1,
+          "example_source": "private/ntos/vdm/i386/genvdmtb.c"
+        },
+        {
+          "path": "CdData.h",
+          "refs": 1,
+          "example_source": "private/ntos/cdfs/cdprocs.h"
+        },
+        {
+          "path": "NtfsData.h",
+          "refs": 1,
+          "example_source": "private/ntos/cntfs/ntfsproc.h"
+        },
+        {
+          "path": "FatData.h",
+          "refs": 1,
+          "example_source": "private/ntos/fastfat/fatprocs.h"
+        },
+        {
+          "path": "LfsData.h",
+          "refs": 1,
+          "example_source": "private/ntos/lfs/lfsprocs.h"
+        },
+        {
+          "path": "inc\\nbtprocs.h",
+          "refs": 1,
+          "example_source": "private/ntos/nbt/nbtprocs.h"
+        },
+        {
+          "path": "nb30p.h",
+          "refs": 1,
+          "example_source": "private/ntos/netbios/nb.h"
+        },
+        {
+          "path": "NpData.h",
+          "refs": 1,
+          "example_source": "private/ntos/npfs/npprocs.h"
+        },
+        {
+          "path": "halx86\\i386\\halp.h",
+          "refs": 1,
+          "example_source": "private/ntos/nthals/halast/i386/halp.h"
+        },
+        {
+          "path": "mips\\ntrtlmip.h",
+          "refs": 1,
+          "example_source": "private/ntos/rtl/ntrtlp.h"
+        },
+        {
+          "path": "alpha\\ntrtlalp.h",
+          "refs": 1,
+          "example_source": "private/ntos/rtl/ntrtlp.h"
+        },
+        {
+          "path": "winnlsp.h",
+          "refs": 1,
+          "example_source": "private/ntos/w32/ntuser/client/usercli.h"
+        },
+        {
+          "path": "winnls3p.h",
+          "refs": 1,
+          "example_source": "private/ntos/w32/ntuser/inc/immstruc.h"
+        }
+      ]
+    },
+    "driver_specific": {
+      "count": 4,
+      "items": [
+        {
+          "path": "Elnkhw.h",
+          "refs": 2,
+          "example_source": "private/ntos/ndis/elnkmc/interrup.c"
+        },
+        {
+          "path": "Elnksw.h",
+          "refs": 2,
+          "example_source": "private/ntos/ndis/elnkmc/interrup.c"
+        }
+      ]
+    }
+  }
+}
