@@ -39,6 +39,7 @@ typedef unsigned char       UCHAR;
 typedef unsigned char       BYTE;
 typedef unsigned char       BOOLEAN;
 typedef char                CHAR;
+typedef signed char         SCHAR;      /* NT signed char */
 typedef signed char         CCHAR;      /* NT compact char */
 typedef int16_t             SHORT;
 typedef int16_t             CSHORT;     /* NT compact short */
@@ -164,6 +165,23 @@ typedef NTSTATUS           *PNTSTATUS;
   #ifndef NTSYSCALLAPI
     #define NTSYSCALLAPI
   #endif
+  #ifndef NTKERNELAPI
+    #if (defined(_NTDRIVER_) || defined(_NTDDK_) || defined(_NTIFS_) || defined(_NTHAL_)) && !defined(_BLDR_)
+      #define NTKERNELAPI DECLSPEC_IMPORT
+    #else
+      #define NTKERNELAPI
+    #endif
+  #endif
+  #ifndef NTHALAPI
+    #if !defined(_NTHAL_) && !defined(_BLDR_)
+      #define NTHALAPI DECLSPEC_IMPORT
+    #else
+      #define NTHALAPI
+    #endif
+  #endif
+  #ifndef FASTCALL
+    #define FASTCALL __fastcall
+  #endif
   /* Force IN/OUT/OPTIONAL to be empty (NT4 convention) */
   #ifdef IN
     #undef IN
@@ -206,6 +224,9 @@ typedef NTSTATUS           *PNTSTATUS;
   #define DECLSPEC_NORETURN
   #define FORCEINLINE         static inline
   #define NTSYSCALLAPI
+  #define NTKERNELAPI
+  #define NTHALAPI
+  #define FASTCALL
   #define IN
   #define OUT
   #define OPTIONAL
@@ -786,6 +807,14 @@ typedef PHYSICAL_ADDRESS   *PPHYSICAL_ADDRESS;
   #endif
 #endif
 
+/* Kernel constants needed before ke.h */
+#ifndef THREAD_WAIT_OBJECTS
+#define THREAD_WAIT_OBJECTS 3
+#endif
+#ifndef DISPATCH_LENGTH
+#define DISPATCH_LENGTH 106  /* i386 NORMAL_DISPATCH_LENGTH */
+#endif
+
 /* Forward-declare KTRAP_FRAME — defined per-arch in i386.h/alpha.h/mips.h */
 struct _KTRAP_FRAME;
 typedef struct _KTRAP_FRAME *PKTRAP_FRAME;
@@ -1024,6 +1053,47 @@ typedef struct _CONTEXT {
 #endif /* _CONTEXT_DEFINED */
 
 /* ------------------------------------------------------------------ */
+/* Forward declarations for I/O, PS, EX types                          */
+/* ------------------------------------------------------------------ */
+/* I/O objects — defined in io.h but referenced everywhere */
+struct _DEVICE_OBJECT;
+typedef struct _DEVICE_OBJECT DEVICE_OBJECT, *PDEVICE_OBJECT;
+struct _DRIVER_OBJECT;
+typedef struct _DRIVER_OBJECT DRIVER_OBJECT, *PDRIVER_OBJECT;
+struct _FILE_OBJECT;
+typedef struct _FILE_OBJECT FILE_OBJECT, *PFILE_OBJECT;
+struct _IRP;
+typedef struct _IRP IRP, *PIRP;
+
+/* BUS_DATA_TYPE — used by video.h and HAL */
+#ifndef _BUS_DATA_TYPE_DEFINED
+#define _BUS_DATA_TYPE_DEFINED
+typedef enum _BUS_DATA_TYPE {
+    ConfigurationSpaceUndefined = -1,
+    Cmos, EisaConfiguration, Pos, CbusConfiguration,
+    PCIConfiguration, VMEConfiguration, NuBusConfiguration,
+    PCMCIAConfiguration, MPIConfiguration, MPSAConfiguration,
+    PNPISAConfiguration, MaximumBusDataType
+} BUS_DATA_TYPE, *PBUS_DATA_TYPE;
+#endif
+
+/* SYSTEM_HANDLE_INFORMATION — used by ex.h ExSnapShotHandleTables */
+struct _SYSTEM_HANDLE_INFORMATION;
+typedef struct _SYSTEM_HANDLE_INFORMATION *PSYSTEM_HANDLE_INFORMATION;
+struct _SYSTEM_HANDLE_TABLE_ENTRY_INFO;
+typedef struct _SYSTEM_HANDLE_TABLE_ENTRY_INFO *PSYSTEM_HANDLE_TABLE_ENTRY_INFO;
+struct _SYSTEM_POOL_INFORMATION;
+typedef struct _SYSTEM_POOL_INFORMATION *PSYSTEM_POOL_INFORMATION;
+
+/* PROCESS_WS_WATCH_INFORMATION — used by ps.h */
+struct _PROCESS_WS_WATCH_INFORMATION;
+typedef struct _PROCESS_WS_WATCH_INFORMATION PROCESS_WS_WATCH_INFORMATION, *PPROCESS_WS_WATCH_INFORMATION;
+
+/* PEB — Process Environment Block, used by ps.h EPROCESS */
+struct _PEB;
+typedef struct _PEB PEB, *PPEB;
+
+/* ------------------------------------------------------------------ */
 /* Additional NTSTATUS codes used in NT4 source tree                    */
 /* ------------------------------------------------------------------ */
 #ifndef STATUS_FS_DRIVER_REQUIRED
@@ -1046,6 +1116,61 @@ typedef struct _CONTEXT {
 #ifndef NETBIOS_NAME_SIZE
 #define NETBIOS_NAME_SIZE 16
 #endif
+
+/* ------------------------------------------------------------------ */
+/* Structured Exception Handling (SEH) macros                          */
+/* NT4 source uses try/except/finally; MSVC C requires __try/__except  */
+/* Only in C mode — C++ has its own try/catch keywords.                */
+/* ------------------------------------------------------------------ */
+#ifndef __cplusplus
+#ifdef _MSC_VER
+  #ifndef try
+    #define try         __try
+  #endif
+  #ifndef except
+    #define except      __except
+  #endif
+  #ifndef finally
+    #define finally     __finally
+  #endif
+  #ifndef leave
+    #define leave       __leave
+  #endif
+#else
+  /* Non-MSVC: SEH is not available; provide no-op stubs */
+  #ifndef try
+    #define try         if (1)
+  #endif
+  #ifndef except
+    #define except(x)   if (0)
+  #endif
+  #ifndef finally
+    #define finally     if (1)
+  #endif
+  #ifndef leave
+    #define leave       break
+  #endif
+#endif
+#endif /* !__cplusplus */
+
+/* GetExceptionCode / GetExceptionInformation — used in SEH handlers */
+#ifndef __cplusplus
+#ifdef _MSC_VER
+  #ifndef GetExceptionCode
+    #define GetExceptionCode()        _exception_code()
+  #endif
+  #ifndef GetExceptionInformation
+    #define GetExceptionInformation()  _exception_info()
+  #endif
+#else
+  #ifndef GetExceptionCode
+    #define GetExceptionCode()        0
+  #endif
+  #ifndef GetExceptionInformation
+    #define GetExceptionInformation()  ((void*)0)
+  #endif
+#endif
+#endif /* !__cplusplus */
 
 /* VER_PRODUCTBUILD — NT4 build number */
 #ifndef VER_PRODUCTBUILD

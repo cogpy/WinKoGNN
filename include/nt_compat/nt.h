@@ -214,7 +214,10 @@ NTSTATUS NTAPI NtCreatePort(
 
 /* ------------------------------------------------------------------ */
 /* Kernel-mode function stubs                                          */
+/* Only active when NOT compiling NT kernel source (which provides its */
+/* own declarations with __declspec(dllimport) linkage).               */
 /* ------------------------------------------------------------------ */
+#ifndef _NT_KERNEL_BUILD
 
 /* Spinlock operations */
 static inline void KeInitializeSpinLock(PKSPIN_LOCK SpinLock) {
@@ -259,6 +262,7 @@ static inline void KeInitializeTimer(PKTIMER Timer) {
 #endif
 
 /* Pool allocation stubs — stdlib.h is included by ntdef.h */
+#ifndef ExAllocatePool
 static inline PVOID ExAllocatePool(POOL_TYPE PoolType, SIZE_T NumberOfBytes) {
     (void)PoolType;
     return (PVOID)malloc((size_t)NumberOfBytes);
@@ -278,11 +282,14 @@ static inline void ExFreePoolWithTag(PVOID P, ULONG Tag) {
     (void)Tag;
     free(P);
 }
+#endif /* !ExAllocatePool */
 
 /* IRQL management */
 static inline KIRQL KeGetCurrentIrql(void) { return PASSIVE_LEVEL; }
 static inline KIRQL KeRaiseIrqlToDpcLevel(void) { return PASSIVE_LEVEL; }
 static inline void KeLowerIrql(KIRQL NewIrql) { (void)NewIrql; }
+
+#endif /* _NT_KERNEL_BUILD */
 
 /* Debug print */
 #include <stdio.h>

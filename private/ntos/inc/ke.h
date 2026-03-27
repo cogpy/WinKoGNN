@@ -163,10 +163,13 @@ typedef enum _KAPC_ENVIRONMENT {
 // Interrupt modes.
 //
 
+#ifndef _KINTERRUPT_MODE_DEFINED
+#define _KINTERRUPT_MODE_DEFINED
 typedef enum _KINTERRUPT_MODE {
     LevelSensitive,
     Latched
     } KINTERRUPT_MODE;
+#endif /* _KINTERRUPT_MODE_DEFINED */
 
 // end_ntddk end_nthal end_ntminiport end_ntifs end_ntndis
 

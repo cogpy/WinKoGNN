@@ -67,6 +67,9 @@ set(NT4_COMPILE_DEFINITIONS
     DEVL=1
     FPO=0
     NDEBUG
+    _NT_KERNEL_BUILD          # Disables nt.h inline stubs (ke.h/ex.h provide real decls)
+    _NTOSDEF_                  # Marks kernel-internal build (affects video.h VIDEOPORT_API)
+    _NTOS_                     # Standard NT kernel-internal flag
 )
 
 # -----------------------------------------------------------------------
