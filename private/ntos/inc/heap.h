@@ -32,6 +32,8 @@ Revision History:
 #define ROUND_UP_TO_POWER2( x, n ) (((ULONG)(x) + ((n)-1)) & ~((n)-1))
 #define ROUND_DOWN_TO_POWER2( x, n ) ((ULONG)(x) & ~((n)-1))
 
+#ifndef _HEAP_ENTRY_DEFINED
+#define _HEAP_ENTRY_DEFINED
 typedef struct _HEAP_ENTRY {
     //
     // This field gives the size of the current block in allocation
@@ -88,6 +90,7 @@ typedef struct _HEAP_ENTRY {
     UCHAR SmallTagIndex;
 
 } HEAP_ENTRY, *PHEAP_ENTRY;
+#endif /* _HEAP_ENTRY_DEFINED */
 
 
 //
@@ -95,6 +98,8 @@ typedef struct _HEAP_ENTRY {
 // busy block.
 //
 
+#ifndef _HEAP_ENTRY_EXTRA_DEFINED
+#define _HEAP_ENTRY_EXTRA_DEFINED
 typedef struct _HEAP_ENTRY_EXTRA {
     union {
         struct {
@@ -123,6 +128,7 @@ typedef struct _HEAP_ENTRY_EXTRA {
         ULONGLONG ZeroInit;
     };
 } HEAP_ENTRY_EXTRA, *PHEAP_ENTRY_EXTRA;
+#endif /* _HEAP_ENTRY_EXTRA_DEFINED */
 
 //
 // This structure is present at the end of a free block if HEAP_ENTRY_EXTRA_PRESENT
