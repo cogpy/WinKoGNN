@@ -195,6 +195,8 @@ typedef BOOLEAN (*PVIDEO_HW_RESET_HW)(
     ULONG Rows);
 
 /* VIDEO_HW_INITIALIZATION_DATA — video miniport init structure */
+#ifndef _VIDEO_HW_INITIALIZATION_DATA_DEFINED
+#define _VIDEO_HW_INITIALIZATION_DATA_DEFINED
 typedef struct _VIDEO_HW_INITIALIZATION_DATA {
     ULONG   HwInitDataSize;
     ULONG   AdapterInterfaceType;  /* INTERFACE_TYPE */
@@ -208,8 +210,11 @@ typedef struct _VIDEO_HW_INITIALIZATION_DATA {
     ULONG   HwLegacyResourceCount;
     PVIDEO_HW_RESET_HW      HwResetHw;
 } VIDEO_HW_INITIALIZATION_DATA, *PVIDEO_HW_INITIALIZATION_DATA;
+#endif /* _VIDEO_HW_INITIALIZATION_DATA_DEFINED */
 
 /* VIDEOMODE — used by video drivers */
+#ifndef _VIDEOMODE_DEFINED
+#define _VIDEOMODE_DEFINED
 typedef struct _VIDEOMODE {
     ULONG   Length;
     ULONG   ModeIndex;
@@ -229,7 +234,7 @@ typedef struct _VIDEOMODE {
     ULONG   BlueMask;
     ULONG   AttributeFlags;
 } VIDEOMODE, *PVIDEOMODE;
-#endif
+#endif /* _VIDEOMODE_DEFINED */
 
 #ifdef __cplusplus
 }

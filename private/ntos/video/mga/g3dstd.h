@@ -19,7 +19,9 @@
 #define TRUE                1
 
 #ifdef WINDOWS_NT
+  #ifndef _BOOL_DEFINED
   typedef SHORT           BOOL;
+  #endif
   typedef UCHAR           BYTE;           /*  8-bit datum */
   typedef CHAR            SBYTE;
   typedef USHORT          WORD;           /* 16-bit datum */
@@ -32,7 +34,9 @@
 #else
   typedef void            VOID;
 
+  #ifndef _BOOL_DEFINED
   typedef int             BOOL;
+  #endif
   typedef unsigned char   BYTE;           /*  8-bit datum */
   typedef char            SBYTE;
   typedef unsigned short  WORD;           /* 16-bit datum */
