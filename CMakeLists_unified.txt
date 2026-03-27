@@ -1,0 +1,197 @@
+##############################################################################
+# WinKoGNN Unified AGI-OS Build System
+#
+# Integrates:
+#   - NT4 kernel compatibility shims (C)
+#   - cogpy-hpp header-only modules (C++11)
+#   - ATenSpace tensor-backed AtomSpace (C++14)
+#   - cog0 Agent-Zero orchestration (C++17)
+#   - OpenCog workbench (Python + C++)
+#
+# Build targets:
+#   winkognn_core       - Core library (NT compat + cogpy bridge)
+#   winkognn_test       - Comprehensive test suite
+#   winkognn_cli        - Command-line AGI-OS interface
+#   nt_compat_test      - NT compatibility header validation
+#
+# Usage:
+#   mkdir build && cd build
+#   cmake -DCOGPY_HPP_DIR=/path/to/cogpy-hpp ..
+#   make -j$(nproc)
+##############################################################################
+
+cmake_minimum_required(VERSION 3.14)
+project(WinKoGNN_AGIOS
+    VERSION 1.0.0
+    DESCRIPTION "Unified AGI-OS: NT Kernel + OpenCog + ATenSpace + cog0"
+    LANGUAGES C CXX
+)
+
+# C++17 for cog0 integration, C11 for NT compat
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_C_STANDARD 11)
+set(CMAKE_C_STANDARD_REQUIRED ON)
+
+# Build type
+if(NOT CMAKE_BUILD_TYPE)
+    set(CMAKE_BUILD_TYPE Release)
+endif()
+
+# Compiler flags
+set(CMAKE_CXX_FLAGS_DEBUG "-g -O0 -DDEBUG")
+set(CMAKE_CXX_FLAGS_RELEASE "-O2 -DNDEBUG")
+
+# Warnings (strict for our code, relaxed for NT sources)
+if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+    add_compile_options(
+        -Wall -Wextra -Wpedantic
+        -Wno-unused-parameter
+        -Wno-unused-variable
+        -Wno-sign-compare
+        -Wno-missing-field-initializers
+    )
+endif()
+
+##############################################################################
+# External dependencies
+##############################################################################
+
+# cogpy-hpp (header-only)
+set(COGPY_HPP_DIR "${CMAKE_SOURCE_DIR}/../cogpy-hpp" CACHE PATH
+    "Path to cogpy-hpp repository")
+
+if(EXISTS "${COGPY_HPP_DIR}/include/cog/cog.hpp")
+    message(STATUS "Found cogpy-hpp at: ${COGPY_HPP_DIR}")
+else()
+    message(WARNING "cogpy-hpp not found at ${COGPY_HPP_DIR}, using bundled stubs")
+endif()
+
+# cog0 (optional, for full orchestration)
+set(COG0_DIR "${CMAKE_SOURCE_DIR}/../cog0" CACHE PATH
+    "Path to cog0 repository")
+
+if(EXISTS "${COG0_DIR}/include")
+    message(STATUS "Found cog0 at: ${COG0_DIR}")
+    set(HAS_COG0 ON)
+else()
+    message(STATUS "cog0 not found, orchestration will use built-in bridge")
+    set(HAS_COG0 OFF)
+endif()
+
+##############################################################################
+# Include directories
+##############################################################################
+
+# Primary include paths
+include_directories(
+    ${CMAKE_SOURCE_DIR}/include                     # Our bridge headers
+    ${CMAKE_SOURCE_DIR}/include/nt_compat           # NT compatibility shims
+    ${CMAKE_SOURCE_DIR}/include/cogpy               # cogpy bridge headers
+    ${COGPY_HPP_DIR}/include                        # cogpy-hpp modules
+    ${CMAKE_SOURCE_DIR}/aten/aten/src               # ATenSpace headers
+    ${CMAKE_SOURCE_DIR}/private/ntos/inc            # NT kernel headers
+)
+
+if(HAS_COG0)
+    include_directories(${COG0_DIR}/include)
+endif()
+
+##############################################################################
+# NT Compatibility Library (C)
+##############################################################################
+
+# Collect NT compatibility sources
+# These are stub implementations for the NT API functions
+add_library(nt_compat STATIC
+    ${CMAKE_SOURCE_DIR}/src/nt_compat/nt_stubs.c
+)
+
+target_include_directories(nt_compat PUBLIC
+    ${CMAKE_SOURCE_DIR}/include/nt_compat
+)
+
+##############################################################################
+# WinKoGNN Core Library (C++17)
+##############################################################################
+
+add_library(winkognn_core STATIC
+    ${CMAKE_SOURCE_DIR}/src/core/unified_atomspace.cpp
+    ${CMAKE_SOURCE_DIR}/src/core/cognitive_engine.cpp
+    ${CMAKE_SOURCE_DIR}/src/core/nt_kernel_bridge.cpp
+    ${CMAKE_SOURCE_DIR}/src/core/atenspace_bridge.cpp
+    ${CMAKE_SOURCE_DIR}/src/core/cog0_orchestrator.cpp
+    ${CMAKE_SOURCE_DIR}/src/core/agios_system.cpp
+)
+
+target_link_libraries(winkognn_core PUBLIC nt_compat)
+
+if(HAS_COG0)
+    target_compile_definitions(winkognn_core PUBLIC WINKOGNN_HAS_COG0=1)
+endif()
+
+##############################################################################
+# Test Suite
+##############################################################################
+
+enable_testing()
+
+add_executable(winkognn_test
+    ${CMAKE_SOURCE_DIR}/tests/test_main.cpp
+)
+
+target_link_libraries(winkognn_test PRIVATE winkognn_core)
+
+add_test(NAME WinKoGNN_UnitTests COMMAND winkognn_test)
+
+# NT compatibility header test (pure C)
+add_executable(nt_compat_test
+    ${CMAKE_SOURCE_DIR}/tests/test_nt_compat.c
+)
+
+target_link_libraries(nt_compat_test PRIVATE nt_compat)
+
+add_test(NAME NT_Compat_Tests COMMAND nt_compat_test)
+
+##############################################################################
+# CLI Interface
+##############################################################################
+
+add_executable(winkognn_cli
+    ${CMAKE_SOURCE_DIR}/src/cli/main.cpp
+)
+
+target_link_libraries(winkognn_cli PRIVATE winkognn_core)
+
+##############################################################################
+# Installation
+##############################################################################
+
+install(TARGETS winkognn_core nt_compat
+    ARCHIVE DESTINATION lib
+    LIBRARY DESTINATION lib
+)
+
+install(DIRECTORY ${CMAKE_SOURCE_DIR}/include/
+    DESTINATION include/winkognn
+    FILES_MATCHING PATTERN "*.h" PATTERN "*.hpp"
+)
+
+install(TARGETS winkognn_cli
+    RUNTIME DESTINATION bin
+)
+
+##############################################################################
+# Summary
+##############################################################################
+
+message(STATUS "")
+message(STATUS "=== WinKoGNN Unified AGI-OS Build Configuration ===")
+message(STATUS "  Build type:     ${CMAKE_BUILD_TYPE}")
+message(STATUS "  C++ standard:   ${CMAKE_CXX_STANDARD}")
+message(STATUS "  cogpy-hpp:      ${COGPY_HPP_DIR}")
+message(STATUS "  cog0:           ${COG0_DIR} (${HAS_COG0})")
+message(STATUS "  NT compat:      ${CMAKE_SOURCE_DIR}/include/nt_compat")
+message(STATUS "  ATenSpace:      ${CMAKE_SOURCE_DIR}/aten/aten/src")
+message(STATUS "================================================")
+message(STATUS "")

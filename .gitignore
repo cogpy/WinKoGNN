@@ -46,3 +46,8 @@ htmlcov/
 
 # Configuration (if containing secrets)
 config_local.json
+tests/test_main_bin
+tests/test_nt_compat_bin
+winkognn_cli
+*.o
+build/
