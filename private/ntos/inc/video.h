@@ -230,6 +230,8 @@ typedef struct _STATUS_BLOCK {
 // is a single buffer is used to perform the requests.
 //
 
+#ifndef _VIDEO_REQUEST_PACKET_DEFINED
+#define _VIDEO_REQUEST_PACKET_DEFINED
 typedef struct _VIDEO_REQUEST_PACKET {
 
     //
@@ -274,6 +276,7 @@ typedef struct _VIDEO_REQUEST_PACKET {
     ULONG OutputBufferLength;
 
 } VIDEO_REQUEST_PACKET, *PVIDEO_REQUEST_PACKET;
+#endif
 
 
 //
@@ -282,6 +285,8 @@ typedef struct _VIDEO_REQUEST_PACKET {
 // card.
 //
 
+#ifndef _VIDEO_ACCESS_RANGE_DEFINED
+#define _VIDEO_ACCESS_RANGE_DEFINED
 typedef struct _VIDEO_ACCESS_RANGE {
 
     //
@@ -358,6 +363,7 @@ typedef struct _VIDEO_ACCESS_RANGE {
     UCHAR RangeShareable;
 
 } VIDEO_ACCESS_RANGE, *PVIDEO_ACCESS_RANGE;
+#endif
 
 
 //

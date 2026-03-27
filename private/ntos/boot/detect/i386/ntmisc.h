@@ -51,10 +51,13 @@ typedef enum _INTERFACE_TYPE {
 //  as link words.
 //
 
+#ifndef _LIST_ENTRY_DEFINED
+#define _LIST_ENTRY_DEFINED
 typedef struct _LIST_ENTRY {
    struct _LIST_ENTRY far *Flink;
    struct _LIST_ENTRY far *Blink;
 } LIST_ENTRY, far *PLIST_ENTRY;
+#endif
 
 #define PTIME_FIELDS    PVOID
 #define KPROCESSOR_STATE ULONG

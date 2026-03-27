@@ -285,28 +285,24 @@ static inline void KeInitializeTimer(PKTIMER Timer) {
 }
 #endif
 
-/* Pool allocation stubs */
+/* Pool allocation stubs — stdlib.h is included by ntdef.h */
 static inline PVOID ExAllocatePool(POOL_TYPE PoolType, SIZE_T NumberOfBytes) {
     (void)PoolType;
-    extern void *malloc(size_t);
-    return malloc(NumberOfBytes);
+    return (PVOID)malloc((size_t)NumberOfBytes);
 }
 
 static inline PVOID ExAllocatePoolWithTag(POOL_TYPE PoolType, SIZE_T NumberOfBytes, ULONG Tag) {
     (void)PoolType;
     (void)Tag;
-    extern void *malloc(size_t);
-    return malloc(NumberOfBytes);
+    return (PVOID)malloc((size_t)NumberOfBytes);
 }
 
 static inline void ExFreePool(PVOID P) {
-    extern void free(void *);
     free(P);
 }
 
 static inline void ExFreePoolWithTag(PVOID P, ULONG Tag) {
     (void)Tag;
-    extern void free(void *);
     free(P);
 }
 

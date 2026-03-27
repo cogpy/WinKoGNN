@@ -37,26 +37,11 @@ extern "C" {
  * the enriched kernel-internal types from NDK/phnt.
  * ============================================================ */
 
-/* CSHORT — compact short, used in PORT_MESSAGE */
-#ifndef _CSHORT_DEFINED
-#define _CSHORT_DEFINED
-typedef short CSHORT;
-typedef CSHORT *PCSHORT;
-#endif
-
-/* CLONG — compact long */
-#ifndef _CLONG_DEFINED
-#define _CLONG_DEFINED
-typedef ULONG CLONG;
-typedef CLONG *PCLONG;
-#endif
-
-/* CCHAR — compact char */
-#ifndef _CCHAR_DEFINED
-#define _CCHAR_DEFINED
-typedef char CCHAR;
-typedef CCHAR *PCCHAR;
-#endif
+/* CCHAR, CSHORT, CLONG — now defined in ntdef.h.
+ * These were previously duplicated here; removed to avoid
+ * conflicting-type errors (ntdef.h uses 'signed char' for CCHAR
+ * while this file used plain 'char').
+ */
 
 /* ERESOURCE — Executive Resource (reader/writer lock) */
 #ifndef _ERESOURCE_DEFINED

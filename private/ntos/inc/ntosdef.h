@@ -122,13 +122,19 @@ extern ULONG NtGlobalFlag;
 // Processor modes.
 //
 
+#ifndef _KPROCESSOR_MODE_DEFINED
+#define _KPROCESSOR_MODE_DEFINED
 typedef CCHAR KPROCESSOR_MODE;
+#endif
 
+#ifndef _MODE_DEFINED
+#define _MODE_DEFINED
 typedef enum _MODE {
     KernelMode,
     UserMode,
     MaximumMode
 } MODE;
+#endif
 
 // end_ntndis
 //
@@ -245,6 +251,8 @@ typedef enum _KDPC_IMPORTANCE {
 // Deferred Procedure Call (DPC) object
 //
 
+#ifndef _KDPC_DEFINED
+#define _KDPC_DEFINED
 typedef struct _KDPC {
     CSHORT Type;
     UCHAR Number;
@@ -256,6 +264,7 @@ typedef struct _KDPC {
     PVOID SystemArgument2;
     PULONG Lock;
 } KDPC, *PKDPC, *RESTRICTED_POINTER PRKDPC;
+#endif
 
 //
 // Interprocessor interrupt worker routine function prototype.
@@ -326,6 +335,8 @@ typedef struct _KIPI_COUNTS {
 //      Mdl->StartVa | Mdl->ByteOffset
 //
 
+#ifndef _MDL_DEFINED
+#define _MDL_DEFINED
 typedef struct _MDL {
     struct _MDL *Next;
     CSHORT Size;
@@ -336,6 +347,7 @@ typedef struct _MDL {
     ULONG ByteCount;
     ULONG ByteOffset;
 } MDL, *PMDL;
+#endif
 
 #define MDL_MAPPED_TO_SYSTEM_VA     0x0001
 #define MDL_PAGES_LOCKED            0x0002

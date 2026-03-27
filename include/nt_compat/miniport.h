@@ -48,6 +48,8 @@ typedef enum _BUS_DATA_TYPE {
 } BUS_DATA_TYPE, *PBUS_DATA_TYPE;
 
 /* ── Video access range ── */
+#ifndef _VIDEO_ACCESS_RANGE_DEFINED
+#define _VIDEO_ACCESS_RANGE_DEFINED
 typedef struct _VIDEO_ACCESS_RANGE {
     LARGE_INTEGER   RangeStart;
     ULONG           RangeLength;
@@ -55,8 +57,11 @@ typedef struct _VIDEO_ACCESS_RANGE {
     UCHAR           RangeVisible;
     UCHAR           RangeShareable;
 } VIDEO_ACCESS_RANGE, *PVIDEO_ACCESS_RANGE;
+#endif
 
 /* ── Video request packet ── */
+#ifndef _VIDEO_REQUEST_PACKET_DEFINED
+#define _VIDEO_REQUEST_PACKET_DEFINED
 typedef struct _VIDEO_REQUEST_PACKET {
     ULONG           IoControlCode;
     IO_STATUS_BLOCK StatusBlock;
@@ -65,6 +70,7 @@ typedef struct _VIDEO_REQUEST_PACKET {
     PVOID           OutputBuffer;
     ULONG           OutputBufferLength;
 } VIDEO_REQUEST_PACKET, *PVIDEO_REQUEST_PACKET;
+#endif
 
 /* ── PCI common config ── */
 typedef struct _PCI_COMMON_CONFIG {
