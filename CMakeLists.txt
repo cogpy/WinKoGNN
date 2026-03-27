@@ -135,6 +135,19 @@ if(NT4_SOURCES)
     )
 
     if(MSVC)
+        # Suppress SAL annotations that conflict with NT4 IN/OUT/OPTIONAL usage.
+        # Also suppress warnings about type redefinitions between our shims and
+        # the Windows SDK (winnt.h) — these are intentional compatibility overlaps.
+        target_compile_definitions(nt4_kernel
+            PRIVATE
+                _NO_SAL_2          # Disable SAL2 annotations
+                _SAL_NO_ATTR_1     # Disable SAL1 attributes
+                _CRT_SECURE_NO_WARNINGS
+        )
+        # Suppress C2011 (type redefinition) and C2371 (redefinition; different basic types)
+        # These occur when our ntdef.h types overlap with winnt.h types.
+        # Our ntdef.h guards most types with #ifndef on _WIN32, but some
+        # edge cases remain with the NT4 source tree's own internal headers.
         target_compile_options(nt4_kernel
             PRIVATE
                 /W3          # Warning level 3
@@ -160,6 +173,9 @@ if(NT4_SOURCES)
                 /wd4700      # uninitialized local variable used
                 /wd4706      # assignment within conditional
                 /wd4996      # deprecated functions
+                /wd4005      # macro redefinition
+                /wd4081      # expected pragma token
+                /wd4668      # not defined as preprocessor macro
         )
     endif()
 endif()

@@ -10,9 +10,13 @@
  * manager, process manager, and IPC subsystems can compile as OBJECT
  * libraries for analysis, instrumentation, and cognitive integration.
  *
+ * On Windows/MSVC: most types come from the real Windows SDK (winnt.h).
+ * We only define what the SDK does NOT provide (NT4-specific types,
+ * kernel-internal structures, and the IN/OUT/OPTIONAL annotations).
+ *
  * Design principle: provide *just enough* of the NT type system to let
  * the ntos source compile without modification, while remaining a pure
- * C header with zero external dependencies.
+ * C header with zero external dependencies on non-Windows platforms.
  *--*/
 
 #ifndef _NTDEF_H_COMPAT_
@@ -22,9 +26,397 @@
 extern "C" {
 #endif
 
+/* ================================================================== */
+/* PLATFORM DETECTION                                                  */
+/* ================================================================== */
+
+#ifdef _WIN32
+/* ================================================================== */
+/* WINDOWS PATH: Use real SDK types, supplement with NT4-specific      */
+/* ================================================================== */
+
+/*
+ * On Windows with MSVC, the CRT and SDK headers (winnt.h, basetsd.h)
+ * define most of the fundamental NT types. We MUST NOT redefine them.
+ *
+ * However, the NT4 kernel source uses IN/OUT/OPTIONAL as empty
+ * parameter annotations. Modern MSVC's sal.h may define these as
+ * SAL annotations that break compilation. We force them to be empty.
+ *
+ * Strategy:
+ *   1. Include <windows.h> with WIN32_LEAN_AND_MEAN to get all types
+ *   2. Undef and redefine IN/OUT/OPTIONAL as empty (NT4 convention)
+ *   3. Define only the NT4-specific types not in the modern SDK
+ */
+
+/* Prevent windows.h from pulling in everything */
+#ifndef WIN32_LEAN_AND_MEAN
+#define WIN32_LEAN_AND_MEAN
+#endif
+#ifndef NOMINMAX
+#define NOMINMAX
+#endif
+
+/* Suppress SAL annotations — they conflict with NT4 IN/OUT usage */
+#ifndef _SAL_NO_ATTR_1
+#define _SAL_NO_ATTR_1
+#endif
+#ifndef _NO_SAL_2
+#define _NO_SAL_2
+#endif
+
+#include <windows.h>
+
+/* Force IN/OUT/OPTIONAL to be empty macros (NT4 convention).
+ * The Windows SDK or sal.h may have defined these as SAL annotations.
+ * The NT4 source code uses them purely as documentation annotations. */
+#ifdef IN
+#undef IN
+#endif
+#define IN
+
+#ifdef OUT
+#undef OUT
+#endif
+#define OUT
+
+#ifdef OPTIONAL
+#undef OPTIONAL
+#endif
+#define OPTIONAL
+
+/* NTAPI — the NT4 source expects this as __stdcall */
+#ifndef NTAPI
+#define NTAPI __stdcall
+#endif
+#ifndef NTSYSCALLAPI
+#define NTSYSCALLAPI
+#endif
+
+/* CONST — may already be defined */
+#ifndef CONST
+#define CONST const
+#endif
+
 /* ------------------------------------------------------------------ */
-/* Detect platform and set up base integer types                       */
+/* NT4-specific types NOT in the modern Windows SDK                     */
 /* ------------------------------------------------------------------ */
+
+/* NTSTATUS — the SDK has it in ntstatus.h but not always via windows.h */
+#ifndef _NTSTATUS_DEFINED
+#define _NTSTATUS_DEFINED
+typedef LONG NTSTATUS;
+#endif
+typedef NTSTATUS *PNTSTATUS;
+
+#ifndef NT_SUCCESS
+#define NT_SUCCESS(Status)          ((NTSTATUS)(Status) >= 0)
+#endif
+#ifndef NT_INFORMATION
+#define NT_INFORMATION(Status)      ((ULONG)(Status) >> 30 == 1)
+#endif
+#ifndef NT_WARNING
+#define NT_WARNING(Status)          ((ULONG)(Status) >> 30 == 2)
+#endif
+#ifndef NT_ERROR
+#define NT_ERROR(Status)            ((ULONG)(Status) >> 30 == 3)
+#endif
+
+/* Common status codes */
+#ifndef STATUS_SUCCESS
+#define STATUS_SUCCESS              ((NTSTATUS)0x00000000L)
+#define STATUS_UNSUCCESSFUL         ((NTSTATUS)0xC0000001L)
+#define STATUS_NOT_IMPLEMENTED      ((NTSTATUS)0xC0000002L)
+#define STATUS_INVALID_PARAMETER    ((NTSTATUS)0xC000000DL)
+#define STATUS_NO_MEMORY            ((NTSTATUS)0xC0000017L)
+#define STATUS_ACCESS_DENIED        ((NTSTATUS)0xC0000022L)
+#define STATUS_OBJECT_NAME_NOT_FOUND ((NTSTATUS)0xC0000034L)
+#define STATUS_BUFFER_TOO_SMALL     ((NTSTATUS)0xC0000023L)
+#define STATUS_PENDING              ((NTSTATUS)0x00000103L)
+#define STATUS_TIMEOUT              ((NTSTATUS)0x00000102L)
+#define STATUS_BUFFER_OVERFLOW      ((NTSTATUS)0x80000005L)
+#define STATUS_NO_MORE_ENTRIES      ((NTSTATUS)0x8000001AL)
+#endif
+
+/* UNICODE_STRING — not in windows.h, only in ntdef.h from DDK */
+#ifndef _UNICODE_STRING_DEFINED
+#define _UNICODE_STRING_DEFINED
+typedef struct _UNICODE_STRING {
+    USHORT  Length;
+    USHORT  MaximumLength;
+    PWSTR   Buffer;
+} UNICODE_STRING, *PUNICODE_STRING;
+typedef const UNICODE_STRING *PCUNICODE_STRING;
+#endif
+
+/* STRING / ANSI_STRING — not in windows.h */
+#ifndef _STRING_DEFINED
+#define _STRING_DEFINED
+typedef struct _STRING {
+    USHORT  Length;
+    USHORT  MaximumLength;
+    PCHAR   Buffer;
+} STRING, *PSTRING, ANSI_STRING, *PANSI_STRING, OEM_STRING, *POEM_STRING;
+#endif
+
+/* OBJECT_ATTRIBUTES — not in windows.h */
+#ifndef _OBJECT_ATTRIBUTES_DEFINED
+#define _OBJECT_ATTRIBUTES_DEFINED
+typedef struct _OBJECT_ATTRIBUTES {
+    ULONG           Length;
+    HANDLE          RootDirectory;
+    PUNICODE_STRING ObjectName;
+    ULONG           Attributes;
+    PVOID           SecurityDescriptor;
+    PVOID           SecurityQualityOfService;
+} OBJECT_ATTRIBUTES, *POBJECT_ATTRIBUTES;
+#endif
+
+#ifndef OBJ_INHERIT
+#define OBJ_INHERIT             0x00000002L
+#define OBJ_PERMANENT           0x00000010L
+#define OBJ_EXCLUSIVE           0x00000020L
+#define OBJ_CASE_INSENSITIVE    0x00000040L
+#define OBJ_OPENIF              0x00000080L
+#define OBJ_OPENLINK            0x00000100L
+#define OBJ_KERNEL_HANDLE       0x00000200L
+#endif
+
+#ifndef InitializeObjectAttributes
+#define InitializeObjectAttributes(p, n, a, r, s) { \
+    (p)->Length = sizeof(OBJECT_ATTRIBUTES); \
+    (p)->RootDirectory = r; \
+    (p)->Attributes = a; \
+    (p)->ObjectName = n; \
+    (p)->SecurityDescriptor = s; \
+    (p)->SecurityQualityOfService = NULL; }
+#endif
+
+/* IO_STATUS_BLOCK — not in windows.h */
+#ifndef _IO_STATUS_BLOCK_DEFINED
+#define _IO_STATUS_BLOCK_DEFINED
+typedef struct _IO_STATUS_BLOCK {
+    union {
+        NTSTATUS Status;
+        PVOID    Pointer;
+    };
+    ULONG_PTR Information;
+} IO_STATUS_BLOCK, *PIO_STATUS_BLOCK;
+#endif
+
+/* CLIENT_ID — not in windows.h */
+#ifndef _CLIENT_ID_DEFINED
+#define _CLIENT_ID_DEFINED
+typedef struct _CLIENT_ID {
+    HANDLE UniqueProcess;
+    HANDLE UniqueThread;
+} CLIENT_ID, *PCLIENT_ID;
+#endif
+
+/* IRQL — not in windows.h (kernel-mode only) */
+#ifndef _KIRQL_DEFINED
+#define _KIRQL_DEFINED
+typedef UCHAR KIRQL;
+typedef KIRQL *PKIRQL;
+#endif
+
+#ifndef PASSIVE_LEVEL
+#define PASSIVE_LEVEL       0
+#define LOW_LEVEL           0
+#define APC_LEVEL           1
+#define DISPATCH_LEVEL      2
+#define PROFILE_LEVEL       27
+#define HIGH_LEVEL          31
+#endif
+
+/* KSPIN_LOCK — windows.h defines it as ULONG_PTR, we need struct form */
+/* The SDK already defines KSPIN_LOCK, so we skip our struct version */
+
+/* KDPC — not in windows.h */
+#ifndef _KDPC_DEFINED
+#define _KDPC_DEFINED
+typedef struct _KDPC {
+    SHORT           Type;
+    UCHAR           Importance;
+    UCHAR           Number;
+    LIST_ENTRY      DpcListEntry;
+    PVOID           DeferredRoutine;
+    PVOID           DeferredContext;
+    PVOID           SystemArgument1;
+    PVOID           SystemArgument2;
+    PVOID           DpcData;
+} KDPC, *PKDPC, *PRKDPC;
+#endif
+
+/* DISPATCHER_HEADER — not in windows.h */
+#ifndef _DISPATCHER_HEADER_DEFINED
+#define _DISPATCHER_HEADER_DEFINED
+typedef struct _DISPATCHER_HEADER {
+    UCHAR       Type;
+    UCHAR       Absolute;
+    UCHAR       Size;
+    UCHAR       Inserted;
+    LONG        SignalState;
+    LIST_ENTRY  WaitListHead;
+} DISPATCHER_HEADER;
+#endif
+
+/* KEVENT — not in windows.h */
+#ifndef _KEVENT_DEFINED
+#define _KEVENT_DEFINED
+typedef struct _KEVENT {
+    DISPATCHER_HEADER Header;
+} KEVENT, *PKEVENT, *PRKEVENT;
+#endif
+
+/* KMUTANT — not in windows.h */
+#ifndef _KMUTANT_DEFINED
+#define _KMUTANT_DEFINED
+typedef struct _KMUTANT {
+    DISPATCHER_HEADER Header;
+    LIST_ENTRY        MutantListEntry;
+    PVOID             OwnerThread;
+    BOOLEAN           Abandoned;
+    UCHAR             ApcDisable;
+} KMUTANT, *PKMUTANT, *PRKMUTANT, KMUTEX, *PKMUTEX;
+#endif
+
+/* KSEMAPHORE — not in windows.h */
+#ifndef _KSEMAPHORE_DEFINED
+#define _KSEMAPHORE_DEFINED
+typedef struct _KSEMAPHORE {
+    DISPATCHER_HEADER Header;
+    LONG              Limit;
+} KSEMAPHORE, *PKSEMAPHORE, *PRKSEMAPHORE;
+#endif
+
+/* KTIMER — not in windows.h */
+#ifndef _KTIMER_DEFINED
+#define _KTIMER_DEFINED
+typedef struct _KTIMER {
+    DISPATCHER_HEADER Header;
+    ULARGE_INTEGER    DueTime;
+    LIST_ENTRY        TimerListEntry;
+    PKDPC             Dpc;
+    LONG              Period;
+} KTIMER, *PKTIMER, *PRKTIMER;
+#endif
+
+/* POBJECT_TYPE forward declaration */
+#ifndef _POBJECT_TYPE_DEFINED
+#define _POBJECT_TYPE_DEFINED
+typedef struct _OBJECT_TYPE *POBJECT_TYPE;
+#endif
+
+/* MDL — not in windows.h */
+#ifndef _MDL_DEFINED
+#define _MDL_DEFINED
+typedef struct _MDL {
+    struct _MDL    *Next;
+    SHORT           Size;
+    SHORT           MdlFlags;
+    PVOID           Process;
+    PVOID           MappedSystemVa;
+    PVOID           StartVa;
+    ULONG           ByteCount;
+    ULONG           ByteOffset;
+} MDL, *PMDL;
+#endif
+
+/* ACCESS_MASK — already in windows.h, but ensure it exists */
+#ifndef _ACCESS_MASK_DEFINED
+#define _ACCESS_MASK_DEFINED
+typedef ULONG ACCESS_MASK;
+typedef ACCESS_MASK *PACCESS_MASK;
+#endif
+
+/* Processor modes — not in windows.h */
+#ifndef _MODE_DEFINED
+#define _MODE_DEFINED
+typedef enum _MODE {
+    KernelMode,
+    UserMode,
+    MaximumMode
+} MODE;
+#endif
+
+#ifndef _KWAIT_REASON_DEFINED
+#define _KWAIT_REASON_DEFINED
+typedef enum _KWAIT_REASON {
+    Executive, FreePage, PageIn, PoolAllocation, DelayExecution,
+    Suspended, UserRequest, WrExecutive, WrFreePage, WrPageIn,
+    WrPoolAllocation, WrDelayExecution, WrSuspended, WrUserRequest,
+    WrQueue, WrLpcReceive, WrLpcReply, WrVirtualMemory, WrPageOut,
+    WrRendezvous, MaximumWaitReason
+} KWAIT_REASON;
+#endif
+
+/* Miscellaneous macros */
+#ifndef ARGUMENT_PRESENT
+#define ARGUMENT_PRESENT(ArgumentPointer) \
+    ((CHAR *)((ULONG_PTR)(ArgumentPointer)) != (CHAR *)(NULL))
+#endif
+#ifndef PAGED_CODE
+#define PAGED_CODE()
+#endif
+#ifndef ASSERT
+#define ASSERT(exp)
+#endif
+#ifndef ASSERTMSG
+#define ASSERTMSG(msg, exp)
+#endif
+
+/* Pool types — not in windows.h */
+#ifndef _POOL_TYPE_DEFINED
+#define _POOL_TYPE_DEFINED
+typedef enum _POOL_TYPE {
+    NonPagedPool, PagedPool, NonPagedPoolMustSucceed, DontUseThisType,
+    NonPagedPoolCacheAligned, PagedPoolCacheAligned,
+    NonPagedPoolCacheAlignedMustS, MaxPoolType
+} POOL_TYPE;
+#endif
+
+/* Security types (minimal stubs) — some in windows.h, guard all */
+#ifndef _PSECURITY_DESCRIPTOR_DEFINED
+typedef PVOID PSECURITY_DESCRIPTOR;
+#endif
+#ifndef _PACCESS_STATE_DEFINED
+typedef PVOID PACCESS_STATE;
+#endif
+/* PSID is already defined in windows.h */
+#ifndef _PACL_DEFINED
+typedef PVOID PACL;
+#endif
+
+#ifndef _SECURITY_SUBJECT_CONTEXT_DEFINED
+#define _SECURITY_SUBJECT_CONTEXT_DEFINED
+typedef struct _SECURITY_SUBJECT_CONTEXT {
+    PVOID ClientToken;
+    ULONG ImpersonationLevel;
+    PVOID PrimaryToken;
+    PVOID ProcessAuditId;
+} SECURITY_SUBJECT_CONTEXT, *PSECURITY_SUBJECT_CONTEXT;
+#endif
+
+/* GENERIC_MAPPING — already in windows.h */
+
+/* CONTAINING_RECORD — already in windows.h */
+/* FIELD_OFFSET — already in windows.h */
+
+/* NT page size */
+#ifndef PAGE_SIZE
+#define PAGE_SIZE   4096
+#endif
+#ifndef PAGE_SHIFT
+#define PAGE_SHIFT  12
+#endif
+
+
+#else /* !_WIN32 */
+/* ================================================================== */
+/* NON-WINDOWS PATH: Define everything from scratch                    */
+/* ================================================================== */
+
 #include <stdint.h>
 #include <stddef.h>
 
@@ -61,7 +453,7 @@ typedef const char         *LPCSTR;
 typedef void                VOID;
 
 /* Pointer-sized types */
-#if defined(__LP64__) || defined(_WIN64)
+#if defined(__LP64__)
 typedef int64_t             LONG_PTR;
 typedef uint64_t            ULONG_PTR;
 typedef uint64_t            SIZE_T;
@@ -117,23 +509,28 @@ typedef NTSTATUS           *PNTSTATUS;
 /* ------------------------------------------------------------------ */
 /* Calling conventions (no-op on non-Windows)                          */
 /* ------------------------------------------------------------------ */
-#ifndef _WIN32
 #define NTAPI
 #define WINAPI
 #define CALLBACK
 #define APIENTRY
+#ifndef __stdcall
 #define __stdcall
+#endif
+#ifndef __cdecl
 #define __cdecl
+#endif
+#ifndef __fastcall
 #define __fastcall
+#endif
 #define DECLSPEC_IMPORT
 #define DECLSPEC_NORETURN
 #define FORCEINLINE         static inline
+#define NTSYSCALLAPI
 #define IN
 #define OUT
 #define OPTIONAL
 #define CONST               const
 #define UNALIGNED
-#endif
 
 /* ------------------------------------------------------------------ */
 /* Unicode string types                                                */
@@ -145,8 +542,8 @@ typedef const WCHAR        *PCWSTR;
 typedef const WCHAR        *LPCWSTR;
 
 typedef struct _UNICODE_STRING {
-    USHORT  Length;          /* byte count (not including terminator) */
-    USHORT  MaximumLength;  /* byte count of buffer allocation       */
+    USHORT  Length;
+    USHORT  MaximumLength;
     PWSTR   Buffer;
 } UNICODE_STRING, *PUNICODE_STRING;
 
@@ -397,27 +794,11 @@ typedef enum _MODE {
 } MODE;
 
 typedef enum _KWAIT_REASON {
-    Executive,
-    FreePage,
-    PageIn,
-    PoolAllocation,
-    DelayExecution,
-    Suspended,
-    UserRequest,
-    WrExecutive,
-    WrFreePage,
-    WrPageIn,
-    WrPoolAllocation,
-    WrDelayExecution,
-    WrSuspended,
-    WrUserRequest,
-    WrQueue,
-    WrLpcReceive,
-    WrLpcReply,
-    WrVirtualMemory,
-    WrPageOut,
-    WrRendezvous,
-    MaximumWaitReason
+    Executive, FreePage, PageIn, PoolAllocation, DelayExecution,
+    Suspended, UserRequest, WrExecutive, WrFreePage, WrPageIn,
+    WrPoolAllocation, WrDelayExecution, WrSuspended, WrUserRequest,
+    WrQueue, WrLpcReceive, WrLpcReply, WrVirtualMemory, WrPageOut,
+    WrRendezvous, MaximumWaitReason
 } KWAIT_REASON;
 
 /* ------------------------------------------------------------------ */
@@ -450,16 +831,11 @@ typedef enum _KWAIT_REASON {
 #ifndef _POOL_TYPE_DEFINED
 #define _POOL_TYPE_DEFINED
 typedef enum _POOL_TYPE {
-    NonPagedPool,
-    PagedPool,
-    NonPagedPoolMustSucceed,
-    DontUseThisType,
-    NonPagedPoolCacheAligned,
-    PagedPoolCacheAligned,
-    NonPagedPoolCacheAlignedMustS,
-    MaxPoolType
+    NonPagedPool, PagedPool, NonPagedPoolMustSucceed, DontUseThisType,
+    NonPagedPoolCacheAligned, PagedPoolCacheAligned,
+    NonPagedPoolCacheAlignedMustS, MaxPoolType
 } POOL_TYPE;
-#endif /* _POOL_TYPE_DEFINED */
+#endif
 
 /* ------------------------------------------------------------------ */
 /* Security types (minimal stubs)                                      */
@@ -486,9 +862,9 @@ typedef struct _GENERIC_MAPPING {
 /* ------------------------------------------------------------------ */
 /* Architecture-specific stubs                                         */
 /* ------------------------------------------------------------------ */
-#if defined(__x86_64__) || defined(_M_X64)
+#if defined(__x86_64__)
 #define _AMD64_
-#elif defined(__i386__) || defined(_M_IX86)
+#elif defined(__i386__)
 #define _X86_
 #elif defined(__aarch64__)
 #define _ARM64_
@@ -499,6 +875,8 @@ typedef struct _GENERIC_MAPPING {
 #elif defined(__powerpc__)
 #define _PPC_
 #endif
+
+#endif /* _WIN32 */
 
 #ifdef __cplusplus
 }
