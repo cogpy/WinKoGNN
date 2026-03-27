@@ -199,6 +199,8 @@ typedef enum _KTHREAD_STATE {
 // Wait reasons
 //
 
+#ifndef _KWAIT_REASON_DEFINED
+#define _KWAIT_REASON_DEFINED
 typedef enum _KWAIT_REASON {
     Executive,
     FreePage,
@@ -229,6 +231,7 @@ typedef enum _KWAIT_REASON {
     WrKernel,
     MaximumWaitReason
     } KWAIT_REASON;
+#endif /* _KWAIT_REASON_DEFINED */
 
 // end_ntddk end_nthal end_ntifs
 
@@ -253,6 +256,8 @@ typedef struct _KAPC_STATE {
 // N.B. The size field contains the number of dwords in the structure.
 //
 
+#ifndef _DISPATCHER_HEADER_DEFINED
+#define _DISPATCHER_HEADER_DEFINED
 typedef struct _DISPATCHER_HEADER {
     UCHAR Type;
     UCHAR Absolute;
@@ -261,6 +266,7 @@ typedef struct _DISPATCHER_HEADER {
     LONG SignalState;
     LIST_ENTRY WaitListHead;
 } DISPATCHER_HEADER;
+#endif /* _DISPATCHER_HEADER_DEFINED */
 
 // end_ntddk end_nthal end_ntifs end_ntndis
 
@@ -393,9 +399,12 @@ typedef struct _KDEVICE_QUEUE_ENTRY {
 // Event object
 //
 
+#ifndef _KEVENT_DEFINED
+#define _KEVENT_DEFINED
 typedef struct _KEVENT {
     DISPATCHER_HEADER Header;
 } KEVENT, *PKEVENT, *RESTRICTED_POINTER PRKEVENT;
+#endif /* _KEVENT_DEFINED */
 
 // end_ntddk end_nthal end_ntifs end_ntndis
 //
@@ -465,6 +474,8 @@ typedef struct _KINTERRUPT *PKINTERRUPT, *RESTRICTED_POINTER PRKINTERRUPT; // nt
 // Mutant object
 //
 
+#ifndef _KMUTANT_DEFINED
+#define _KMUTANT_DEFINED
 typedef struct _KMUTANT {
     DISPATCHER_HEADER Header;
     LIST_ENTRY MutantListEntry;
@@ -472,6 +483,7 @@ typedef struct _KMUTANT {
     BOOLEAN Abandoned;
     UCHAR ApcDisable;
 } KMUTANT, *PKMUTANT, *RESTRICTED_POINTER PRKMUTANT, KMUTEX, *PKMUTEX, *RESTRICTED_POINTER PRKMUTEX;
+#endif /* _KMUTANT_DEFINED */
 
 // end_ntddk
 //
@@ -492,16 +504,21 @@ typedef struct _KQUEUE {
 // Semaphore object
 //
 
+#ifndef _KSEMAPHORE_DEFINED
+#define _KSEMAPHORE_DEFINED
 typedef struct _KSEMAPHORE {
     DISPATCHER_HEADER Header;
     LONG Limit;
 } KSEMAPHORE, *PKSEMAPHORE, *RESTRICTED_POINTER PRKSEMAPHORE;
+#endif /* _KSEMAPHORE_DEFINED */
 
 // begin_ntndis
 //
 // Timer object
 //
 
+#ifndef _KTIMER_DEFINED
+#define _KTIMER_DEFINED
 typedef struct _KTIMER {
     DISPATCHER_HEADER Header;
     ULARGE_INTEGER DueTime;
@@ -509,6 +526,7 @@ typedef struct _KTIMER {
     struct _KDPC *Dpc;
     LONG Period;
 } KTIMER, *PKTIMER, *RESTRICTED_POINTER PRKTIMER;
+#endif /* _KTIMER_DEFINED */
 
 // end_ntddk end_nthal end_ntifs end_ntndis
 
@@ -518,6 +536,8 @@ typedef struct _KTIMER {
 
 struct _ECHANNEL;
 
+#ifndef _KTHREAD_DEFINED
+#define _KTHREAD_DEFINED
 typedef struct _KTHREAD {
 
     //
@@ -652,11 +672,14 @@ typedef struct _KTHREAD {
     UCHAR IdealProcessor;
     UCHAR DisableBoost;
 } KTHREAD, *PKTHREAD, *RESTRICTED_POINTER PRKTHREAD;
+#endif /* _KTHREAD_DEFINED */
 
 //
 // Process object structure definition
 //
 
+#ifndef _KPROCESS_DEFINED
+#define _KPROCESS_DEFINED
 typedef struct _KPROCESS {
 
     //
@@ -717,6 +740,7 @@ typedef struct _KPROCESS {
     UCHAR ThreadSeed;
     BOOLEAN DisableBoost;
 } KPROCESS, *PKPROCESS, *RESTRICTED_POINTER PRKPROCESS;
+#endif /* _KPROCESS_DEFINED */
 
 //
 // Profile object structure definition

@@ -418,8 +418,15 @@ typedef struct _KDPC {
 #endif
 
 /* ------------------------------------------------------------------ */
-/* Dispatcher objects                                                  */
+/* Dispatcher objects — FORWARD DECLARATIONS ONLY                      */
+/* Full definitions are in private/ntos/inc/ke.h which does NOT use    */
+/* _DEFINED guards.  We must NOT define them here to avoid C2011.      */
 /* ------------------------------------------------------------------ */
+
+/* Minimal DISPATCHER_HEADER — needed by many headers before ke.h.     */
+/* ke.h will redefine it; MSVC C allows identical struct redefinition  */
+/* only if the struct body is EXACTLY identical.  So we provide the    */
+/* exact same layout ke.h uses.                                       */
 #ifndef _DISPATCHER_HEADER_DEFINED
 #define _DISPATCHER_HEADER_DEFINED
 typedef struct _DISPATCHER_HEADER {
@@ -432,6 +439,7 @@ typedef struct _DISPATCHER_HEADER {
 } DISPATCHER_HEADER;
 #endif
 
+/* KEVENT — guarded; ke.h also defines with same guard.                */
 #ifndef _KEVENT_DEFINED
 #define _KEVENT_DEFINED
 typedef struct _KEVENT {
@@ -439,6 +447,7 @@ typedef struct _KEVENT {
 } KEVENT, *PKEVENT, *PRKEVENT;
 #endif
 
+/* KMUTANT — guarded; ke.h also defines with same guard.               */
 #ifndef _KMUTANT_DEFINED
 #define _KMUTANT_DEFINED
 typedef struct _KMUTANT {
@@ -450,6 +459,7 @@ typedef struct _KMUTANT {
 } KMUTANT, *PKMUTANT, *PRKMUTANT, KMUTEX, *PKMUTEX;
 #endif
 
+/* KSEMAPHORE — guarded; ke.h also defines with same guard.            */
 #ifndef _KSEMAPHORE_DEFINED
 #define _KSEMAPHORE_DEFINED
 typedef struct _KSEMAPHORE {
@@ -458,6 +468,7 @@ typedef struct _KSEMAPHORE {
 } KSEMAPHORE, *PKSEMAPHORE, *PRKSEMAPHORE;
 #endif
 
+/* KTIMER — guarded; ke.h also defines with same guard.                */
 #ifndef _KTIMER_DEFINED
 #define _KTIMER_DEFINED
 typedef struct _KTIMER {
@@ -527,13 +538,18 @@ typedef enum _MODE {
 typedef CCHAR KPROCESSOR_MODE;
 #endif
 
+/* KWAIT_REASON — guarded; ke.h also defines with same guard.           */
+#ifndef _KWAIT_REASON_DEFINED
+#define _KWAIT_REASON_DEFINED
 typedef enum _KWAIT_REASON {
     Executive, FreePage, PageIn, PoolAllocation, DelayExecution,
     Suspended, UserRequest, WrExecutive, WrFreePage, WrPageIn,
     WrPoolAllocation, WrDelayExecution, WrSuspended, WrUserRequest,
-    WrQueue, WrLpcReceive, WrLpcReply, WrVirtualMemory, WrPageOut,
-    WrRendezvous, MaximumWaitReason
+    WrEventPair, WrQueue, WrLpcReceive, WrLpcReply, WrVirtualMemory,
+    WrPageOut, WrRendezvous, Spare2, Spare3, Spare4, Spare5, Spare6,
+    WrKernel, MaximumWaitReason
 } KWAIT_REASON;
+#endif
 
 /* ------------------------------------------------------------------ */
 /* Security types                                                      */
@@ -651,13 +667,21 @@ typedef struct _LDT_ENTRY {
 
 /* ------------------------------------------------------------------ */
 /* Pool allocation tags                                                */
+/* ex.h also defines this enum.  We guard ours; ex.h does not guard   */
+/* its definition, so we must ensure our definition is IDENTICAL to    */
+/* what ex.h provides.  MSVC C allows identical redefinition.          */
 /* ------------------------------------------------------------------ */
 #ifndef _POOL_TYPE_DEFINED
 #define _POOL_TYPE_DEFINED
 typedef enum _POOL_TYPE {
-    NonPagedPool, PagedPool, NonPagedPoolMustSucceed, DontUseThisType,
-    NonPagedPoolCacheAligned, PagedPoolCacheAligned,
-    NonPagedPoolCacheAlignedMustS, MaxPoolType
+    NonPagedPool,
+    PagedPool,
+    NonPagedPoolMustSucceed,
+    DontUseThisType,
+    NonPagedPoolCacheAligned,
+    PagedPoolCacheAligned,
+    NonPagedPoolCacheAlignedMustS,
+    MaxPoolType
 } POOL_TYPE;
 #endif
 

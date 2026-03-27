@@ -170,11 +170,14 @@ static inline void RtlSetAllBits(PRTL_BITMAP BitMapHeader) {
 /* ------------------------------------------------------------------ */
 /* Splay tree (used by NT memory manager and object manager)           */
 /* ------------------------------------------------------------------ */
+#ifndef _RTL_SPLAY_LINKS_DEFINED
+#define _RTL_SPLAY_LINKS_DEFINED
 typedef struct _RTL_SPLAY_LINKS {
     struct _RTL_SPLAY_LINKS *Parent;
     struct _RTL_SPLAY_LINKS *LeftChild;
     struct _RTL_SPLAY_LINKS *RightChild;
 } RTL_SPLAY_LINKS, *PRTL_SPLAY_LINKS;
+#endif
 
 static inline void RtlInitializeSplayLinks(PRTL_SPLAY_LINKS Links) {
     Links->Parent = Links;

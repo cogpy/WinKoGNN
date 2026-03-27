@@ -7,6 +7,13 @@
  * kernel-mode test utilities include.  On Windows, this pulls in the
  * entire NT DDK type system.  Our shim provides the subset needed by
  * the WinKoGNN private/ntos/ source tree.
+ *
+ * CRITICAL DESIGN RULE:
+ *   Types that are fully defined in the NT4 source tree's own headers
+ *   (ke.h, ntosdef.h, etc.) MUST NOT be fully defined here.  We provide
+ *   only forward declarations so the NT source's own definitions are
+ *   authoritative.  Types that are NOT defined anywhere in the NT4 source
+ *   (base scalars, NTSTATUS, etc.) are fully defined in ntdef.h.
  *--*/
 
 #ifndef _NT_H_COMPAT_
@@ -20,115 +27,81 @@ extern "C" {
 #endif
 
 /* ------------------------------------------------------------------ */
-/* Process and Thread types (forward declarations)                     */
+/* Forward declarations for kernel objects                             */
+/* These are FULLY DEFINED in ke.h — do NOT redefine here.            */
+/* We only provide forward-declared pointer typedefs so that headers   */
+/* included BEFORE ke.h can reference them.                            */
 /* ------------------------------------------------------------------ */
+struct _KPROCESS;
+struct _KTHREAD;
+struct _EPROCESS;
+struct _ETHREAD;
+
+typedef struct _KPROCESS    *PKPROCESS, *PRKPROCESS;
+typedef struct _KTHREAD     *PKTHREAD, *PRKTHREAD;
 typedef struct _EPROCESS    EPROCESS, *PEPROCESS;
 typedef struct _ETHREAD     ETHREAD, *PETHREAD;
-typedef struct _KPROCESS    KPROCESS, *PKPROCESS;
-typedef struct _KTHREAD     KTHREAD, *PKTHREAD;
 
-/* Minimal KPROCESS for kernel compilation */
-typedef struct _KPROCESS {
-    DISPATCHER_HEADER   Header;
-    LIST_ENTRY          ProfileListHead;
-    ULONG_PTR           DirectoryTableBase;
-    ULONG_PTR           LdtDescriptor;
-    ULONG_PTR           Int21Descriptor;
-    USHORT              IopmOffset;
-    UCHAR               Iopl;
-    BOOLEAN             VdmFlag;
-    ULONG               ActiveProcessors;
-    ULONG               KernelTime;
-    ULONG               UserTime;
-    LIST_ENTRY          ReadyListHead;
-    LIST_ENTRY          SwapListEntry;
-    LIST_ENTRY          ThreadListHead;
-    KSPIN_LOCK          ProcessLock;
-    LONG                Affinity;
-    USHORT              StackCount;
-    CHAR                BasePriority;
-    CHAR                ThreadQuantum;
-    BOOLEAN             AutoAlignment;
-    UCHAR               State;
-    UCHAR               ThreadSeed;
-    BOOLEAN             DisableBoost;
-    UCHAR               PowerState;
-    UCHAR               DisableQuantum;
-    UCHAR               Spare[2];
-} KPROCESS;
+/* ------------------------------------------------------------------ */
+/* TIME_FIELDS — used by arc.h, ntrtl.h, hal                          */
+/* Defined here because it's NOT in ke.h/ntosdef.h                    */
+/* ------------------------------------------------------------------ */
+#ifndef _TIME_FIELDS_DEFINED
+#define _TIME_FIELDS_DEFINED
+typedef struct _TIME_FIELDS {
+    CSHORT Year;
+    CSHORT Month;
+    CSHORT Day;
+    CSHORT Hour;
+    CSHORT Minute;
+    CSHORT Second;
+    CSHORT Milliseconds;
+    CSHORT Weekday;
+} TIME_FIELDS, *PTIME_FIELDS;
+#endif
 
-/* Minimal KTHREAD for kernel compilation */
-typedef struct _KTHREAD {
-    DISPATCHER_HEADER   Header;
-    LIST_ENTRY          MutantListHead;
-    PVOID               InitialStack;
-    PVOID               StackLimit;
-    PVOID               Teb;
-    PVOID               TlsArray;
-    PVOID               KernelStack;
-    BOOLEAN             DebugActive;
-    UCHAR               State;
-    BOOLEAN             Alerted[2];
-    UCHAR               Iopl;
-    UCHAR               NpxState;
-    CHAR                Saturation;
-    CHAR                Priority;
-    PVOID               ApcState;
-    ULONG               ContextSwitches;
-    LONG                WaitStatus;
-    KIRQL               WaitIrql;
-    CHAR                WaitMode;
-    BOOLEAN             WaitNext;
-    UCHAR               WaitReason;
-    PVOID               WaitBlockList;
-    LIST_ENTRY          WaitListEntry;
-    ULONG               WaitTime;
-    CHAR                BasePriority;
-    UCHAR               DecrementCount;
-    CHAR                PriorityDecrement;
-    CHAR                Quantum;
-    PVOID               WaitBlock;
-    PVOID               LegoData;
-    ULONG               KernelApcDisable;
-    LONG                Affinity;
-    BOOLEAN             SystemAffinityActive;
-    UCHAR               PowerState;
-    UCHAR               NpxIrql;
-    UCHAR               Pad[1];
-    PVOID               ServiceTable;
-    PVOID               Queue;
-    KSPIN_LOCK          ApcQueueLock;
-    KTIMER              Timer;
-    LIST_ENTRY          QueueListEntry;
-    LONG                Affinity2;
-    BOOLEAN             Preempted;
-    BOOLEAN             ProcessReadyQueue;
-    BOOLEAN             KernelStackResident;
-    UCHAR               NextProcessor;
-    PVOID               CallbackStack;
-    PVOID               Win32Thread;
-    PVOID               TrapFrame;
-    PVOID               ApcStatePointer[2];
-    CHAR                PreviousMode;
-    BOOLEAN             EnableStackSwap;
-    BOOLEAN             LargeStack;
-    UCHAR               ResourceIndex;
-    ULONG               KernelTime;
-    ULONG               UserTime;
-    PVOID               SavedApcState;
-    BOOLEAN             Alertable;
-    UCHAR               ApcStateIndex;
-    BOOLEAN             ApcQueueable;
-    BOOLEAN             AutoAlignment;
-    PVOID               StackBase;
-    PVOID               SuspendApc;
-    PVOID               SuspendSemaphore;
-    LIST_ENTRY          ThreadListEntry;
-    CHAR                FreezeCount;
-    CHAR                SuspendCount;
-    UCHAR               IdealProcessor;
-    BOOLEAN             DisableBoost;
-} KTHREAD;
+/* ------------------------------------------------------------------ */
+/* Interrupt types — used by ke.h KINTERRUPT struct                    */
+/* ------------------------------------------------------------------ */
+#ifndef _KINTERRUPT_MODE_DEFINED
+#define _KINTERRUPT_MODE_DEFINED
+typedef enum _KINTERRUPT_MODE {
+    LevelSensitive,
+    Latched
+} KINTERRUPT_MODE;
+#endif
+
+#ifndef _KINTERRUPT_ROUTINE_DEFINED
+#define _KINTERRUPT_ROUTINE_DEFINED
+typedef BOOLEAN (NTAPI *PKINTERRUPT_ROUTINE)(
+    IN struct _KINTERRUPT *Interrupt,
+    IN PVOID ServiceContext
+);
+/* Forward-declare KINTERRUPT for the function pointer above */
+struct _KINTERRUPT;
+typedef struct _KINTERRUPT *PKINTERRUPT;
+#endif
+
+/* ------------------------------------------------------------------ */
+/* PACCESS_TOKEN — used by ntosdef.h SECURITY_CLIENT_CONTEXT           */
+/* ------------------------------------------------------------------ */
+#ifndef _PACCESS_TOKEN_DEFINED
+#define _PACCESS_TOKEN_DEFINED
+typedef PVOID PACCESS_TOKEN;
+typedef PVOID PACCESS_TOKEN_ATTRIBUTES;
+#endif
+
+/* ------------------------------------------------------------------ */
+/* Video mode attribute flags — used by video drivers                   */
+/* These come from the SDK ntddvdeo.h but our interception header      */
+/* blocks it, so we define them here.                                  */
+/* ------------------------------------------------------------------ */
+#ifndef VIDEO_MODE_COLOR
+#define VIDEO_MODE_COLOR            0x0001
+#define VIDEO_MODE_GRAPHICS         0x0002
+#define VIDEO_MODE_PALETTE_DRIVEN   0x0004
+#define VIDEO_MODE_MANAGED_PALETTE  0x0008
+#endif
 
 /* ------------------------------------------------------------------ */
 /* System call stubs (no-op implementations for cross-platform build)  */

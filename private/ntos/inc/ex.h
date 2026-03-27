@@ -99,6 +99,8 @@ ExComputeTickCountMultiplier (
 // Pool Allocation routines (in pool.c)
 //
 
+#ifndef _POOL_TYPE_DEFINED
+#define _POOL_TYPE_DEFINED
 typedef enum _POOL_TYPE {
     NonPagedPool,
     PagedPool,
@@ -109,7 +111,7 @@ typedef enum _POOL_TYPE {
     NonPagedPoolCacheAlignedMustS,
     MaxPoolType
     } POOL_TYPE;
-
+#endif /* _POOL_TYPE_DEFINED */
 
 // end_ntddk end_nthal end_ntifs
 
