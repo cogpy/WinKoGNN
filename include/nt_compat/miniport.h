@@ -16,6 +16,8 @@ typedef LONG VP_STATUS;
 typedef PVOID PVIDEO_PORT_HANDLE;
 
 /* ── Interface type ── */
+#ifndef _INTERFACE_TYPE_DEFINED
+#define _INTERFACE_TYPE_DEFINED
 typedef enum _INTERFACE_TYPE {
     InterfaceTypeUndefined = -1,
     Internal = 0,
@@ -32,8 +34,11 @@ typedef enum _INTERFACE_TYPE {
     MPSABus,
     MaximumInterfaceType
 } INTERFACE_TYPE, *PINTERFACE_TYPE;
+#endif
 
 /* ── Bus data type ── */
+#ifndef _BUS_DATA_TYPE_DEFINED
+#define _BUS_DATA_TYPE_DEFINED
 typedef enum _BUS_DATA_TYPE {
     ConfigurationSpaceUndefined = -1,
     Cmos,
@@ -46,6 +51,7 @@ typedef enum _BUS_DATA_TYPE {
     PCMCIAConfiguration,
     MaximumBusDataType
 } BUS_DATA_TYPE, *PBUS_DATA_TYPE;
+#endif
 
 /* ── Video access range ── */
 #ifndef _VIDEO_ACCESS_RANGE_DEFINED
@@ -73,6 +79,8 @@ typedef struct _VIDEO_REQUEST_PACKET {
 #endif
 
 /* ── PCI common config ── */
+#ifndef _PCI_COMMON_CONFIG_DEFINED
+#define _PCI_COMMON_CONFIG_DEFINED
 typedef struct _PCI_COMMON_CONFIG {
     USHORT  VendorID;
     USHORT  DeviceID;
@@ -95,8 +103,11 @@ typedef struct _PCI_COMMON_CONFIG {
     UCHAR   MinimumGrant;
     UCHAR   MaximumLatency;
 } PCI_COMMON_CONFIG, *PPCI_COMMON_CONFIG;
+#endif
 
+#ifndef PCI_COMMON_HDR_LENGTH
 #define PCI_COMMON_HDR_LENGTH (sizeof(PCI_COMMON_CONFIG))
+#endif
 
 /* ── Video port function stubs ── */
 static inline VP_STATUS VideoPortVerifyAccessRanges(

@@ -1495,6 +1495,104 @@ typedef struct _HEAP_ENTRY_EXTRA {
 } HEAP_ENTRY_EXTRA, *PHEAP_ENTRY_EXTRA;
 #endif
 
+/* ------------------------------------------------------------------ */
+/* Emulator access constants — used by video miniport drivers           */
+/* ------------------------------------------------------------------ */
+#ifndef EMULATOR_READ_ACCESS
+#define EMULATOR_READ_ACCESS    0x01
+#endif
+#ifndef EMULATOR_WRITE_ACCESS
+#define EMULATOR_WRITE_ACCESS   0x02
+#endif
+
+/* ------------------------------------------------------------------ */
+/* PDRIVER_DISPATCH — driver dispatch routine pointer                   */
+/* ------------------------------------------------------------------ */
+#ifndef _PDRIVER_DISPATCH_DEFINED
+#define _PDRIVER_DISPATCH_DEFINED
+typedef NTSTATUS (NTAPI *PDRIVER_DISPATCH)(
+    IN PDEVICE_OBJECT DeviceObject,
+    IN PIRP Irp);
+#endif
+
+/* ------------------------------------------------------------------ */
+/* POOL_TYPE — kernel pool allocation type                              */
+/* ------------------------------------------------------------------ */
+#ifndef _POOL_TYPE_DEFINED
+#define _POOL_TYPE_DEFINED
+typedef enum _POOL_TYPE {
+    NonPagedPool,
+    PagedPool,
+    NonPagedPoolMustSucceed,
+    DontUseThisType,
+    NonPagedPoolCacheAligned,
+    PagedPoolCacheAligned,
+    NonPagedPoolCacheAlignedMustS,
+    MaxPoolType,
+    NonPagedPoolSession = 32,
+    PagedPoolSession,
+    NonPagedPoolMustSucceedSession,
+    DontUseThisTypeSession,
+    NonPagedPoolCacheAlignedSession,
+    PagedPoolCacheAlignedSession,
+    NonPagedPoolCacheAlignedMustSSession
+} POOL_TYPE;
+#endif
+
+/* ------------------------------------------------------------------ */
+/* EXCEPTION_DISPOSITION — SEH exception handler return                 */
+/* ------------------------------------------------------------------ */
+#ifndef _EXCEPTION_DISPOSITION_DEFINED
+#define _EXCEPTION_DISPOSITION_DEFINED
+typedef enum _EXCEPTION_DISPOSITION {
+    ExceptionContinueExecution,
+    ExceptionContinueSearch,
+    ExceptionNestedException,
+    ExceptionCollidedUnwind
+} EXCEPTION_DISPOSITION;
+#endif
+
+/* ------------------------------------------------------------------ */
+/* FILETIME — Win32 time structure (leaks into kernel headers)          */
+/* ------------------------------------------------------------------ */
+#ifndef _FILETIME_DEFINED
+#define _FILETIME_DEFINED
+typedef struct _FILETIME {
+    ULONG dwLowDateTime;
+    ULONG dwHighDateTime;
+} FILETIME, *PFILETIME, *LPFILETIME;
+#endif
+
+/* ------------------------------------------------------------------ */
+/* ADDRESS_LENGTH — network address length constant                     */
+/* ------------------------------------------------------------------ */
+#ifndef ADDRESS_LENGTH
+#define ADDRESS_LENGTH 6
+#endif
+
+/* ------------------------------------------------------------------ */
+/* ERROR_INVALID_PARAMETER — Win32 error code used in kernel drivers    */
+/* ------------------------------------------------------------------ */
+#ifndef ERROR_INVALID_PARAMETER
+#define ERROR_INVALID_PARAMETER 87L
+#endif
+#ifndef ERROR_MORE_DATA
+#define ERROR_MORE_DATA         234L
+#endif
+#ifndef ERROR_SUCCESS
+#define ERROR_SUCCESS           0L
+#endif
+#ifndef ERROR_NOT_ENOUGH_MEMORY
+#define ERROR_NOT_ENOUGH_MEMORY 8L
+#endif
+
+/* ------------------------------------------------------------------ */
+/* POOL_SMALL_LISTS — pool allocator constant                           */
+/* ------------------------------------------------------------------ */
+#ifndef POOL_SMALL_LISTS
+#define POOL_SMALL_LISTS 32
+#endif
+
 /* VER_PRODUCTBUILD — NT4 build number */
 #ifndef VER_PRODUCTBUILD
 #define VER_PRODUCTBUILD 1381
