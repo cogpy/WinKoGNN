@@ -447,6 +447,8 @@ typedef enum _KWAIT_REASON {
 /* ------------------------------------------------------------------ */
 /* Pool allocation tags                                                */
 /* ------------------------------------------------------------------ */
+#ifndef _POOL_TYPE_DEFINED
+#define _POOL_TYPE_DEFINED
 typedef enum _POOL_TYPE {
     NonPagedPool,
     PagedPool,
@@ -457,6 +459,7 @@ typedef enum _POOL_TYPE {
     NonPagedPoolCacheAlignedMustS,
     MaxPoolType
 } POOL_TYPE;
+#endif /* _POOL_TYPE_DEFINED */
 
 /* ------------------------------------------------------------------ */
 /* Security types (minimal stubs)                                      */

@@ -239,6 +239,8 @@ static inline BOOLEAN RtlFreeHeap(PVOID HeapHandle, ULONG Flags, PVOID BaseAddre
 /* ------------------------------------------------------------------ */
 /* Exception handling (stubs)                                          */
 /* ------------------------------------------------------------------ */
+#ifndef _EXCEPTION_RECORD_DEFINED
+#define _EXCEPTION_RECORD_DEFINED
 typedef struct _EXCEPTION_RECORD {
     NTSTATUS    ExceptionCode;
     ULONG       ExceptionFlags;
@@ -247,6 +249,7 @@ typedef struct _EXCEPTION_RECORD {
     ULONG       NumberParameters;
     ULONG_PTR   ExceptionInformation[15];
 } EXCEPTION_RECORD, *PEXCEPTION_RECORD;
+#endif
 
 /* ------------------------------------------------------------------ */
 /* Registry (stubs for compilation)                                    */

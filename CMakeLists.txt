@@ -28,8 +28,13 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 # -----------------------------------------------------------------------
 set(NT4_ROOT "${CMAKE_SOURCE_DIR}/private/ntos")
 
+# NT compatibility shims — cross-platform stubs for missing DDK/SDK headers.
+# MUST appear first so they are found before any system headers.
+set(NT_COMPAT_DIR "${CMAKE_SOURCE_DIR}/include/nt_compat")
+
 # Primary include directories taken from the NT4 source tree.
 set(NT4_INCLUDE_DIRS
+    "${NT_COMPAT_DIR}"
     "${NT4_ROOT}/inc"
     "${NT4_ROOT}/dbgk"
     "${NT4_ROOT}/ke"

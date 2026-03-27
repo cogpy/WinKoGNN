@@ -13,7 +13,10 @@ typedef WORD    ATOM;
 typedef HANDLE  HWND;
 typedef HANDLE  HDC;
 typedef HANDLE  HINSTANCE;
+#ifndef _HMODULE_DEFINED
+#define _HMODULE_DEFINED
 typedef HANDLE  HMODULE;
+#endif
 typedef HANDLE  HBITMAP;
 typedef HANDLE  HBRUSH;
 typedef HANDLE  HCURSOR;

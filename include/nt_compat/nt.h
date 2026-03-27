@@ -266,18 +266,24 @@ static inline void KeInitializeEvent(PKEVENT Event, ULONG Type, BOOLEAN State) {
 }
 
 /* DPC operations */
+#ifndef _KEINITIALIZEDPC_DEFINED
+#define _KEINITIALIZEDPC_DEFINED
 static inline void KeInitializeDpc(PKDPC Dpc, PVOID DeferredRoutine, PVOID DeferredContext) {
     Dpc->DeferredRoutine = DeferredRoutine;
     Dpc->DeferredContext = DeferredContext;
 }
+#endif
 
 /* Timer operations */
+#ifndef _KEINITIALIZETIMER_DEFINED
+#define _KEINITIALIZETIMER_DEFINED
 static inline void KeInitializeTimer(PKTIMER Timer) {
     Timer->Header.Type = 8; /* TimerNotificationObject */
     Timer->Header.SignalState = 0;
     InitializeListHead(&Timer->Header.WaitListHead);
     Timer->Dpc = NULL;
 }
+#endif
 
 /* Pool allocation stubs */
 static inline PVOID ExAllocatePool(POOL_TYPE PoolType, SIZE_T NumberOfBytes) {
