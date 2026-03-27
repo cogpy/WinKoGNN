@@ -124,6 +124,113 @@ typedef struct _VIDEO_MEMORY_INFORMATION {
 } VIDEO_MEMORY_INFORMATION, *PVIDEO_MEMORY_INFORMATION;
 #endif
 
+/* ── VIDEO_BANK_TYPE — video bank switching mode ── */
+#ifndef _VIDEO_BANK_TYPE_DEFINED
+#define _VIDEO_BANK_TYPE_DEFINED
+typedef enum _VIDEO_BANK_TYPE {
+    VideoNotBanked = 0,
+    VideoBanked1RW,
+    VideoBanked1R1W,
+    VideoBanked2RW,
+    NumVideoBankTypes
+} VIDEO_BANK_TYPE, *PVIDEO_BANK_TYPE;
+#endif
+
+/* ── VIDEO_CLUTDATA — color lookup table entry ── */
+#ifndef _VIDEO_CLUTDATA_DEFINED
+#define _VIDEO_CLUTDATA_DEFINED
+typedef struct _VIDEO_CLUTDATA {
+    UCHAR Red;
+    UCHAR Green;
+    UCHAR Blue;
+    UCHAR Unused;
+} VIDEO_CLUTDATA, *PVIDEO_CLUTDATA;
+#endif
+
+/* ── VIDEO_CLUT — color lookup table ── */
+#ifndef _VIDEO_CLUT_DEFINED
+#define _VIDEO_CLUT_DEFINED
+typedef struct _VIDEO_CLUT {
+    USHORT          NumEntries;
+    USHORT          FirstEntry;
+    union {
+        VIDEO_CLUTDATA  RgbArray;
+        ULONG           RgbLong;
+    } LookupTable[1];
+} VIDEO_CLUT, *PVIDEO_CLUT;
+#endif
+
+/* ── VIDEO_CURSOR_POSITION — cursor position ── */
+#ifndef _VIDEO_CURSOR_POSITION_DEFINED
+#define _VIDEO_CURSOR_POSITION_DEFINED
+typedef struct _VIDEO_CURSOR_POSITION {
+    SHORT Column;
+    SHORT Row;
+} VIDEO_CURSOR_POSITION, *PVIDEO_CURSOR_POSITION;
+#endif
+
+/* ── Video miniport function pointer types ── */
+#ifndef _VIDEO_HW_TYPES_DEFINED
+#define _VIDEO_HW_TYPES_DEFINED
+struct _VIDEO_PORT_CONFIG_INFO;
+typedef struct _VIDEO_PORT_CONFIG_INFO VIDEO_PORT_CONFIG_INFO, *PVIDEO_PORT_CONFIG_INFO;
+
+typedef ULONG (*PVIDEO_HW_FIND_ADAPTER)(
+    PVOID HwDeviceExtension,
+    PVOID HwContext,
+    PWSTR ArgumentString,
+    PVIDEO_PORT_CONFIG_INFO ConfigInfo,
+    PUCHAR Again);
+
+typedef BOOLEAN (*PVIDEO_HW_INITIALIZE)(PVOID HwDeviceExtension);
+typedef BOOLEAN (*PVIDEO_HW_INTERRUPT)(PVOID HwDeviceExtension);
+
+typedef BOOLEAN (*PVIDEO_HW_START_IO)(
+    PVOID HwDeviceExtension,
+    PVOID RequestPacket);
+
+typedef BOOLEAN (*PVIDEO_HW_RESET_HW)(
+    PVOID HwDeviceExtension,
+    ULONG Columns,
+    ULONG Rows);
+
+/* VIDEO_HW_INITIALIZATION_DATA — video miniport init structure */
+typedef struct _VIDEO_HW_INITIALIZATION_DATA {
+    ULONG   HwInitDataSize;
+    ULONG   AdapterInterfaceType;  /* INTERFACE_TYPE */
+    PVIDEO_HW_FIND_ADAPTER  HwFindAdapter;
+    PVIDEO_HW_INITIALIZE    HwInitialize;
+    PVIDEO_HW_INTERRUPT     HwInterrupt;
+    PVIDEO_HW_START_IO      HwStartIO;
+    ULONG   HwDeviceExtensionSize;
+    ULONG   StartingDeviceNumber;
+    ULONG   HwLegacyResourceList;
+    ULONG   HwLegacyResourceCount;
+    PVIDEO_HW_RESET_HW      HwResetHw;
+} VIDEO_HW_INITIALIZATION_DATA, *PVIDEO_HW_INITIALIZATION_DATA;
+
+/* VIDEOMODE — used by video drivers */
+typedef struct _VIDEOMODE {
+    ULONG   Length;
+    ULONG   ModeIndex;
+    ULONG   VisScreenWidth;
+    ULONG   VisScreenHeight;
+    ULONG   ScreenStride;
+    ULONG   NumberOfPlanes;
+    ULONG   BitsPerPlane;
+    ULONG   Frequency;
+    ULONG   XMillimeter;
+    ULONG   YMillimeter;
+    ULONG   NumberRedBits;
+    ULONG   NumberGreenBits;
+    ULONG   NumberBlueBits;
+    ULONG   RedMask;
+    ULONG   GreenMask;
+    ULONG   BlueMask;
+    ULONG   AttributeFlags;
+} VIDEOMODE, *PVIDEOMODE;
+#endif
+
 #ifdef __cplusplus
 }
 #endif

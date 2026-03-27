@@ -137,6 +137,147 @@ static inline void NdisTerminateWrapper(NDIS_HANDLE WrapperHandle, PVOID SystemS
 #define OID_802_3_PERMANENT_ADDRESS     0x01010101
 #define OID_802_3_CURRENT_ADDRESS       0x01010102
 
+/* ── NDIS_TIMER — NDIS timer wrapper ── */
+#ifndef _NDIS_TIMER_DEFINED
+#define _NDIS_TIMER_DEFINED
+typedef struct _NDIS_TIMER {
+    KTIMER  Timer;
+    KDPC    Dpc;
+} NDIS_TIMER, *PNDIS_TIMER;
+#endif
+
+/* ── NDIS_INTERRUPT — NDIS interrupt object ── */
+#ifndef _NDIS_INTERRUPT_DEFINED
+#define _NDIS_INTERRUPT_DEFINED
+typedef struct _NDIS_INTERRUPT {
+    PVOID       InterruptObject;  /* PKINTERRUPT */
+    KSPIN_LOCK  DpcCountLock;
+    PVOID       MiniportIdField;
+    PVOID       DpcRoutine;
+    PVOID       SharedInterruptRoutine;
+    PVOID       IsrRoutine;
+    PVOID       InterruptContext;
+    UCHAR       DpcCount;
+    BOOLEAN     Removing;
+} NDIS_INTERRUPT, *PNDIS_INTERRUPT;
+typedef NDIS_INTERRUPT NDIS_MINIPORT_INTERRUPT, *PNDIS_MINIPORT_INTERRUPT;
+#endif
+
+/* ── NDIS_REQUEST_TYPE — request type enum ── */
+#ifndef _NDIS_REQUEST_TYPE_DEFINED
+#define _NDIS_REQUEST_TYPE_DEFINED
+typedef enum _NDIS_REQUEST_TYPE {
+    NdisRequestQueryInformation,
+    NdisRequestSetInformation,
+    NdisRequestQueryStatistics,
+    NdisRequestOpen,
+    NdisRequestClose,
+    NdisRequestSend,
+    NdisRequestTransferData,
+    NdisRequestReset,
+    NdisRequestGeneric1,
+    NdisRequestGeneric2,
+    NdisRequestGeneric3,
+    NdisRequestGeneric4
+} NDIS_REQUEST_TYPE, *PNDIS_REQUEST_TYPE;
+#endif
+
+/* ── NDIS_REQUEST — NDIS request structure ── */
+#ifndef _NDIS_REQUEST_DEFINED
+#define _NDIS_REQUEST_DEFINED
+typedef struct _NDIS_REQUEST {
+    UCHAR               MacReserved[16];
+    NDIS_REQUEST_TYPE   RequestType;
+    union {
+        struct {
+            NDIS_OID    Oid;
+            PVOID       InformationBuffer;
+            UINT        InformationBufferLength;
+            UINT        BytesWritten;
+            UINT        BytesNeeded;
+        } QUERY_INFORMATION;
+        struct {
+            NDIS_OID    Oid;
+            PVOID       InformationBuffer;
+            UINT        InformationBufferLength;
+            UINT        BytesRead;
+            UINT        BytesNeeded;
+        } SET_INFORMATION;
+    } DATA;
+} NDIS_REQUEST, *PNDIS_REQUEST;
+#endif
+
+/* ── NDIS_PACKET_PRIVATE — private packet data ── */
+#ifndef _NDIS_PACKET_PRIVATE_DEFINED
+#define _NDIS_PACKET_PRIVATE_DEFINED
+typedef struct _NDIS_PACKET_PRIVATE {
+    UINT        PhysicalCount;
+    UINT        TotalLength;
+    PNDIS_BUFFER Head;
+    PNDIS_BUFFER Tail;
+    PVOID       Pool;
+    UINT        Count;
+    ULONG       Flags;
+    BOOLEAN     ValidCounts;
+    UCHAR       NdisPacketFlags;
+    USHORT      NdisPacketOobOffset;
+} NDIS_PACKET_PRIVATE, *PNDIS_PACKET_PRIVATE;
+#endif
+
+/* ── NDIS_CONFIGURATION_PARAMETER — registry config parameter ── */
+#ifndef _NDIS_CONFIGURATION_PARAMETER_DEFINED
+#define _NDIS_CONFIGURATION_PARAMETER_DEFINED
+typedef enum _NDIS_PARAMETER_TYPE {
+    NdisParameterInteger,
+    NdisParameterHexInteger,
+    NdisParameterString,
+    NdisParameterMultiString,
+    NdisParameterBinary
+} NDIS_PARAMETER_TYPE, *PNDIS_PARAMETER_TYPE;
+
+typedef struct _NDIS_CONFIGURATION_PARAMETER {
+    NDIS_PARAMETER_TYPE ParameterType;
+    union {
+        ULONG           IntegerData;
+        NDIS_STRING     StringData;
+        PVOID           BinaryData;
+    } ParameterData;
+} NDIS_CONFIGURATION_PARAMETER, *PNDIS_CONFIGURATION_PARAMETER;
+#endif
+
+/* ── NDIS_MCA_POS_DATA — MCA POS data ── */
+#ifndef _NDIS_MCA_POS_DATA_DEFINED
+#define _NDIS_MCA_POS_DATA_DEFINED
+typedef struct _NDIS_MCA_POS_DATA {
+    USHORT  AdapterId;
+    UCHAR   PosData1;
+    UCHAR   PosData2;
+    UCHAR   PosData3;
+    UCHAR   PosData4;
+} NDIS_MCA_POS_DATA, *PNDIS_MCA_POS_DATA;
+#endif
+
+/* ── NDIS_MAC_CHARACTERISTICS — MAC driver characteristics ── */
+#ifndef _NDIS_MAC_CHARACTERISTICS_DEFINED
+#define _NDIS_MAC_CHARACTERISTICS_DEFINED
+typedef struct _NDIS_MAC_CHARACTERISTICS {
+    UCHAR       MajorNdisVersion;
+    UCHAR       MinorNdisVersion;
+    UINT        Reserved;
+    PVOID       OpenAdapterHandler;
+    PVOID       CloseAdapterHandler;
+    PVOID       SendHandler;
+    PVOID       TransferDataHandler;
+    PVOID       ResetHandler;
+    PVOID       RequestHandler;
+    PVOID       QueryGlobalStatisticsHandler;
+    PVOID       UnloadMacHandler;
+    PVOID       AddAdapterHandler;
+    PVOID       RemoveAdapterHandler;
+    NDIS_STRING Name;
+} NDIS_MAC_CHARACTERISTICS, *PNDIS_MAC_CHARACTERISTICS;
+#endif
+
 #ifdef __cplusplus
 }
 #endif

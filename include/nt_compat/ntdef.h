@@ -261,24 +261,52 @@ typedef struct _STRING {
 /* ------------------------------------------------------------------ */
 #ifndef _LARGE_INTEGER_DEFINED
 #define _LARGE_INTEGER_DEFINED
+/*
+ * NT4 source accesses .LowPart / .HighPart directly (no .u. prefix).
+ * We use an anonymous struct so both .LowPart and .u.LowPart work.
+ * MSVC supports anonymous structs natively; GCC/Clang need the
+ * pragma or -fms-extensions.  C11 also allows anonymous structs.
+ */
+#if defined(__GNUC__) || defined(__clang__)
+  #pragma GCC diagnostic push
+  #pragma GCC diagnostic ignored "-Wpedantic"
+#endif
 typedef union _LARGE_INTEGER {
     struct {
         ULONG LowPart;
         LONG  HighPart;
-    } u;
+    };              /* anonymous — direct .LowPart access */
+    struct {
+        ULONG LowPart;
+        LONG  HighPart;
+    } u;            /* named — .u.LowPart also works */
     LONGLONG QuadPart;
 } LARGE_INTEGER, *PLARGE_INTEGER;
+#if defined(__GNUC__) || defined(__clang__)
+  #pragma GCC diagnostic pop
+#endif
 #endif
 
 #ifndef _ULARGE_INTEGER_DEFINED
 #define _ULARGE_INTEGER_DEFINED
+#if defined(__GNUC__) || defined(__clang__)
+  #pragma GCC diagnostic push
+  #pragma GCC diagnostic ignored "-Wpedantic"
+#endif
 typedef union _ULARGE_INTEGER {
     struct {
         ULONG LowPart;
         ULONG HighPart;
-    } u;
+    };              /* anonymous — direct .LowPart access */
+    struct {
+        ULONG LowPart;
+        ULONG HighPart;
+    } u;            /* named — .u.LowPart also works */
     ULONGLONG QuadPart;
 } ULARGE_INTEGER, *PULARGE_INTEGER;
+#if defined(__GNUC__) || defined(__clang__)
+  #pragma GCC diagnostic pop
+#endif
 #endif
 
 /* ------------------------------------------------------------------ */
@@ -1171,6 +1199,301 @@ typedef struct _PEB PEB, *PPEB;
   #endif
 #endif
 #endif /* !__cplusplus */
+
+/* ------------------------------------------------------------------ */
+/* FAST_MUTEX — executive fast mutex (needed by fsrtl.h, ex.h)          */
+/* The canonical definition uses PKTHREAD and KEVENT, but those are     */
+/* complex kernel types.  We provide an opaque-compatible version that  */
+/* preserves the struct layout without pulling in ke.h/ps.h.            */
+/* ------------------------------------------------------------------ */
+#ifndef _FAST_MUTEX_DEFINED
+#define _FAST_MUTEX_DEFINED
+typedef struct _FAST_MUTEX {
+    LONG    Count;
+    PVOID   Owner;          /* PKTHREAD — opaque pointer */
+    ULONG   Contention;
+    PVOID   Event;          /* KEVENT — opaque for layout compat */
+    ULONG   OldIrql;
+} FAST_MUTEX, *PFAST_MUTEX;
+#endif
+
+/* ------------------------------------------------------------------ */
+/* ERESOURCE_THREAD — executive resource thread identifier              */
+/* ------------------------------------------------------------------ */
+#ifndef _ERESOURCE_THREAD_DEFINED
+#define _ERESOURCE_THREAD_DEFINED
+typedef ULONG_PTR ERESOURCE_THREAD;
+typedef ERESOURCE_THREAD *PERESOURCE_THREAD;
+#endif
+
+/* ------------------------------------------------------------------ */
+/* SHARE_ACCESS — I/O manager share access tracking                     */
+/* ------------------------------------------------------------------ */
+#ifndef _SHARE_ACCESS_DEFINED
+#define _SHARE_ACCESS_DEFINED
+typedef struct _SHARE_ACCESS {
+    ULONG OpenCount;
+    ULONG Readers;
+    ULONG Writers;
+    ULONG Deleters;
+    ULONG SharedRead;
+    ULONG SharedWrite;
+    ULONG SharedDelete;
+} SHARE_ACCESS, *PSHARE_ACCESS;
+#endif
+
+/* ------------------------------------------------------------------ */
+/* KDEVICE_QUEUE / KDEVICE_QUEUE_ENTRY — kernel device queue            */
+/* ------------------------------------------------------------------ */
+#ifndef _KDEVICE_QUEUE_DEFINED
+#define _KDEVICE_QUEUE_DEFINED
+typedef struct _KDEVICE_QUEUE_ENTRY {
+    LIST_ENTRY  DeviceListEntry;
+    ULONG       SortKey;
+    BOOLEAN     Inserted;
+} KDEVICE_QUEUE_ENTRY, *PKDEVICE_QUEUE_ENTRY;
+
+typedef struct _KDEVICE_QUEUE {
+    SHORT       Type;
+    SHORT       Size;
+    LIST_ENTRY  DeviceListHead;
+    KSPIN_LOCK  Lock;
+    BOOLEAN     Busy;
+} KDEVICE_QUEUE, *PKDEVICE_QUEUE;
+#endif
+
+/* ------------------------------------------------------------------ */
+/* WAIT_CONTEXT_BLOCK — I/O manager wait context                        */
+/* ------------------------------------------------------------------ */
+#ifndef _WAIT_CONTEXT_BLOCK_DEFINED
+#define _WAIT_CONTEXT_BLOCK_DEFINED
+typedef NTSTATUS (NTAPI *PDRIVER_CONTROL)(
+    IN PDEVICE_OBJECT DeviceObject,
+    IN PIRP Irp,
+    IN PVOID MapRegisterBase,
+    IN PVOID Context);
+typedef struct _WAIT_CONTEXT_BLOCK {
+    KDEVICE_QUEUE_ENTRY WaitQueueEntry;
+    PDRIVER_CONTROL     DeviceRoutine;
+    PVOID               DeviceContext;
+    ULONG               NumberOfMapRegisters;
+    PVOID               DeviceObject;
+    PVOID               CurrentIrp;
+    PVOID               BufferChainingDpc;  /* PKDPC */
+} WAIT_CONTEXT_BLOCK, *PWAIT_CONTEXT_BLOCK;
+#endif
+
+/* ------------------------------------------------------------------ */
+/* WORK_QUEUE_ITEM — executive work queue item                          */
+/* ------------------------------------------------------------------ */
+#ifndef _WORK_QUEUE_ITEM_DEFINED
+#define _WORK_QUEUE_ITEM_DEFINED
+typedef VOID (NTAPI *PWORKER_THREAD_ROUTINE)(IN PVOID Parameter);
+typedef struct _WORK_QUEUE_ITEM {
+    LIST_ENTRY              List;
+    PWORKER_THREAD_ROUTINE  WorkerRoutine;
+    PVOID                   Parameter;
+} WORK_QUEUE_ITEM, *PWORK_QUEUE_ITEM;
+#endif
+
+/* ------------------------------------------------------------------ */
+/* SECURITY_DESCRIPTOR — minimal layout for kernel use                  */
+/* ------------------------------------------------------------------ */
+#ifndef _SECURITY_DESCRIPTOR_STRUCT_DEFINED
+#define _SECURITY_DESCRIPTOR_STRUCT_DEFINED
+typedef struct _SECURITY_DESCRIPTOR_STRUCT {
+    UCHAR   Revision;
+    UCHAR   Sbz1;
+    USHORT  Control;
+    PVOID   Owner;      /* PSID */
+    PVOID   Group;      /* PSID */
+    PVOID   Sacl;       /* PACL */
+    PVOID   Dacl;       /* PACL */
+} SECURITY_DESCRIPTOR_STRUCT;
+#endif
+
+/* SECURITY_CLIENT_CONTEXT — opaque for kernel drivers */
+#ifndef _SECURITY_CLIENT_CONTEXT_DEFINED
+#define _SECURITY_CLIENT_CONTEXT_DEFINED
+typedef struct _SECURITY_CLIENT_CONTEXT {
+    SECURITY_QUALITY_OF_SERVICE SecurityQos;
+    PVOID                       ClientToken;
+    BOOLEAN                     DirectlyAccessClientToken;
+    BOOLEAN                     DirectAccessEffectiveOnly;
+    BOOLEAN                     ServerIsRemote;
+    PVOID                       ClientTokenControl; /* TOKEN_CONTROL */
+} SECURITY_CLIENT_CONTEXT, *PSECURITY_CLIENT_CONTEXT;
+#endif
+
+/* ------------------------------------------------------------------ */
+/* POWER_STATE — kernel power management                                */
+/* ------------------------------------------------------------------ */
+#ifndef _POWER_STATE_DEFINED
+#define _POWER_STATE_DEFINED
+typedef enum _DEVICE_POWER_STATE {
+    PowerDeviceUnspecified = 0,
+    PowerDeviceD0, PowerDeviceD1, PowerDeviceD2, PowerDeviceD3,
+    PowerDeviceMaximum
+} DEVICE_POWER_STATE, *PDEVICE_POWER_STATE;
+typedef enum _SYSTEM_POWER_STATE {
+    PowerSystemUnspecified = 0,
+    PowerSystemWorking, PowerSystemSleeping1, PowerSystemSleeping2,
+    PowerSystemSleeping3, PowerSystemHibernate, PowerSystemShutdown,
+    PowerSystemMaximum
+} SYSTEM_POWER_STATE, *PSYSTEM_POWER_STATE;
+typedef union _POWER_STATE {
+    SYSTEM_POWER_STATE SystemState;
+    DEVICE_POWER_STATE DeviceState;
+} POWER_STATE, *PPOWER_STATE;
+#endif
+
+/* ------------------------------------------------------------------ */
+/* RTL types used in NT4 source tree                                    */
+/* ------------------------------------------------------------------ */
+#ifndef _RTL_TYPES_DEFINED
+#define _RTL_TYPES_DEFINED
+typedef USHORT RTL_ATOM;
+typedef RTL_ATOM *PRTL_ATOM;
+typedef struct _RTL_HANDLE_TABLE {
+    ULONG MaximumNumberOfHandles;
+    ULONG SizeOfHandleTableEntry;
+    ULONG Reserved[2];
+    PVOID FreeHandles;
+    PVOID CommittedHandles;
+} RTL_HANDLE_TABLE, *PRTL_HANDLE_TABLE;
+
+typedef enum _RTL_RXACT_OPERATION {
+    RtlRXactOperationDelete = 1,
+    RtlRXactOperationSetValue,
+    RtlRXactOperationAbort
+} RTL_RXACT_OPERATION, *PRTL_RXACT_OPERATION;
+
+typedef struct _RTL_QUERY_REGISTRY_TABLE {
+    PVOID   QueryRoutine;
+    ULONG   Flags;
+    PWSTR   Name;
+    PVOID   EntryContext;
+    ULONG   DefaultType;
+    PVOID   DefaultData;
+    ULONG   DefaultLength;
+} RTL_QUERY_REGISTRY_TABLE, *PRTL_QUERY_REGISTRY_TABLE;
+#endif
+
+/* ------------------------------------------------------------------ */
+/* EMULATOR_ACCESS_ENTRY — used by video miniport drivers                */
+/* ------------------------------------------------------------------ */
+#ifndef _EMULATOR_ACCESS_ENTRY_DEFINED
+#define _EMULATOR_ACCESS_ENTRY_DEFINED
+typedef struct _EMULATOR_ACCESS_ENTRY {
+    ULONG   BasePort;
+    ULONG   NumConsecutivePorts;
+    PVOID   AccessRoutine;
+    UCHAR   AccessMode;
+    UCHAR   StringSupport;
+} EMULATOR_ACCESS_ENTRY, *PEMULATOR_ACCESS_ENTRY;
+#endif
+
+/* ------------------------------------------------------------------ */
+/* QUAD — 64-bit alignment type used in NT4 pool allocator              */
+/* ------------------------------------------------------------------ */
+#ifndef _QUAD_DEFINED
+#define _QUAD_DEFINED
+typedef union _QUAD {
+    double  DoNotUseThisField;
+    LONGLONG UseThisFieldToCopy;
+} QUAD, *PQUAD;
+#endif
+
+/* ------------------------------------------------------------------ */
+/* WBOOLEAN — wide boolean (ULONG-sized) used in some NT4 drivers       */
+/* ------------------------------------------------------------------ */
+#ifndef _WBOOLEAN_DEFINED
+#define _WBOOLEAN_DEFINED
+typedef ULONG WBOOLEAN;
+#endif
+
+/* ------------------------------------------------------------------ */
+/* CLONG — counted LONG used in some NT4 structures                     */
+/* ------------------------------------------------------------------ */
+#ifndef _CLONG_DEFINED
+#define _CLONG_DEFINED
+typedef LONG CLONG;
+typedef CLONG *PCLONG;
+#endif
+
+/* ------------------------------------------------------------------ */
+/* LPSECURITY_ATTRIBUTES — Win32 type that leaks into kernel headers     */
+/* ------------------------------------------------------------------ */
+#ifndef _LPSECURITY_ATTRIBUTES_DEFINED
+#define _LPSECURITY_ATTRIBUTES_DEFINED
+typedef struct _SECURITY_ATTRIBUTES {
+    ULONG   nLength;
+    PVOID   lpSecurityDescriptor;
+    BOOLEAN bInheritHandle;
+} SECURITY_ATTRIBUTES, *PSECURITY_ATTRIBUTES, *LPSECURITY_ATTRIBUTES;
+#endif
+
+/* ------------------------------------------------------------------ */
+/* UNICODE_PREFIX_TABLE — used by MUP and redirector drivers             */
+/* ------------------------------------------------------------------ */
+#ifndef _UNICODE_PREFIX_TABLE_DEFINED
+#define _UNICODE_PREFIX_TABLE_DEFINED
+typedef struct _UNICODE_PREFIX_TABLE_ENTRY {
+    CSHORT          NodeTypeCode;
+    CSHORT          NameLength;
+    struct _UNICODE_PREFIX_TABLE_ENTRY *NextPrefixTree;
+    struct _UNICODE_PREFIX_TABLE_ENTRY *CaseMatch;
+    PVOID           Links[3];   /* RTL_SPLAY_LINKS analog */
+    PUNICODE_STRING Prefix;
+} UNICODE_PREFIX_TABLE_ENTRY, *PUNICODE_PREFIX_TABLE_ENTRY;
+
+typedef struct _UNICODE_PREFIX_TABLE {
+    CSHORT                          NodeTypeCode;
+    CSHORT                          NameLength;
+    PUNICODE_PREFIX_TABLE_ENTRY     NextPrefixTree;
+    PUNICODE_PREFIX_TABLE_ENTRY     LastNextEntry;
+} UNICODE_PREFIX_TABLE, *PUNICODE_PREFIX_TABLE;
+#endif
+
+/* ------------------------------------------------------------------ */
+/* PREFIX_TABLE_ENTRY — used by name prefix resolution                   */
+/* ------------------------------------------------------------------ */
+#ifndef _PREFIX_TABLE_ENTRY_DEFINED
+#define _PREFIX_TABLE_ENTRY_DEFINED
+typedef struct _PREFIX_TABLE_ENTRY {
+    CSHORT          NodeTypeCode;
+    CSHORT          NameLength;
+    struct _PREFIX_TABLE_ENTRY *NextPrefixTree;
+    PVOID           Links[3];   /* RTL_SPLAY_LINKS analog */
+    PSTRING         Prefix;
+} PREFIX_TABLE_ENTRY, *PPREFIX_TABLE_ENTRY;
+#endif
+
+/* ------------------------------------------------------------------ */
+/* HEAP types — used by NT4 heap manager                                */
+/* ------------------------------------------------------------------ */
+#ifndef _HEAP_ENTRY_DEFINED
+#define _HEAP_ENTRY_DEFINED
+typedef struct _HEAP_ENTRY {
+    USHORT  Size;
+    USHORT  PreviousSize;
+    UCHAR   SmallTagIndex;
+    UCHAR   Flags;
+    UCHAR   UnusedBytes;
+    UCHAR   SegmentIndex;
+} HEAP_ENTRY, *PHEAP_ENTRY;
+
+typedef struct _HEAP_ENTRY_EXTRA {
+    union {
+        struct {
+            USHORT  AllocatorBackTraceIndex;
+            USHORT  TagIndex;
+            ULONG_PTR Settable;
+        };
+        ULONGLONG ZeroInit;
+    };
+} HEAP_ENTRY_EXTRA, *PHEAP_ENTRY_EXTRA;
+#endif
 
 /* VER_PRODUCTBUILD — NT4 build number */
 #ifndef VER_PRODUCTBUILD

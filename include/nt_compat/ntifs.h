@@ -114,6 +114,87 @@ typedef struct _ERESOURCE {
 } ERESOURCE, *PERESOURCE;
 #endif /* _ERESOURCE_DEFINED */
 
+/* ── Fast I/O possibility enum ── */
+#ifndef _FAST_IO_POSSIBLE_DEFINED
+#define _FAST_IO_POSSIBLE_DEFINED
+typedef enum _FAST_IO_POSSIBLE {
+    FastIoIsNotPossible = 0,
+    FastIoIsPossible,
+    FastIoIsQuestionable
+} FAST_IO_POSSIBLE;
+#endif
+
+/* ── LBN / VBN — logical/virtual block numbers ── */
+#ifndef _LBN_DEFINED
+#define _LBN_DEFINED
+typedef ULONG LBN;
+typedef LBN *PLBN;
+#endif
+#ifndef _VBN_DEFINED
+#define _VBN_DEFINED
+typedef ULONG VBN;
+typedef VBN *PVBN;
+#endif
+
+/* ── FSRTL_COMMON_FCB_HEADER — common file control block header ── */
+#ifndef _FSRTL_COMMON_FCB_HEADER_DEFINED
+#define _FSRTL_COMMON_FCB_HEADER_DEFINED
+typedef struct _FSRTL_COMMON_FCB_HEADER {
+    CSHORT          NodeTypeCode;
+    CSHORT          NodeByteSize;
+    UCHAR           Flags;
+    UCHAR           IsFastIoPossible;  /* FAST_IO_POSSIBLE */
+    UCHAR           Flags2;
+    UCHAR           Reserved;
+    PERESOURCE      Resource;
+    PERESOURCE      PagingIoResource;
+    LARGE_INTEGER   AllocationSize;
+    LARGE_INTEGER   FileSize;
+    LARGE_INTEGER   ValidDataLength;
+} FSRTL_COMMON_FCB_HEADER;
+typedef FSRTL_COMMON_FCB_HEADER *PFSRTL_COMMON_FCB_HEADER;
+#endif
+
+/* ── FSRTL_ADVANCED_FCB_HEADER — advanced FCB header with fast mutex ── */
+#ifndef _FSRTL_ADVANCED_FCB_HEADER_DEFINED
+#define _FSRTL_ADVANCED_FCB_HEADER_DEFINED
+typedef struct _FSRTL_ADVANCED_FCB_HEADER {
+    /* Embed the common header fields */
+    CSHORT          NodeTypeCode;
+    CSHORT          NodeByteSize;
+    UCHAR           Flags;
+    UCHAR           IsFastIoPossible;
+    UCHAR           Flags2;
+    UCHAR           Reserved;
+    PERESOURCE      Resource;
+    PERESOURCE      PagingIoResource;
+    LARGE_INTEGER   AllocationSize;
+    LARGE_INTEGER   FileSize;
+    LARGE_INTEGER   ValidDataLength;
+    /* Advanced fields */
+    PFAST_MUTEX             FastMutex;
+    PLIST_ENTRY             PendingEofAdvances;
+    PFILE_OBJECT            FileObjectC;
+    PSECTION_OBJECT_POINTERS SectionObjectPointers;
+} FSRTL_ADVANCED_FCB_HEADER;
+typedef FSRTL_ADVANCED_FCB_HEADER *PFSRTL_ADVANCED_FCB_HEADER;
+#endif
+
+/* ── FSRTL flags ── */
+#ifndef FSRTL_FLAG_FILE_MODIFIED
+#define FSRTL_FLAG_FILE_MODIFIED        0x01
+#define FSRTL_FLAG_FILE_LENGTH_CHANGED  0x02
+#define FSRTL_FLAG_LIMIT_MODIFIED_PAGES 0x04
+#define FSRTL_FLAG_ACQUIRE_MAIN_RSRC_EX 0x08
+#define FSRTL_FLAG_ACQUIRE_MAIN_RSRC_SH 0x10
+#define FSRTL_FLAG_USER_MAPPED_FILE     0x20
+#define FSRTL_FLAG_ADVANCED_HEADER      0x40
+#define FSRTL_FLAG_EOF_ADVANCE_ACTIVE   0x80
+#define FSRTL_FLAG2_DO_MODIFIED_WRITE   0x01
+#define FSRTL_FLAG2_SUPPORTS_FILTER_CONTEXTS 0x02
+#define FSRTL_FLAG2_PURGE_WHEN_MAPPED   0x04
+#endif
+
 /* ── FSRTL stubs ── */
 #define FsRtlEnterFileSystem()    ((void)0)
 #define FsRtlExitFileSystem()     ((void)0)
