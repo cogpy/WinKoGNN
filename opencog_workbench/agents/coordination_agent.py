@@ -16,10 +16,12 @@ class CoordinationAgent(CognitiveAgent):
     peer capabilities, and aggregates their results.
     """
 
-    def __init__(self, agent_id: str):
+    def __init__(self, agent_id: str,
+                 capabilities: Optional[List[str]] = None):
+        default_caps = ["coordination", "reasoning", "decision_making"]
         super().__init__(
             agent_id,
-            capabilities=["coordination", "reasoning", "decision_making"],
+            capabilities=capabilities or default_caps,
         )
         self._peers: Dict[str, CognitiveAgent] = {}   # agent_id -> agent
         self._delegation_log: List[Dict[str, Any]] = []

@@ -1,7 +1,7 @@
 """Reasoning Agent implementation."""
 
 import logging
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
 
 from .cognitive_agent import CognitiveAgent, AgentState
 
@@ -16,8 +16,10 @@ class ReasoningAgent(CognitiveAgent):
     generation, preferring the attached ReasoningEngine when available.
     """
 
-    def __init__(self, agent_id: str):
-        super().__init__(agent_id, capabilities=["reasoning", "decision_making"])
+    def __init__(self, agent_id: str,
+                 capabilities: Optional[List[str]] = None):
+        default_caps = ["reasoning", "decision_making"]
+        super().__init__(agent_id, capabilities=capabilities or default_caps)
         self.inference_depth: int = 3        # max forward-chain depth
         self.explanation_log: List[str] = [] # audit trail of conclusions
 
