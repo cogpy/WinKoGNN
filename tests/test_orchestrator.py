@@ -31,7 +31,7 @@ class StubAgent(AutonomousAgent):
 # ---------------------------------------------------------------------------
 
 class TestOrchestratorInit:
-    def test_initialises_empty(self):
+    def test_initializes_empty(self):
         orch = MultiAgentOrchestrator()
         assert len(orch.agents) == 0
 

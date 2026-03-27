@@ -8,7 +8,7 @@ from opencog_workbench.core.reasoning import ReasoningEngine, InferenceRule
 
 
 class TestReasoningInit:
-    def test_engine_initialises(self, reasoning_engine):
+    def test_engine_initializes(self, reasoning_engine):
         assert reasoning_engine is not None
 
     def test_all_rules_enabled_by_default(self, reasoning_engine):

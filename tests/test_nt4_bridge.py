@@ -19,7 +19,7 @@ from opencog_workbench.nt4_bridge.kernel_bridge import (
 # ---------------------------------------------------------------------------
 
 class TestNT4KernelInit:
-    def test_initialises_without_error(self, nt4_kernel):
+    def test_initializes_without_error(self, nt4_kernel):
         assert nt4_kernel is not None
 
     def test_is_nt4_available_is_bool(self, nt4_kernel):

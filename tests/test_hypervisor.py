@@ -15,7 +15,7 @@ from opencog_workbench.hypervisor.agent_zero import (
 # ---------------------------------------------------------------------------
 
 class TestHypervisorInit:
-    def test_initialises_in_running_state(self, hypervisor):
+    def test_initializes_in_running_state(self, hypervisor):
         assert hypervisor.state == HypervisorState.RUNNING
 
     def test_initial_resource_allocation_zero(self, hypervisor):

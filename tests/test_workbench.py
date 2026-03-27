@@ -1,7 +1,7 @@
 """
 End-to-end tests for the OpenCogWorkbench (full system integration).
 
-These tests exercise the public API of OpenCogWorkbench from initialisation
+These tests exercise the public API of OpenCogWorkbench from initialization
 through task dispatch, GNN training, AtomSpace persistence, and shutdown.
 """
 

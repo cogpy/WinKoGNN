@@ -1,5 +1,5 @@
 """
-Shared pytest fixtures for the WinKoGNN / OpenCog Workbench test suite.
+Shared pytest fixtures for the OpenCog Workbench test suite.
 """
 
 import sys

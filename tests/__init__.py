@@ -1,1 +1,1 @@
-# WinKoGNN test suite
+# OpenCog Workbench test suite

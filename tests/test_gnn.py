@@ -29,7 +29,7 @@ def _populated_atomspace(config=None):
 # ---------------------------------------------------------------------------
 
 class TestGNNInit:
-    def test_gnn_initialises(self, gnn):
+    def test_gnn_initializes(self, gnn):
         assert gnn is not None
 
     def test_layer_count(self, gnn):
