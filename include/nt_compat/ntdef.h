@@ -789,6 +789,245 @@ typedef PVOID LPBYTE;
 typedef CSHORT NODE_TYPE_CODE;
 typedef NODE_TYPE_CODE *PNODE_TYPE_CODE;
 
+/* ------------------------------------------------------------------ */
+/* Base constants used throughout NT4 source tree                      */
+/* ------------------------------------------------------------------ */
+#ifndef ANYSIZE_ARRAY
+#define ANYSIZE_ARRAY 1
+#endif
+
+#ifndef NOTHING
+#define NOTHING void
+typedef NOTHING *PNOTHING;
+#endif
+
+#ifndef MAX_PATH
+#define MAX_PATH 260
+#endif
+
+#ifndef NO_ERROR
+#define NO_ERROR 0L
+#endif
+
+#ifndef FAR
+#define FAR
+#endif
+
+#ifndef NEAR
+#define NEAR
+#endif
+
+/* ------------------------------------------------------------------ */
+/* Win32 user-mode pointer types (needed by SDK headers like           */
+/* lmaccess.h that leak into kernel compilation)                       */
+/* ------------------------------------------------------------------ */
+#ifndef _LPDWORD_DEFINED
+#define _LPDWORD_DEFINED
+typedef DWORD          *LPDWORD;
+#endif
+
+#ifndef _LPVOID_DEFINED
+#define _LPVOID_DEFINED
+typedef void           *LPVOID;
+#endif
+
+#ifndef _LPSTR_DEFINED
+#define _LPSTR_DEFINED
+typedef char           *LPSTR;
+#endif
+
+#ifndef _PULONG_PTR_DEFINED
+#define _PULONG_PTR_DEFINED
+typedef ULONG_PTR      *PULONG_PTR;
+#endif
+
+#ifndef _PLONG_PTR_DEFINED
+#define _PLONG_PTR_DEFINED
+typedef LONG_PTR       *PLONG_PTR;
+#endif
+
+#ifndef _PDWORD_PTR_DEFINED
+#define _PDWORD_PTR_DEFINED
+typedef DWORD_PTR      *PDWORD_PTR;
+#endif
+
+/* PSZ — pointer to zero-terminated string (used in OS/2 subsystem) */
+#ifndef _PSZ_DEFINED
+#define _PSZ_DEFINED
+typedef char           *PSZ;
+#endif
+
+/* ------------------------------------------------------------------ */
+/* I/O Manager types needed before io.h                                */
+/* ------------------------------------------------------------------ */
+#ifndef _IO_APC_ROUTINE_DEFINED
+#define _IO_APC_ROUTINE_DEFINED
+typedef VOID (NTAPI *PIO_APC_ROUTINE)(
+    IN PVOID ApcContext,
+    IN PIO_STATUS_BLOCK IoStatusBlock,
+    IN ULONG Reserved);
+#endif
+
+/* IO_NETWORK_INCREMENT — used in network drivers */
+#ifndef IO_NETWORK_INCREMENT
+#define IO_NETWORK_INCREMENT 2
+#endif
+
+/* FILE_ATTRIBUTE_NORMAL — used in filesystem code */
+#ifndef FILE_ATTRIBUTE_NORMAL
+#define FILE_ATTRIBUTE_NORMAL 0x00000080
+#endif
+
+/* DIRECTORY_ALL_ACCESS */
+#ifndef DIRECTORY_ALL_ACCESS
+#define DIRECTORY_ALL_ACCESS (SYNCHRONIZE | 0xF)
+#endif
+
+/* ------------------------------------------------------------------ */
+/* ARC firmware types (needed by arc.h — 34k+ cascading errors)        */
+/* ------------------------------------------------------------------ */
+#ifndef _DEVICE_FLAGS_DEFINED
+#define _DEVICE_FLAGS_DEFINED
+typedef struct _DEVICE_FLAGS {
+    ULONG Failed : 1;
+    ULONG ReadOnly : 1;
+    ULONG Removable : 1;
+    ULONG ConsoleIn : 1;
+    ULONG ConsoleOut : 1;
+    ULONG Input : 1;
+    ULONG Output : 1;
+} DEVICE_FLAGS, *PDEVICE_FLAGS;
+#endif
+
+/* ------------------------------------------------------------------ */
+/* KPROFILE_SOURCE — kernel profiling source enum (needed by i386.h)    */
+/* ------------------------------------------------------------------ */
+#ifndef _KPROFILE_SOURCE_DEFINED
+#define _KPROFILE_SOURCE_DEFINED
+typedef enum _KPROFILE_SOURCE {
+    ProfileTime,
+    ProfileAlignmentFixup,
+    ProfileTotalIssues,
+    ProfilePipelineDry,
+    ProfileLoadInstructions,
+    ProfilePipelineFrozen,
+    ProfileBranchInstructions,
+    ProfileTotalNonissues,
+    ProfileDcacheMisses,
+    ProfileIcacheMisses,
+    ProfileCacheMisses,
+    ProfileBranchMispredictions,
+    ProfileStoreInstructions,
+    ProfileFpInstructions,
+    ProfileIntegerInstructions,
+    Profile2Issue,
+    Profile3Issue,
+    Profile4Issue,
+    ProfileSpecialInstructions,
+    ProfileTotalCycles,
+    ProfileIcacheIssues,
+    ProfileDcacheAccesses,
+    ProfileMemoryBarrierCycles,
+    ProfileLoadLinkedIssues,
+    ProfileMaximum
+} KPROFILE_SOURCE;
+#endif
+
+/* ------------------------------------------------------------------ */
+/* CONTEXT — CPU context structure (forward-declare + minimal x86)      */
+/* Needed by i386.h KPROCESSOR_STATE which embeds struct _CONTEXT       */
+/* ------------------------------------------------------------------ */
+#ifndef _CONTEXT_DEFINED
+#define _CONTEXT_DEFINED
+
+/* Context flags */
+#define CONTEXT_i386    0x00010000
+#define CONTEXT_CONTROL         (CONTEXT_i386 | 0x00000001L)
+#define CONTEXT_INTEGER         (CONTEXT_i386 | 0x00000002L)
+#define CONTEXT_SEGMENTS        (CONTEXT_i386 | 0x00000004L)
+#define CONTEXT_FLOATING_POINT  (CONTEXT_i386 | 0x00000008L)
+#define CONTEXT_DEBUG_REGISTERS (CONTEXT_i386 | 0x00000010L)
+#define CONTEXT_FULL (CONTEXT_CONTROL | CONTEXT_INTEGER | CONTEXT_SEGMENTS)
+
+#define SIZE_OF_80387_REGISTERS 80
+#define MAXIMUM_SUPPORTED_EXTENSION 512
+
+typedef struct _FLOATING_SAVE_AREA {
+    ULONG ControlWord;
+    ULONG StatusWord;
+    ULONG TagWord;
+    ULONG ErrorOffset;
+    ULONG ErrorSelector;
+    ULONG DataOffset;
+    ULONG DataSelector;
+    UCHAR RegisterArea[SIZE_OF_80387_REGISTERS];
+    ULONG Cr0NpxState;
+} FLOATING_SAVE_AREA, *PFLOATING_SAVE_AREA;
+
+typedef struct _CONTEXT {
+    ULONG ContextFlags;
+    /* Debug registers */
+    ULONG Dr0;
+    ULONG Dr1;
+    ULONG Dr2;
+    ULONG Dr3;
+    ULONG Dr6;
+    ULONG Dr7;
+    /* Floating point */
+    FLOATING_SAVE_AREA FloatSave;
+    /* Segment registers */
+    ULONG SegGs;
+    ULONG SegFs;
+    ULONG SegEs;
+    ULONG SegDs;
+    /* Integer registers */
+    ULONG Edi;
+    ULONG Esi;
+    ULONG Ebx;
+    ULONG Edx;
+    ULONG Ecx;
+    ULONG Eax;
+    /* Control registers */
+    ULONG Ebp;
+    ULONG Eip;
+    ULONG SegCs;
+    ULONG EFlags;
+    ULONG Esp;
+    ULONG SegSs;
+    /* Extended registers */
+    UCHAR ExtendedRegisters[MAXIMUM_SUPPORTED_EXTENSION];
+} CONTEXT, *PCONTEXT;
+#endif /* _CONTEXT_DEFINED */
+
+/* ------------------------------------------------------------------ */
+/* Additional NTSTATUS codes used in NT4 source tree                    */
+/* ------------------------------------------------------------------ */
+#ifndef STATUS_FS_DRIVER_REQUIRED
+#define STATUS_FS_DRIVER_REQUIRED       ((NTSTATUS)0xC000019CL)
+#endif
+#ifndef STATUS_END_OF_FILE
+#define STATUS_END_OF_FILE              ((NTSTATUS)0xC0000011L)
+#endif
+#ifndef STATUS_INTEGER_OVERFLOW
+#define STATUS_INTEGER_OVERFLOW         ((NTSTATUS)0xC0000095L)
+#endif
+#ifndef STATUS_UNRECOGNIZED_VOLUME
+#define STATUS_UNRECOGNIZED_VOLUME      ((NTSTATUS)0xC000014FL)
+#endif
+#ifndef STATUS_REQUEST_NOT_ACCEPTED
+#define STATUS_REQUEST_NOT_ACCEPTED     ((NTSTATUS)0xC00000D0L)
+#endif
+
+/* NETBIOS_NAME_SIZE — used in NBT/NetBIOS drivers */
+#ifndef NETBIOS_NAME_SIZE
+#define NETBIOS_NAME_SIZE 16
+#endif
+
+/* VER_PRODUCTBUILD — NT4 build number */
+#ifndef VER_PRODUCTBUILD
+#define VER_PRODUCTBUILD 1381
+#endif
+
 #ifdef __cplusplus
 }
 #endif

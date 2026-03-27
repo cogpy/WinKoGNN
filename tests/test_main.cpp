@@ -12,6 +12,7 @@
 #include "nt_cognitive_kernel.hpp"
 #include "atenspace_bridge.hpp"
 #include "cog0_orchestrator.hpp"
+#include "nt_autognosis.hpp"
 
 extern "C" {
 #include "nt.h"
@@ -373,6 +374,101 @@ TEST(agios_full_integration) {
     ASSERT_TRUE(s.grip_product >= 0.0f);
     std::string report = orc.status_string();
     ASSERT_TRUE(report.find("AUTONOMOUS") != std::string::npos);
+}
+
+/* ═══════ 8. Autognosis (Self-Awareness) ═══════ */
+
+TEST(autognosis_l0_observation) {
+    winkognn::autognosis::NTAutognosis ag;
+    ASSERT_EQ(static_cast<uint8_t>(ag.level()),
+              static_cast<uint8_t>(cog::grip::AutonomyLevel::L0_Observation));
+    ASSERT_EQ(ag.total_observations(), 0u);
+    // Record some observations
+    for (int i = 0; i < 5; i++) {
+        ag.observe("build.errors", 73247.0 - i * 1000.0);
+    }
+    ASSERT_EQ(ag.total_observations(), 5u);
+    ASSERT_TRUE(ag.self_awareness_value() > 0.0f);
+}
+
+TEST(autognosis_build_health) {
+    winkognn::autognosis::NTAutognosis ag;
+    winkognn::autognosis::BuildHealth health;
+    health.total_errors = 73247;
+    health.resolved_includes = 17234;
+    health.missing_includes = 8250;
+    health.total_include_directives = 25484;
+    health.nt_compat_headers = 104;
+    health.total_source_files = 9674;
+    health.ci_passing = false;
+    ag.observe_build(health);
+    ASSERT_TRUE(ag.build_health().composability_ratio() > 0.6);
+    ASSERT_TRUE(ag.build_health().composability_ratio() < 0.8);
+}
+
+TEST(autognosis_l1_self_model) {
+    winkognn::autognosis::NTAutognosis ag;
+    // Feed enough observations + build health to advance to L1
+    winkognn::autognosis::BuildHealth health;
+    health.total_source_files = 9674;
+    health.total_include_directives = 25484;
+    health.resolved_includes = 17234;
+    ag.observe_build(health);
+    for (int i = 0; i < 12; i++) {
+        ag.observe("grip.product", 0.01 * i);
+    }
+    ASSERT_EQ(static_cast<uint8_t>(ag.level()),
+              static_cast<uint8_t>(cog::grip::AutonomyLevel::L1_SelfModel));
+    ASSERT_TRUE(ag.self_awareness_value() >= 0.25f);
+}
+
+TEST(autognosis_coverage_model) {
+    winkognn::autognosis::NTAutognosis ag;
+    ASSERT_TRUE(ag.subsystem_coverage().size() >= 10);
+    float cov = ag.overall_integration_coverage();
+    ASSERT_TRUE(cov > 0.0f);  // Some subsystems have partial coverage
+    ASSERT_TRUE(cov < 1.0f);  // Not everything is covered yet
+}
+
+TEST(autognosis_weakest_dimension) {
+    winkognn::autognosis::NTAutognosis ag;
+    cog::grip::GripDimensions dims;
+    dims.composability = 0.22f;
+    dims.differentiability = 1.0f;
+    dims.executability = 0.38f;
+    dims.self_awareness = 0.05f;
+    dims.convergence = 0.5f;
+    std::string weakest = ag.weakest_dimension(dims);
+    ASSERT_TRUE(weakest == "self_awareness");
+}
+
+TEST(autognosis_self_report) {
+    winkognn::autognosis::NTAutognosis ag;
+    winkognn::autognosis::BuildHealth health;
+    health.total_source_files = 9674;
+    health.total_include_directives = 25484;
+    health.resolved_includes = 17234;
+    health.nt_compat_headers = 104;
+    ag.observe_build(health);
+    std::string report = ag.self_report();
+    ASSERT_TRUE(report.find("NTAutognosis") != std::string::npos);
+    ASSERT_TRUE(report.find("ke (Kernel)") != std::string::npos);
+    ASSERT_TRUE(report.find("BuildHealth") != std::string::npos);
+}
+
+TEST(autognosis_ksm_iteration_record) {
+    winkognn::autognosis::NTAutognosis ag;
+    winkognn::autognosis::KSMIterationRecord rec;
+    rec.iteration = 5;
+    rec.focus = "composability + self_awareness";
+    rec.description = "Added ARC types, CONTEXT, KPROFILE_SOURCE, Autognosis L0";
+    rec.grip_before = 0.0f;
+    rec.grip_after = 0.01f;
+    rec.delta = 0.01f;
+    rec.commit_hash = "pending";
+    ag.record_iteration(rec);
+    ASSERT_EQ(ag.iterations().size(), 1u);
+    ASSERT_TRUE(ag.iterations()[0].improvement() > 0.0f);
 }
 
 /* ═══════ Main ═══════ */

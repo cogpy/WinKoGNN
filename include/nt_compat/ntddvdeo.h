@@ -5,6 +5,11 @@
  * Provides cross-platform compatibility definitions for the NT4 kernel source tree.
  * Referenced by 98 source files.
  *
+ * IMPORTANT: On _WIN32, we define the Windows SDK guard macro
+ * _NTDDVDEO_ to prevent the SDK's own ntddvdeo.h from being
+ * included (which would cause 7k+ cascading errors due to
+ * CTL_CODE macro conflicts).
+ *
  * Source references:
  *   - phnt (winsiderss/phnt) for NT Native API types
  *   - ReactOS (reactos/reactos) for DDK structure layouts
@@ -13,20 +18,37 @@
 #ifndef _NT_COMPAT_NTDDVDEO_H_H_
 #define _NT_COMPAT_NTDDVDEO_H_H_
 
+/* Prevent the Windows SDK ntddvdeo.h from being included */
+#ifndef _NTDDVDEO_
+#define _NTDDVDEO_
+#endif
+
 #include "ntdef.h"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-
 /* NT Video Device I/O Control definitions */
 
-#ifndef _NTDDVDEO_H_COMPAT
-#define _NTDDVDEO_H_COMPAT
-
+#ifndef FILE_DEVICE_VIDEO
 #define FILE_DEVICE_VIDEO   0x00000023
+#endif
 
+/* CTL_CODE macro if not defined */
+#ifndef CTL_CODE
+#define METHOD_BUFFERED     0
+#define METHOD_IN_DIRECT    1
+#define METHOD_OUT_DIRECT   2
+#define METHOD_NEITHER      3
+#define FILE_ANY_ACCESS     0
+#define FILE_READ_ACCESS    1
+#define FILE_WRITE_ACCESS   2
+#define CTL_CODE(DeviceType, Function, Method, Access) \
+    (((DeviceType) << 16) | ((Access) << 14) | ((Function) << 2) | (Method))
+#endif
+
+#ifndef IOCTL_VIDEO_QUERY_AVAIL_MODES
 #define IOCTL_VIDEO_QUERY_AVAIL_MODES       CTL_CODE(FILE_DEVICE_VIDEO, 0x00, METHOD_BUFFERED, FILE_ANY_ACCESS)
 #define IOCTL_VIDEO_SET_CURRENT_MODE        CTL_CODE(FILE_DEVICE_VIDEO, 0x01, METHOD_BUFFERED, FILE_ANY_ACCESS)
 #define IOCTL_VIDEO_RESET_DEVICE            CTL_CODE(FILE_DEVICE_VIDEO, 0x02, METHOD_BUFFERED, FILE_ANY_ACCESS)
@@ -52,20 +74,10 @@ extern "C" {
 #define IOCTL_VIDEO_QUERY_POINTER_CAPABILITIES CTL_CODE(FILE_DEVICE_VIDEO, 0x16, METHOD_BUFFERED, FILE_ANY_ACCESS)
 #define IOCTL_VIDEO_FREE_PUBLIC_ACCESS_RANGES CTL_CODE(FILE_DEVICE_VIDEO, 0x17, METHOD_BUFFERED, FILE_ANY_ACCESS)
 #define IOCTL_VIDEO_QUERY_PUBLIC_ACCESS_RANGES CTL_CODE(FILE_DEVICE_VIDEO, 0x18, METHOD_BUFFERED, FILE_ANY_ACCESS)
-
-/* CTL_CODE macro if not defined */
-#ifndef CTL_CODE
-#define METHOD_BUFFERED     0
-#define METHOD_IN_DIRECT    1
-#define METHOD_OUT_DIRECT   2
-#define METHOD_NEITHER      3
-#define FILE_ANY_ACCESS     0
-#define FILE_READ_ACCESS    1
-#define FILE_WRITE_ACCESS   2
-#define CTL_CODE(DeviceType, Function, Method, Access) \
-    (((DeviceType) << 16) | ((Access) << 14) | ((Function) << 2) | (Method))
 #endif
 
+#ifndef _VIDEO_MODE_INFORMATION_DEFINED
+#define _VIDEO_MODE_INFORMATION_DEFINED
 typedef struct _VIDEO_MODE_INFORMATION {
     ULONG Length;
     ULONG ModeIndex;
@@ -88,12 +100,18 @@ typedef struct _VIDEO_MODE_INFORMATION {
     ULONG VideoMemoryBitmapHeight;
     ULONG DriverSpecificAttributeFlags;
 } VIDEO_MODE_INFORMATION, *PVIDEO_MODE_INFORMATION;
+#endif
 
+#ifndef _VIDEO_NUM_MODES_DEFINED
+#define _VIDEO_NUM_MODES_DEFINED
 typedef struct _VIDEO_NUM_MODES {
     ULONG NumModes;
     ULONG ModeInformationLength;
 } VIDEO_NUM_MODES, *PVIDEO_NUM_MODES;
+#endif
 
+#ifndef _VIDEO_MEMORY_DEFINED
+#define _VIDEO_MEMORY_DEFINED
 typedef struct _VIDEO_MEMORY {
     PVOID RequestedVirtualAddress;
 } VIDEO_MEMORY, *PVIDEO_MEMORY;
@@ -104,9 +122,7 @@ typedef struct _VIDEO_MEMORY_INFORMATION {
     PVOID FrameBufferBase;
     ULONG FrameBufferLength;
 } VIDEO_MEMORY_INFORMATION, *PVIDEO_MEMORY_INFORMATION;
-
-#endif /* _NTDDVDEO_H_COMPAT */
-
+#endif
 
 #ifdef __cplusplus
 }
