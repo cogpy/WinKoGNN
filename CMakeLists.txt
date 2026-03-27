@@ -7,6 +7,12 @@ project(WinKoGNN
 )
 
 # -----------------------------------------------------------------------
+# Build options
+# -----------------------------------------------------------------------
+option(BUILD_ATENSPACE "Build ATenSpace atomspace targets (requires LibTorch)" OFF)
+option(BUILD_COG0 "Build cog0 targets (requires cog0 source tree)" OFF)
+
+# -----------------------------------------------------------------------
 # Global settings
 # -----------------------------------------------------------------------
 set(CMAKE_C_STANDARD 11)
@@ -150,6 +156,56 @@ if(NT4_SOURCES)
                 /wd4706      # assignment within conditional
                 /wd4996      # deprecated functions
         )
+    endif()
+endif()
+
+# -----------------------------------------------------------------------
+# ATenSpace integration (o9nn/ATenSpace, vendored at aten/)
+#
+# The ATenSpace library provides a C++17 header-only AtomSpace backed by
+# ATen tensor operations.  Sources live under:
+#   aten/aten/src/ATen/atomspace/  -- AtomSpace C++ headers (*.h)
+#   aten/aten/src/TH/              -- Low-level Torch-CPU C sources (*.c / *.cpp)
+#   aten/aten/src/ATen/            -- ATen tensor layer (*.h / *.cpp)
+#
+# When LibTorch is present (BUILD_ATENSPACE=ON), we expose the atomspace
+# headers as an INTERFACE library so every downstream target can do:
+#   #include <ATen/atomspace/ATenSpace.h>
+# -----------------------------------------------------------------------
+set(ATENSPACE_INCLUDE_DIR "${CMAKE_SOURCE_DIR}/aten/aten/src")
+
+add_library(atenspace_headers INTERFACE)
+target_include_directories(atenspace_headers INTERFACE "${ATENSPACE_INCLUDE_DIR}")
+target_compile_features(atenspace_headers INTERFACE cxx_std_17)
+
+if(BUILD_ATENSPACE)
+    find_package(Torch QUIET)
+    if(Torch_FOUND)
+        message(STATUS "LibTorch found -- building ATenSpace atomspace targets")
+        add_subdirectory(aten/aten/src/ATen/atomspace EXCLUDE_FROM_ALL)
+    else()
+        message(WARNING
+            "BUILD_ATENSPACE=ON but LibTorch was not found. "
+            "Set Torch_DIR to your LibTorch installation and re-run cmake.")
+    endif()
+endif()
+
+# -----------------------------------------------------------------------
+# cog0 integration stub (ReZorg/cog0, vendored at cog0/)
+#
+# NOTE: ReZorg/cog0 is a private repository and could not be cloned
+# automatically.  Once the source tree is available, vendor it at cog0/
+# and set BUILD_COG0=ON.  The expected layout mirrors cog0's own layout:
+#   cog0/include/   -- public C/C++ headers (*.h / *.hxx)
+#   cog0/src/       -- implementation sources (*.c / *.cpp / *.cxx)
+# -----------------------------------------------------------------------
+if(BUILD_COG0)
+    if(EXISTS "${CMAKE_SOURCE_DIR}/cog0/CMakeLists.txt")
+        add_subdirectory(cog0 EXCLUDE_FROM_ALL)
+    else()
+        message(WARNING
+            "BUILD_COG0=ON but cog0/CMakeLists.txt not found. "
+            "Vendor the cog0 source tree at ${CMAKE_SOURCE_DIR}/cog0/ first.")
     endif()
 endif()
 
