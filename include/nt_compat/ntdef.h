@@ -1603,6 +1603,235 @@ typedef struct _FILETIME {
 #define VER_PRODUCTBUILD 1381
 #endif
 
+/* ================================================================== */
+/* KSM Iteration 4 — Forward declarations for C2081 missing types      */
+/* These types are referenced across the NT4 source tree but defined   */
+/* in subsystem-specific headers that may not be included in all TUs.  */
+/* ================================================================== */
+
+/* --- Wide character pointer (used 199 times in C2081) --- */
+#ifndef _PWCH_DEFINED
+#define _PWCH_DEFINED
+typedef USHORT WCHAR;
+typedef WCHAR *PWCH, *LPWCH, *PWCHAR;
+typedef const WCHAR *PCWCH, *LPCWCH;
+typedef WCHAR *PWSTR, *LPWSTR, *NWPSTR;
+typedef const WCHAR *PCWSTR, *LPCWSTR;
+#endif
+
+/* --- BOOL (Win32 boolean — used 68 times) --- */
+#ifndef _BOOL_DEFINED
+#define _BOOL_DEFINED
+typedef int BOOL;
+typedef BOOL *PBOOL, *LPBOOL;
+#endif
+
+/* --- UINT32 (used 49 times) --- */
+#ifndef _UINT32_DEFINED
+#define _UINT32_DEFINED
+#ifndef UINT32
+typedef uint32_t UINT32;
+#endif
+#endif
+
+/* --- LPCVOID, LPHANDLE, PUINT (Win32 pointer types) --- */
+#ifndef _WIN32_PTR_TYPES_DEFINED
+#define _WIN32_PTR_TYPES_DEFINED
+typedef const void *LPCVOID;
+typedef HANDLE *LPHANDLE;
+typedef UINT *PUINT;
+typedef LONG *LPLONG;
+typedef DWORD *LPDWORD;
+typedef WORD *LPWORD;
+/* LPBYTE, SIZE_T already defined above */
+typedef CHAR *LPSTR, *LPTSTR;
+typedef const CHAR *LPCTSTR;
+#endif
+
+/* --- EPROCESS / PEPROCESS (used 168 times) --- */
+#ifndef _EPROCESS_DEFINED
+struct _EPROCESS;
+typedef struct _EPROCESS EPROCESS, *PEPROCESS;
+#endif
+
+/* --- ETHREAD / PETHREAD --- */
+#ifndef _ETHREAD_DEFINED
+struct _ETHREAD;
+typedef struct _ETHREAD ETHREAD, *PETHREAD;
+#endif
+
+/* --- KEXCEPTION_FRAME / PKEXCEPTION_FRAME (used 119 times) --- */
+#ifndef _KEXCEPTION_FRAME_DEFINED
+#define _KEXCEPTION_FRAME_DEFINED
+struct _KEXCEPTION_FRAME;
+typedef struct _KEXCEPTION_FRAME KEXCEPTION_FRAME, *PKEXCEPTION_FRAME;
+#endif
+
+/* --- KTRAP_FRAME / PKTRAP_FRAME --- */
+#ifndef _KTRAP_FRAME_DEFINED
+#define _KTRAP_FRAME_DEFINED
+struct _KTRAP_FRAME;
+typedef struct _KTRAP_FRAME KTRAP_FRAME, *PKTRAP_FRAME;
+#endif
+
+/* --- FILE_BASIC_INFORMATION / PFILE_BASIC_INFORMATION (used 101 times) --- */
+#ifndef _FILE_BASIC_INFORMATION_DEFINED
+#define _FILE_BASIC_INFORMATION_DEFINED
+typedef struct _FILE_BASIC_INFORMATION {
+    LARGE_INTEGER CreationTime;
+    LARGE_INTEGER LastAccessTime;
+    LARGE_INTEGER LastWriteTime;
+    LARGE_INTEGER ChangeTime;
+    ULONG FileAttributes;
+} FILE_BASIC_INFORMATION, *PFILE_BASIC_INFORMATION;
+#endif
+
+/* --- FILE_STANDARD_INFORMATION / PFILE_STANDARD_INFORMATION (used 101 times) --- */
+#ifndef _FILE_STANDARD_INFORMATION_DEFINED
+#define _FILE_STANDARD_INFORMATION_DEFINED
+typedef struct _FILE_STANDARD_INFORMATION {
+    LARGE_INTEGER AllocationSize;
+    LARGE_INTEGER EndOfFile;
+    ULONG NumberOfLinks;
+    BOOLEAN DeletePending;
+    BOOLEAN Directory;
+} FILE_STANDARD_INFORMATION, *PFILE_STANDARD_INFORMATION;
+#endif
+
+/* --- IO_RESOURCE_DESCRIPTOR / PIO_RESOURCE_DESCRIPTOR (used 87 times) --- */
+#ifndef _IO_RESOURCE_DESCRIPTOR_DEFINED
+#define _IO_RESOURCE_DESCRIPTOR_DEFINED
+struct _IO_RESOURCE_DESCRIPTOR;
+typedef struct _IO_RESOURCE_DESCRIPTOR IO_RESOURCE_DESCRIPTOR, *PIO_RESOURCE_DESCRIPTOR;
+#endif
+
+/* --- BANKED_SECTION_ROUTINE (used 87 times) --- */
+#ifndef _BANKED_SECTION_ROUTINE_DEFINED
+#define _BANKED_SECTION_ROUTINE_DEFINED
+typedef NTSTATUS (*PBANKED_SECTION_ROUTINE)(
+    IN ULONG ReadBank,
+    IN ULONG WriteBank,
+    IN PVOID Context
+);
+#endif
+
+/* --- TOKEN_TYPE (used 40 times) --- */
+#ifndef _TOKEN_TYPE_DEFINED
+#define _TOKEN_TYPE_DEFINED
+typedef enum _TOKEN_TYPE {
+    TokenPrimary = 1,
+    TokenImpersonation
+} TOKEN_TYPE, *PTOKEN_TYPE;
+#endif
+
+/* --- PRIVILEGE_SET / PPRIVILEGE_SET (used 40 times) --- */
+#ifndef _PRIVILEGE_SET_DEFINED
+#define _PRIVILEGE_SET_DEFINED
+typedef struct _LUID {
+    ULONG LowPart;
+    LONG  HighPart;
+} LUID, *PLUID;
+typedef struct _LUID_AND_ATTRIBUTES {
+    LUID  Luid;
+    ULONG Attributes;
+} LUID_AND_ATTRIBUTES, *PLUID_AND_ATTRIBUTES;
+typedef struct _PRIVILEGE_SET {
+    ULONG PrivilegeCount;
+    ULONG Control;
+    LUID_AND_ATTRIBUTES Privilege[1]; /* ANYSIZE_ARRAY */
+} PRIVILEGE_SET, *PPRIVILEGE_SET;
+#endif
+
+/* --- IMAGE_RESOURCE_DIRECTORY (used 58 times) --- */
+#ifndef _IMAGE_RESOURCE_DIRECTORY_DEFINED
+#define _IMAGE_RESOURCE_DIRECTORY_DEFINED
+struct _IMAGE_RESOURCE_DIRECTORY;
+typedef struct _IMAGE_RESOURCE_DIRECTORY IMAGE_RESOURCE_DIRECTORY, *PIMAGE_RESOURCE_DIRECTORY;
+#endif
+
+/* --- FILE_SEGMENT_ELEMENT (used 49 times) --- */
+#ifndef _FILE_SEGMENT_ELEMENT_DEFINED
+#define _FILE_SEGMENT_ELEMENT_DEFINED
+typedef union _FILE_SEGMENT_ELEMENT {
+    PVOID Buffer;
+    ULONGLONG Alignment;
+} FILE_SEGMENT_ELEMENT, *PFILE_SEGMENT_ELEMENT;
+#endif
+
+/* --- Win32 FIND_DATA types (used 98 times each) --- */
+#ifndef _WIN32_FIND_DATA_DEFINED
+#define _WIN32_FIND_DATA_DEFINED
+typedef struct _WIN32_FIND_DATAA {
+    ULONG dwFileAttributes;
+    LARGE_INTEGER ftCreationTime;
+    LARGE_INTEGER ftLastAccessTime;
+    LARGE_INTEGER ftLastWriteTime;
+    ULONG nFileSizeHigh;
+    ULONG nFileSizeLow;
+    ULONG dwReserved0;
+    ULONG dwReserved1;
+    CHAR  cFileName[260];
+    CHAR  cAlternateFileName[14];
+} WIN32_FIND_DATAA, *LPWIN32_FIND_DATAA;
+typedef WIN32_FIND_DATAA WIN32_FIND_DATAW, *LPWIN32_FIND_DATAW;
+#endif
+
+/* --- FINDEX_INFO_LEVELS / GET_FILEEX_INFO_LEVELS (used 98 times) --- */
+#ifndef _FINDEX_INFO_LEVELS_DEFINED
+#define _FINDEX_INFO_LEVELS_DEFINED
+typedef enum _FINDEX_INFO_LEVELS {
+    FindExInfoStandard,
+    FindExInfoBasic,
+    FindExInfoMaxInfoLevel
+} FINDEX_INFO_LEVELS;
+typedef enum _GET_FILEEX_INFO_LEVELS {
+    GetFileExInfoStandard,
+    GetFileExMaxInfoLevel
+} GET_FILEEX_INFO_LEVELS;
+#endif
+
+/* --- UNICODE_NULL constant (used 29 times) --- */
+#ifndef UNICODE_NULL
+#define UNICODE_NULL ((WCHAR)0)
+#endif
+
+/* --- OBJECT_TYPE_INITIALIZER / OBJECT_TYPE forward decls --- */
+#ifndef _OBJECT_TYPE_DEFINED
+struct _OBJECT_TYPE;
+typedef struct _OBJECT_TYPE OBJECT_TYPE, *POBJECT_TYPE;
+struct _OBJECT_TYPE_INITIALIZER;
+typedef struct _OBJECT_TYPE_INITIALIZER OBJECT_TYPE_INITIALIZER, *POBJECT_TYPE_INITIALIZER;
+#endif
+
+/* --- SECURITY_QUALITY_OF_SERVICE --- */
+#ifndef _SECURITY_QUALITY_OF_SERVICE_DEFINED
+#define _SECURITY_QUALITY_OF_SERVICE_DEFINED
+typedef enum _SECURITY_IMPERSONATION_LEVEL {
+    SecurityAnonymous,
+    SecurityIdentification,
+    SecurityImpersonation,
+    SecurityDelegation
+} SECURITY_IMPERSONATION_LEVEL, *PSECURITY_IMPERSONATION_LEVEL;
+typedef struct _SECURITY_QUALITY_OF_SERVICE {
+    ULONG Length;
+    SECURITY_IMPERSONATION_LEVEL ImpersonationLevel;
+    BOOLEAN ContextTrackingMode;
+    BOOLEAN EffectiveOnly;
+} SECURITY_QUALITY_OF_SERVICE, *PSECURITY_QUALITY_OF_SERVICE;
+#endif
+
+/* --- GENERIC_MAPPING --- already defined above (line ~636) */
+
+/* --- ACCESS_STATE / PACCESS_STATE --- already forward-declared above (line ~607) */
+
+/* --- KPROCESSOR_MODE --- */
+#ifndef _KPROCESSOR_MODE_DEFINED
+#define _KPROCESSOR_MODE_DEFINED
+typedef CCHAR KPROCESSOR_MODE;
+#define KernelMode 0
+#define UserMode   1
+#endif
+
 #ifdef __cplusplus
 }
 #endif
